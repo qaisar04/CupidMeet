@@ -1,10 +1,10 @@
-package kz.baltabayev.userinfosecuritystarter;
+package kz.baltabayev.storageservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserinfoSecurityStarterApplicationTests {
+class StorageServiceApplicationTests {
 
     @Test
     void contextLoads() {

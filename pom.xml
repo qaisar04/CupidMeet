@@ -66,6 +66,8 @@
 
     <modules>
         <module>api-gateway</module>
+        <module>storage-service</module>
+        <module>discovery-service</module>
     </modules>
 
     <build>

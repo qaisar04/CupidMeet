@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    password: qaisar
+    username: qaisar
+    url: jdbc:mysql://localhost:3308/storage-service
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  application:
+    name: storage-service
+server:
+  port: 8012

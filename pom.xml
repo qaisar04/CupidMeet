@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>kz.baltabayev</groupId>
-    <artifactId>CupidMeet</artifactId>
+    <artifactId>cupid-meet</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>CupidMeet</name>
@@ -22,6 +22,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <lombok-mapstruct-binding>0.2.0</lombok-mapstruct-binding>
+        <userinfo.security.starter.version>0.0.1-SNAPSHOT</userinfo.security.starter.version>
     </properties>
 
     <dependencies>
@@ -55,8 +56,17 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>kz.baltabayev</groupId>
+                <artifactId>userinfo-security-starter</artifactId>
+                <version>${userinfo.security.starter.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <modules>
+        <module>api-gateway</module>
+    </modules>
 
     <build>
         <plugins>

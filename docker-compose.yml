@@ -1,0 +1,30 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.7
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      DB_VENDOR: postgres
+      DB_ADDR: mypostgres
+      DB_DATABASE: keycloak-database
+      DB_SCHEMA: keycloak
+      DB_USER: ${POSTGRES_USER:-admin}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+    volumes:
+      - './config/keycloak/import:/opt/keycloak/data/import'
+    ports:
+      - '8083:8080'
+    command: start-dev --import-realm
+    depends_on:
+      - keycloak-database
+
+  keycloak-database:
+    container_name: keycloak-database
+    image: postgres:16.2
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin}
+      POSTGRES_DB: keycloak_db
+    ports:
+      - "5433:5432"

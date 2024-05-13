@@ -26,6 +26,10 @@
         <amazonaws.s3.version>1.12.667</amazonaws.s3.version>
         <commons-io.version>2.14.0</commons-io.version>
         <preliquibase.version>1.5.0</preliquibase.version>
+        <woodstox-core.version>6.6.2</woodstox-core.version>
+        <guava.version>33.2.0-jre</guava.version>
+        <xstream.version>1.4.20</xstream.version>
+        <httpclient.version>4.5.14</httpclient.version>
     </properties>
 
     <dependencies>
@@ -79,6 +83,26 @@
                 <artifactId>preliquibase-spring-boot-starter</artifactId>
                 <version>${preliquibase.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.woodstox</groupId>
+                <artifactId>woodstox-core</artifactId>
+                <version>${woodstox-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -88,6 +112,7 @@
         <module>discovery-service</module>
         <module>user-details-service</module>
         <module>event-listener-keycloak-extension</module>
+        <module>location-data-service</module>
     </modules>
 
     <build>

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: location-data-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+locationiq:
+  api-key: ${LOCATIONIQ_API_KEY:pk.525b0bb83ae0b8693296572817057022}

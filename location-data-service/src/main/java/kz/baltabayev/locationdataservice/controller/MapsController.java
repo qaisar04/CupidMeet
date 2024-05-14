@@ -33,7 +33,7 @@ public class MapsController {
             @RequestParam double lat2,
             @RequestParam double lon2
     ) {
-        DistanceResponse response = mapsService.calculateDistanceInMeters(lat1, lon1, lat2, lon2);
+        DistanceResponse response = mapsService.haversine(lat1, lon1, lat2, lon2);
         return ResponseEntity.ok(response);
     }
 }

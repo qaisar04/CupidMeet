@@ -7,5 +7,5 @@ public interface MapsService {
 
     LocationInfo geocode(String latitude, String longitude);
 
-    DistanceResponse calculateDistanceInMeters(double lat1, double lon1, double lat2, double lon2);
+    DistanceResponse haversine(double lat1, double lon1, double lat2, double lon2);
 }

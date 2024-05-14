@@ -22,7 +22,7 @@ public class MapsServiceImpl implements MapsService {
     private String API_KEY;
 
     private RestTemplate restTemplate;
-    private final Integer EARTH_RADIUS = 6371;
+    private static final Integer EARTH_RADIUS = 6371;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -51,17 +51,19 @@ public class MapsServiceImpl implements MapsService {
     }
 
     @Override
-    public DistanceResponse calculateDistanceInMeters(double lat1, double lon1, double lat2, double lon2) {
-        double lat1Rad = Math.toRadians(lat1);
-        double lat2Rad = Math.toRadians(lat2);
-        double lon1Rad = Math.toRadians(lon1);
-        double lon2Rad = Math.toRadians(lon2);
+    public DistanceResponse haversine(double lat1, double lon1, double lat2, double lon2) {
 
-        double x = (lon2Rad - lon1Rad) * Math.cos((lat1Rad + lat2Rad) / 2);
-        double y = (lat2Rad - lat1Rad);
-        double distance = Math.sqrt(x * x + y * y) * EARTH_RADIUS;
+        double phi1 = Math.toRadians(lat1);
+        double phi2 = Math.toRadians(lat2);
+        double deltaPhi = Math.toRadians(lat2 - lat1);
+        double deltaLambda = Math.toRadians(lon2 - lon1);
 
-        return new DistanceResponse(distance);
+        // The Haversine formula
+        double a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) * Math.sin(deltaLambda / 2);
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return new DistanceResponse((double) Math.round(EARTH_RADIUS * c * 10) / 10);
     }
 
     private LocationInfo parseLocation(LocationResponse response) {

@@ -1,9 +1,9 @@
 spring:
   datasource:
-    password: qaisar
-    username: qaisar
-    url: jdbc:mysql://localhost:3308/storage-service
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: postgres
+    username: postgres
+    url: jdbc:postgresql://localhost:5433/postgres
+    driver-class-name: org.postgresql.Driver
   cloud:
     aws:
       credentials:
@@ -20,4 +20,4 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 server:
-  port: 8012
+  port: 0

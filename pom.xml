@@ -30,6 +30,7 @@
         <guava.version>33.2.0-jre</guava.version>
         <xstream.version>1.4.20</xstream.version>
         <httpclient.version>4.5.14</httpclient.version>
+        <openapi.version>2.1.0</openapi.version>
     </properties>
 
     <dependencies>
@@ -102,6 +103,11 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${openapi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

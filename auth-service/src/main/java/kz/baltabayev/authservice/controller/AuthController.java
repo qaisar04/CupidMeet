@@ -1,5 +1,6 @@
 package kz.baltabayev.authservice.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kz.baltabayev.authservice.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +16,16 @@ public class AuthController {
 
     public final AuthenticationService authenticationService;
 
-    @GetMapping
+    @GetMapping("/generate")
     public ResponseEntity<?> generate(@RequestParam long userId) {
         long securityCode = authenticationService.generateSecurityCode(userId);
         return ResponseEntity.ok(securityCode);
     }
 
-    @GetMapping("/validate")
-    public ResponseEntity<?> validate(@RequestParam long securityCode) {
+    @GetMapping("/login")
+    public ResponseEntity<?> login(@RequestParam long securityCode, HttpSession session) {
         String token = authenticationService.validate(securityCode);
+        session.setAttribute("token", token);
         return ResponseEntity.ok(token);
     }
 }

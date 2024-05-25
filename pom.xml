@@ -140,7 +140,6 @@
         <module>storage-service</module>
         <module>discovery-service</module>
         <module>user-details-service</module>
-        <module>event-listener-keycloak-extension</module>
         <module>location-data-service</module>
         <module>auth-service</module>
     </modules>

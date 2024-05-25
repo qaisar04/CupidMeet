@@ -23,4 +23,9 @@ public class User {
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private UserInfo userInfo;
+
+    public User(Long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
 }

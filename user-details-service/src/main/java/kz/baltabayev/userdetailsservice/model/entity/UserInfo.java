@@ -5,6 +5,7 @@ import kz.baltabayev.userdetailsservice.model.types.Gender;
 import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Set;
@@ -15,7 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_info")
-public class UserInfo {
+@EqualsAndHashCode(callSuper = true)
+public class UserInfo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

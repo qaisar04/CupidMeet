@@ -3,6 +3,7 @@ package kz.baltabayev.userdetailsservice.model.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -10,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-public class User {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity {
 
     @Id
     private Long id;

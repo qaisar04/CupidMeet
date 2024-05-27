@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import kz.baltabayev.userdetailsservice.model.types.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
@@ -13,7 +14,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_preferences")
-public class UserPreference {
+@EqualsAndHashCode(callSuper = true)
+public class UserPreference extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

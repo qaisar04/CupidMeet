@@ -5,6 +5,7 @@ import kz.baltabayev.telegrambotservice.command.factory.CommandFactory;
 import kz.baltabayev.telegrambotservice.util.MessageSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.longpolling.BotSession;
 import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
@@ -13,20 +14,21 @@ import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
-    private final TelegramClient telegramClient;
     private final CommandFactory commandFactory;
     private final MessageSender messageSender;
 
+    @Value("${bot.token.api}")
+    private String token;
+
     @Override
     public String getBotToken() {
-        return "7411579054:AAGJiFtdlJ7PGSw2dFsDjI14EvK94rF0QwY";
+        return token;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
         if (update.hasMessage()) {
             handleMessage(update.getMessage());
         } else if (update.hasCallbackQuery()) {
-           //TODO
+            //TODO
         }
     }
 

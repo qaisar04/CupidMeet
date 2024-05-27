@@ -14,9 +14,10 @@ public class MessageSender {
 
     private final TelegramClient telegramClient;
 
-    public void sendMessage(long chatId, String text) {
+    public void sendMessage(long userId, String text) {
+        log.info("Sending message to userId: {}", userId);
         SendMessage message = SendMessage.builder()
-                .chatId(chatId)
+                .chatId(userId)
                 .text(text)
                 .build();
 
@@ -25,7 +26,7 @@ public class MessageSender {
         try {
             telegramClient.execute(message);
         } catch (TelegramApiException e) {
-            log.error(e.getLocalizedMessage());
+            log.error("Failed to send message to userId: {} | error {}", userId, e.getLocalizedMessage());
         }
     }
 }

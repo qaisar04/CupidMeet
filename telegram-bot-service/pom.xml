@@ -61,6 +61,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.botkube</groupId>
+            <artifactId>botkube-java</artifactId>
+            <version>1.10.0</version>
+        </dependency>
     </dependencies>
 
     <build>

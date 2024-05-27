@@ -1,18 +1,3 @@
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}
-      client:
-        provider:
-          keycloak:
-            issuer-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}
-        registration:
-          discovery:
-            provider: keycloak
-            client-id: cupid-meet
-            client-secret: 5bx43Tuz8MasuVY5785HH8TV764bFR4A
-            scope: openid
   application:
     name: api-gateway

@@ -30,8 +30,10 @@
         <guava.version>33.2.0-jre</guava.version>
         <xstream.version>1.4.20</xstream.version>
         <httpclient.version>4.5.14</httpclient.version>
+        <commons-fileupload.version>1.5</commons-fileupload.version>
         <openapi.version>2.1.0</openapi.version>
         <jjwt.version>0.12.5</jjwt.version>
+        <telegram.version>7.2.1</telegram.version>
     </properties>
 
     <dependencies>
@@ -104,6 +106,11 @@
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>

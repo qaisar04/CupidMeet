@@ -1,8 +1,12 @@
 package kz.baltabayev.telegrambotservice.controller;
 
+import kz.baltabayev.telegrambotservice.client.UserDetailsServiceClient;
+import kz.baltabayev.telegrambotservice.model.payload.UserCreateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.BotSession;
@@ -18,17 +22,18 @@ import org.telegram.telegrambots.meta.generics.TelegramClient;
 
 import java.util.Optional;
 
-@Controller
 @Slf4j
-@RequiredArgsConstructor
+@Controller
 public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient telegramClient;
+    private final UserDetailsServiceClient userDetailsServiceClient;
 
     @Value("${bot.token.api}")
     private String token;
 
-    public TelegramBot() {
+    public TelegramBot(UserDetailsServiceClient userDetailsServiceClient) {
+        this.userDetailsServiceClient = userDetailsServiceClient;
         telegramClient = new OkHttpTelegramClient(getBotToken());
     }
 
@@ -74,6 +79,7 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
     }
 
     public void startCommand(long userId, String name) {
+        userDetailsServiceClient.createUser(new UserCreateRequest(userId, name));
         sendMessage(userId, "HELLO!");
     }
 

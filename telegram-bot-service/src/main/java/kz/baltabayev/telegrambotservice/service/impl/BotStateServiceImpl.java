@@ -7,7 +7,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -18,14 +17,14 @@ public class BotStateServiceImpl implements BotStateService {
     private static final int ACTIVATION_TIME_IN_MINUTES = 20;
 
     @Override
-    public void save(UUID userID, BotState state) {
+    public void save(Long userID, BotState state) {
         String key = userID.toString();
         redisTemplate.opsForValue().set(key, state);
         redisTemplate.expire(key, ACTIVATION_TIME_IN_MINUTES, TimeUnit.MINUTES);
     }
 
     @Override
-    public BotState get(UUID userID) {
+    public BotState get(Long userID) {
         String key = userID.toString();
         return Optional.ofNullable(redisTemplate.opsForValue().get(key))
                 .orElse(BotState.DEFAULT);

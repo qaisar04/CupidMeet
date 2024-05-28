@@ -1,5 +1,8 @@
 package kz.baltabayev.telegrambotservice.model.types;
 
 public enum BotState {
-    DEFAULT
+    NONE,
+    DEFAULT,
+    AWAITING_FIRST,
+    AWAITING_SECOND,
 }

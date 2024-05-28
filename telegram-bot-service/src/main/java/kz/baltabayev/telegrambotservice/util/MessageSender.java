@@ -29,4 +29,12 @@ public class MessageSender {
             log.error("Failed to send message to userId: {} | error {}", userId, e.getLocalizedMessage());
         }
     }
+
+    public void sendMessage(SendMessage message) {
+        try {
+            telegramClient.execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Failed to send message");
+        }
+    }
 }

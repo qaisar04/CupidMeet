@@ -18,6 +18,7 @@ public class UserStateServiceImpl implements UserStateService {
     @Override
     public UserState init(Long userId) {
         UserState state = new UserState(userId);
+        state.setLanguage("ru");
         botStateService.save(userId, BotState.NONE);
         userStateRepository.save(state);
         return state;

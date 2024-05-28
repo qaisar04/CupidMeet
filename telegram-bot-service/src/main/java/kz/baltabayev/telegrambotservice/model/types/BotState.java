@@ -5,4 +5,5 @@ public enum BotState {
     DEFAULT,
     AWAITING_FIRST,
     AWAITING_SECOND,
+    SELECT_LANGUAGE
 }

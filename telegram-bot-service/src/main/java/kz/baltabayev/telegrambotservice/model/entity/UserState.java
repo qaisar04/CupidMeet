@@ -19,6 +19,7 @@ public class UserState {
     private String gender;
     private String city;
     private String about;
+    private String language;
 
     public UserState(Long userId) {
         this.userId = userId;

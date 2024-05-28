@@ -7,6 +7,7 @@ import kz.baltabayev.telegrambotservice.model.payload.UserCreateRequest;
 import kz.baltabayev.telegrambotservice.service.BotStateService;
 import kz.baltabayev.telegrambotservice.service.UserStateService;
 import kz.baltabayev.telegrambotservice.util.MessageSender;
+import kz.baltabayev.telegrambotservice.util.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
@@ -26,12 +27,12 @@ public class StartCommand implements Command {
         long userId = message.getChatId();
         String username = Optional.ofNullable(message.getFrom().getUserName())
                 .orElse(message.getFrom().getFirstName());
-        userDetailsServiceClient.createUser(new UserCreateRequest(userId, username));
+//        userDetailsServiceClient.createUser(new UserCreateRequest(userId, username));
 
         UserState state = userStateService.get(userId);
         if (!state.isProfileComplete()) {
             userStateService.init(userId);
-            sender.sendMessage(userId, "Welcome! Let's start filling out your profile. Please enter your name:");
+            sender.sendMessage(userId, MessageUtil.getMessage("welcome", state.getLanguage()));
         } else {
             sender.sendMessage(userId, "Welcome back, " + username + "!");
         }

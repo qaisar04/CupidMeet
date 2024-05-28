@@ -18,6 +18,7 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.longpolling.starter.AfterBotRegistration;
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
@@ -49,6 +50,8 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
     public void consume(Update update) {
         if (update.hasMessage()) {
             handleMessage(update.getMessage());
+        } else if (update.hasCallbackQuery()) {
+            handleCallbackQuery(update.getCallbackQuery());
         }
     }
 
@@ -75,6 +78,26 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
                 messageSender.sendMessage(userId, "I'm not supported this message type");
             }
         }
+    }
+
+    private void handleCallbackQuery(CallbackQuery callbackQuery) {
+        long userId = callbackQuery.getMessage().getChatId();
+        String data = callbackQuery.getData();
+
+        UserState userState = userStateService.get(userId);
+
+        if ("lang_en".equals(data)) {
+            userState.setLanguage("en");
+            messageSender.sendMessage(userId, "You have selected English.");
+        } else if ("lang_ru".equals(data)) {
+            userState.setLanguage("ru");
+            messageSender.sendMessage(userId, "Вы выбрали русский язык.");
+        } else if ("lang_kz".equals(data)) {
+            userState.setLanguage("ru");
+            messageSender.sendMessage(userId, "Сіз қазақ тілін тандадыныз.");
+        }
+
+        userStateService.save(userState);
     }
 
     @AfterBotRegistration

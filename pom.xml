@@ -143,6 +143,7 @@
         <module>event-listener-keycloak-extension</module>
         <module>location-data-service</module>
         <module>auth-service</module>
+        <module>feedback-service</module>
     </modules>
 
     <build>

@@ -6,6 +6,7 @@ import kz.baltabayev.telegrambotservice.handler.DialogHandler;
 import kz.baltabayev.telegrambotservice.handler.factory.DialogHandlerFactory;
 import kz.baltabayev.telegrambotservice.model.entity.UserState;
 import kz.baltabayev.telegrambotservice.model.types.BotState;
+import kz.baltabayev.telegrambotservice.model.types.Language;
 import kz.baltabayev.telegrambotservice.service.BotStateService;
 import kz.baltabayev.telegrambotservice.service.UserStateService;
 import kz.baltabayev.telegrambotservice.util.MessageSender;
@@ -86,15 +87,12 @@ public class TelegramBot implements SpringLongPollingBot, LongPollingSingleThrea
 
         UserState userState = userStateService.get(userId);
 
-        if ("lang_en".equals(data)) {
-            userState.setLanguage("en");
-            messageSender.sendMessage(userId, "You have selected English.");
-        } else if ("lang_ru".equals(data)) {
-            userState.setLanguage("ru");
-            messageSender.sendMessage(userId, "Вы выбрали русский язык.");
-        } else if ("lang_kz".equals(data)) {
-            userState.setLanguage("ru");
-            messageSender.sendMessage(userId, "Сіз қазақ тілін тандадыныз.");
+        Language language = Language.fromCode(data);
+        if (language != null) {
+            userState.setLanguage(language.getCode());
+            messageSender.sendMessage(userId, language.getSelectionMessage());
+        } else {
+            messageSender.sendMessage(userId, "Unsupported language selection.");
         }
 
         userStateService.save(userState);

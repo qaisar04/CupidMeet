@@ -12,12 +12,12 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "file_attachments")
+@Table(name = "files_attachment")
 @EqualsAndHashCode(callSuper = true)
 public class FileAttachment extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "file_name", nullable = false)

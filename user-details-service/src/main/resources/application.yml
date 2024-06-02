@@ -7,12 +7,13 @@ spring:
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: false
-    default-schema: telegram
+    enabled: true
+    default-schema: user_detail
     liquibase-schema: develop
     change-log: db/changelog/changelog.xml
+    drop-first: true
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 server:
   port: 0

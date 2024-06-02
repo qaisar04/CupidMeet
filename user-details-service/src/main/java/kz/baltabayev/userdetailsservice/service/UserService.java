@@ -2,5 +2,5 @@ package kz.baltabayev.userdetailsservice.service;
 
 public interface UserService {
 
-    void init(Long id, String username);
+    void create(Long id, String username);
 }

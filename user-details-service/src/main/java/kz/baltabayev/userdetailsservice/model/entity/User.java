@@ -17,7 +17,6 @@ public class User extends BaseEntity {
     @Id
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String username;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

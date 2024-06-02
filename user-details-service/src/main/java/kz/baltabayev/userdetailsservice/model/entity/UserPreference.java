@@ -1,7 +1,7 @@
 package kz.baltabayev.userdetailsservice.model.entity;
 
 import jakarta.persistence.*;
-import kz.baltabayev.userdetailsservice.model.types.Gender;
+import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,8 +22,8 @@ public class UserPreference extends BaseEntity {
     private UUID id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Gender gender;
+    @Column(name = "preferred_gender")
+    private PreferredGender preferredGender;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

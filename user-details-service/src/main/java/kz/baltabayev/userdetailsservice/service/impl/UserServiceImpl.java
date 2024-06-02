@@ -13,7 +13,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void init(Long id, String username) {
+    public void create(Long id, String username) {
         User user = new User(id, username);
         userRepository.save(user); //todo custom query
     }

@@ -61,7 +61,7 @@
       <column name="user_id" type="bigint" remarks="unique identifier for the user preferences">
         <constraints nullable="false"/>
       </column>
-      <column name="gender" type="varchar(16)" remarks="gender type">
+      <column name="preferred_gender" type="varchar(16)" remarks="preferred gender type">
         <constraints nullable="false"/>
       </column>
       <column name="created_at" type="timestamp" remarks="time the user preferences was created at">

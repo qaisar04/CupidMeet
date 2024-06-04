@@ -4,7 +4,6 @@ import kz.baltabayev.telegrambotservice.client.UserDetailsServiceClient;
 import kz.baltabayev.telegrambotservice.command.Command;
 import kz.baltabayev.telegrambotservice.model.entity.UserState;
 import kz.baltabayev.telegrambotservice.model.payload.UserCreateRequest;
-import kz.baltabayev.telegrambotservice.service.BotStateService;
 import kz.baltabayev.telegrambotservice.service.UserStateService;
 import kz.baltabayev.telegrambotservice.util.MessageSender;
 import kz.baltabayev.telegrambotservice.util.MessageUtil;
@@ -27,7 +26,7 @@ public class StartCommand implements Command {
         long userId = message.getChatId();
         String username = Optional.ofNullable(message.getFrom().getUserName())
                 .orElse(message.getFrom().getFirstName());
-//        userDetailsServiceClient.createUser(new UserCreateRequest(userId, username));
+//        userDetailsServiceClient.create(new UserCreateRequest(userId, username));
 
         UserState state = userStateService.get(userId);
         if (!state.isProfileComplete()) {

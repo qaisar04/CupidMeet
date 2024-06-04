@@ -1,5 +1,6 @@
 package kz.baltabayev.telegrambotservice.config;
 
+import jakarta.annotation.PostConstruct;
 import kz.baltabayev.telegrambotservice.model.types.BotState;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

@@ -20,6 +20,7 @@ public class UserState {
     private String city;
     private String about;
     private String language;
+    private String mbti;
 
     public UserState(Long userId) {
         this.userId = userId;

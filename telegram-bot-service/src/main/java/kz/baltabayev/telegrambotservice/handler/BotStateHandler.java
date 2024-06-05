@@ -2,11 +2,24 @@ package kz.baltabayev.telegrambotservice.handler;
 
 import kz.baltabayev.telegrambotservice.model.entity.UserState;
 import kz.baltabayev.telegrambotservice.model.types.BotState;
+import kz.baltabayev.telegrambotservice.service.BotStateService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
-public interface BotStateHandler {
+@Component
+@RequiredArgsConstructor
+public abstract class BotStateHandler {
 
-    void handle(Message message, UserState userState);
+    private final BotStateService botStateService;
 
-    BotState getNextState();
+    public abstract void handle(Message message);
+
+    public BotState getNextState(Long userId) {
+        return botStateService.get(userId);
+    }
+
+    protected void setNextState(Long userId, BotState botState) {
+        botStateService.save(userId, botState);
+    }
 }

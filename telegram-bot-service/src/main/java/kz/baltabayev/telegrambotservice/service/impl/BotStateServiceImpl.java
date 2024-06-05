@@ -27,6 +27,6 @@ public class BotStateServiceImpl implements BotStateService {
     public BotState get(Long userID) {
         String key = userID.toString();
         return Optional.ofNullable(redisTemplate.opsForValue().get(key))
-                .orElse(BotState.DEFAULT);
+                .orElse(BotState.NONE);
     }
 }

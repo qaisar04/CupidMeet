@@ -1,38 +1,35 @@
 package kz.baltabayev.telegrambotservice.handler.impl;
 
 import kz.baltabayev.telegrambotservice.handler.BotStateHandler;
-import kz.baltabayev.telegrambotservice.model.entity.UserState;
 import kz.baltabayev.telegrambotservice.model.types.BotState;
 import kz.baltabayev.telegrambotservice.service.BotStateService;
 import kz.baltabayev.telegrambotservice.service.UserStateService;
 import kz.baltabayev.telegrambotservice.util.MessageSender;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 @Component
-@RequiredArgsConstructor
-public class AwaitingBioHandler implements BotStateHandler {
+public class AwaitingBioHandler extends BotStateHandler {
 
-    private final BotStateService botStateService;
     private final UserStateService userStateService;
     private final MessageSender messageSender;
 
-    private BotState nextState;
-
-    @Override
-    public void handle(Message message, UserState userState) {
-        if (message.hasText()) {
-            userState.setAbout(message.getText());
-            userStateService.save(userState);
-            nextState = BotState.AWAITING_CITY;
-        } else {
-            messageSender.sendMessage(userState.getUserId(), "Пожалуйста, расскажите немного о себе.");
-        }
+    @Autowired
+    public AwaitingBioHandler(BotStateService botStateService, UserStateService userStateService, MessageSender messageSender) {
+        super(botStateService);
+        this.userStateService = userStateService;
+        this.messageSender = messageSender;
     }
 
     @Override
-    public BotState getNextState() {
-        return nextState;
+    public void handle(Message message) {
+        Long userId = message.getChatId();
+        if (message.hasText()) {
+            userStateService.updateBio(userId, message.getText());
+            setNextState(userId, BotState.AWAITING_CITY);
+        } else {
+            messageSender.sendMessage(userId, "Пожалуйста, расскажите немного о себе.");
+        }
     }
 }

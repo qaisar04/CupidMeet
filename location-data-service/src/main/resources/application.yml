@@ -11,3 +11,5 @@ springdoc:
     path: /swagger-ui.html
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
+server:
+  port: 0

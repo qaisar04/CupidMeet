@@ -1,38 +1,44 @@
 package kz.baltabayev.telegrambotservice.handler.impl;
 
+import kz.baltabayev.telegrambotservice.client.LocationDataServiceClient;
 import kz.baltabayev.telegrambotservice.handler.BotStateHandler;
-import kz.baltabayev.telegrambotservice.model.entity.UserState;
 import kz.baltabayev.telegrambotservice.model.types.BotState;
 import kz.baltabayev.telegrambotservice.service.BotStateService;
 import kz.baltabayev.telegrambotservice.service.UserStateService;
 import kz.baltabayev.telegrambotservice.util.MessageSender;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
 @Component
-@RequiredArgsConstructor
-public class AwaitingCityHandler implements BotStateHandler {
+public class AwaitingCityHandler extends BotStateHandler {
 
-    private final BotStateService botStateService;
     private final UserStateService userStateService;
     private final MessageSender messageSender;
+    private final LocationDataServiceClient locationDataServiceClient;
 
-    private BotState nextState;
-
-    @Override
-    public void handle(Message message, UserState userState) {
-        if (message.hasText()) {
-            userState.setCity(message.getText());
-            userStateService.save(userState);
-            nextState = BotState.COMPLETED;
-        } else {
-            messageSender.sendMessage(userState.getUserId(), "Пожалуйста, введите ваш город.");
-        }
+    @Autowired
+    public AwaitingCityHandler(BotStateService botStateService, UserStateService userStateService, MessageSender messageSender, LocationDataServiceClient locationDataServiceClient) {
+        super(botStateService);
+        this.userStateService = userStateService;
+        this.messageSender = messageSender;
+        this.locationDataServiceClient = locationDataServiceClient;
     }
 
     @Override
-    public BotState getNextState() {
-        return nextState;
+    public void handle(Message message) {
+        Long userId = message.getChatId();
+        if (message.hasText()) {
+            userStateService.updateCity(userId, message.getText());
+            setNextState(userId, BotState.COMPLETED);
+        } else if (message.hasLocation()) {
+            handleLocation(message);
+        } else {
+            messageSender.sendMessage(userId, "Пожалуйста, введите ваш город.");
+        }
+    }
+
+    private void handleLocation(Message message) {
+        //todo handle with locationDataServiceClient
     }
 }

@@ -15,13 +15,13 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 public class LanguageCommand implements Command {
 
     private final MessageSender sender;
-    private final BotStateService botStateService;
+//    private final BotStateService botStateService;
 
     @Override
     public void execute(Message message) {
         long userId = message.getChatId();
         SendMessage languageSelectionMessage = LanguageSelector.createLanguageSelectionMessage(userId);
-        botStateService.save(userId, BotState.SELECT_LANGUAGE);
+//        botStateService.save(userId, BotState.SELECT_LANGUAGE);
         sender.sendMessage(languageSelectionMessage);
     }
 }

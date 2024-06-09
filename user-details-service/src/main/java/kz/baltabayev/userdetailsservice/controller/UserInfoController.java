@@ -19,7 +19,7 @@ public class UserInfoController {
     private final UserInfoService userInfoService;
     private final UserInfoMapper userInfoMapper;
 
-    @PostMapping("{userId}/info/create")
+    @PostMapping("{userId}/create")
     public ResponseEntity<Void> create(
             @RequestBody UserInfoRequest request,
             @PathVariable("userId") Long userId
@@ -29,7 +29,7 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{userId}/info/update")
+    @PatchMapping("{userId}/update")
     public ResponseEntity<Void> update(
             @RequestBody UserInfoRequest request,
             @PathVariable("userId") Long userId

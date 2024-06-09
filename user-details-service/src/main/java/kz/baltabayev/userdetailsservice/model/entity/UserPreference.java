@@ -25,7 +25,18 @@ public class UserPreference extends BaseEntity {
     @Column(name = "preferred_gender")
     private PreferredGender preferredGender;
 
+    private Integer minAge;
+
+    private Integer maxAge;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public UserPreference(PreferredGender preferredGender, Integer maxAge, Integer minAge, User user) {
+        this.preferredGender = preferredGender;
+        this.maxAge = maxAge;
+        this.minAge = minAge;
+        this.user = user;
+    }
 }

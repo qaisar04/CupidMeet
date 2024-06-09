@@ -1,7 +1,7 @@
 package kz.baltabayev.userdetailsservice.controller;
 
 import kz.baltabayev.userdetailsservice.mapper.UserInfoMapper;
-import kz.baltabayev.userdetailsservice.model.dto.UserInfoCreateRequest;
+import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,21 @@ public class UserInfoController {
 
     @PostMapping("{userId}/info/create")
     public ResponseEntity<Void> create(
-            @RequestBody UserInfoCreateRequest request,
+            @RequestBody UserInfoRequest request,
             @PathVariable("userId") Long userId
     ) {
         UserInfo userInfo = userInfoMapper.toEntity(request);
         userInfoService.create(userInfo, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("{userId}/info/update")
+    public ResponseEntity<Void> update(
+            @RequestBody UserInfoRequest request,
+            @PathVariable("userId") Long userId
+    ) {
+        UserInfo userInfo = userInfoMapper.toEntity(request);
+        userInfoService.update(userInfo, userId);
         return ResponseEntity.ok().build();
     }
 

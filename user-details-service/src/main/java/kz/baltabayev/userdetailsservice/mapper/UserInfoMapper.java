@@ -1,7 +1,7 @@
 package kz.baltabayev.userdetailsservice.mapper;
 
 import kz.baltabayev.userdetailsservice.model.dto.FileAttachmentResponse;
-import kz.baltabayev.userdetailsservice.model.dto.UserInfoCreateRequest;
+import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoResponse;
 import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
@@ -19,7 +19,7 @@ public interface UserInfoMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(source = "personalityType", target = "personalityType", qualifiedByName = "stringToPersonalityType")
-    UserInfo toEntity(UserInfoCreateRequest request);
+    UserInfo toEntity(UserInfoRequest request);
 
     @Mapping(source = "files", target = "files", qualifiedByName = "mapFiles")
     UserInfoResponse fromEntity(UserInfo userInfo);

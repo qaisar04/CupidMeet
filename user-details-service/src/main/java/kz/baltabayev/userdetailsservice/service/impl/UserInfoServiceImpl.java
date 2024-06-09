@@ -40,6 +40,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public void update(UserInfo userInfo, Long userId) {
+        User user = userService.get(userId);
+        UserInfo existingUserInfo = user.getUserInfo();
+        userInfo.setId(existingUserInfo.getId());
+        userInfo.setUser(user);
+        userInfoRepository.save(userInfo);
+    }
+
+    @Override
     public void uploadAvatar(Long userId, List<MultipartFile> multipartFiles) {
         User user = userService.get(userId);
         FileUploadResponse[] responses = storageServiceClient.upload(USER_CONTENT_SOURCE, String.valueOf(user.getId()), multipartFiles).getBody();

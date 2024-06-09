@@ -1,6 +1,6 @@
 package kz.baltabayev.userdetailsservice.model.dto;
 
-public record UserInfoCreateRequest(
+public record UserInfoRequest(
         String name,
         Integer age,
         String city,

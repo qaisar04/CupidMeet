@@ -9,6 +9,8 @@ public interface UserInfoService {
 
     UserInfo create(UserInfo userInfo, Long userId);
 
+    void update(UserInfo userInfo, Long userId);
+
     void uploadAvatar(Long userId, List<MultipartFile> multipartFiles);
 
     void deleteAvatar(Long avatarId);

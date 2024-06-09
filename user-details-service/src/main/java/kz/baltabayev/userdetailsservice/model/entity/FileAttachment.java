@@ -6,19 +6,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "files_attachment")
 @EqualsAndHashCode(callSuper = true)
-public class FileAttachment extends BaseEntity{
+public class FileAttachment extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "file_name", nullable = false)
     private String fileName;
@@ -32,4 +30,11 @@ public class FileAttachment extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_info_id", nullable = false)
     private UserInfo userInfo;
+
+    public FileAttachment(String fileName, String source, String url, UserInfo userInfo) {
+        this.fileName = fileName;
+        this.source = source;
+        this.url = url;
+        this.userInfo = userInfo;
+    }
 }

@@ -15,5 +15,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+aws:
+  s3:
+    bucket:
+      content-bucket: USER_CONTENT
 server:
   port: 0

@@ -1,0 +1,14 @@
+package ru.polskiy.feedbackservice.model.type;
+
+public enum ComplaintType {
+    BAD_BEHAVIOR,
+    SPAM,
+    FHISHING_AND_FRAUD,
+    INAPPROPRIATE_CONTENT,
+    COPYRIGHT_INFRINGEMENT,
+    HARASSMENT_AND_CYBERBULLYING,
+    ACCOUNT_FRAUD,
+    INAPPROPRIATE_NICKNAME_OR_AVATAR,
+    VIOLATION_OF_SERVICE_RULES,
+    OTHER
+}

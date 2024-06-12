@@ -1,6 +1,5 @@
 package kz.baltabayev.userdetailsservice.controller;
 
-import kz.baltabayev.userdetailsservice.model.dto.UserPreferenceRequest;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

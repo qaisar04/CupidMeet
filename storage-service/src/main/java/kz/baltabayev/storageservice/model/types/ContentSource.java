@@ -8,9 +8,7 @@ import lombok.Getter;
  */
 @Getter
 public enum ContentSource {
-    USER_PROFILE_IMAGE("user-profile-image-uni-portal"),
-    PLACEHOLDER_IMAGE("placeholder-images-uni-portal-v1"),
-    NEWS_CONTENT("news-content-image-uni-portal");
+    USER_CONTENT("user-details-image-cupid-meet-v1");
 
     /**
      * The name of the bucket associated with the content source.

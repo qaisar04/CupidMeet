@@ -96,7 +96,7 @@ public class StorageServiceImpl implements StorageService {
         ContentSource contentSource = valueOf(source.toUpperCase());
         String bucketName = contentSource.getBucketName();
 
-        if (contentSource == USER_PROFILE_IMAGE) {
+        if (contentSource == USER_CONTENT) {
             for (MultipartFile file : files) {
                 if (!isImageFile(file)) {
                     throw new InvalidFileTypeException("image");

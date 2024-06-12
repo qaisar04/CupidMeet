@@ -7,5 +7,7 @@ public interface UserService {
 
     void create(Long id, String username);
 
+    void deactivate(Long id);
+
     User get(Long id);
 }

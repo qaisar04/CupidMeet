@@ -11,7 +11,7 @@ spring:
     default-schema: user_detail
     liquibase-schema: develop
     change-log: db/changelog/changelog.xml
-    drop-first: true
+    drop-first: false
   jpa:
     hibernate:
       ddl-auto: validate
@@ -20,4 +20,4 @@ aws:
     bucket:
       content-bucket: USER_CONTENT
 server:
-  port: 0
+  port: 8728

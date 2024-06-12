@@ -40,12 +40,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public void update(UserInfo userInfo, Long userId) {
-        User user = userService.get(userId);
-        UserInfo existingUserInfo = user.getUserInfo();
-        userInfo.setId(existingUserInfo.getId());
-        userInfo.setUser(user);
-        userInfoRepository.save(userInfo);
+    public void update(String name, Integer age, String city, String gender, String personalityType, String bio, Long userId) {
+        userInfoRepository.updateUserInfoByUserId(name, age, city, gender, personalityType, bio, userId);
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.util.Set;
 public interface UserInfoMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(source = "personalityType", target = "personalityType", qualifiedByName = "stringToPersonalityType")
     UserInfo toEntity(UserInfoRequest request);
 

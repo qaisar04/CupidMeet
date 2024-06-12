@@ -21,11 +21,17 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/{userId}/deactivate")
+    public ResponseEntity<Void> deactivate(
+            @PathVariable Long userId
+    ) {
+        return ResponseEntity.ok().build();
+    }
 
     public ResponseEntity<?> get(
             @PathVariable Long id
     ) {
-        // todo
+        userService.deactivate(id);
         return ResponseEntity.ok().build();
     }
 }

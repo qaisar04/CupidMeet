@@ -34,8 +34,10 @@ public class UserInfoController {
             @RequestBody UserInfoRequest request,
             @PathVariable("userId") Long userId
     ) {
-        UserInfo userInfo = userInfoMapper.toEntity(request);
-        userInfoService.update(userInfo, userId);
+        userInfoService.update(
+                request.name(), request.age(), request.city(), request.gender(),
+                request.personalityType(), request.bio(), userId
+        );
         return ResponseEntity.ok().build();
     }
 

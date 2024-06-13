@@ -1,6 +1,6 @@
 package kz.baltabayev.userdetailsservice.client;
 
-import kz.baltabayev.userdetailsservice.model.dto.FileUploadResponse;
+import kz.baltabayev.userdetailsservice.model.payload.FileUploadResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

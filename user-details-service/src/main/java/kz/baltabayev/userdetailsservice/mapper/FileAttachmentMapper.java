@@ -9,5 +9,5 @@ import static org.mapstruct.MappingConstants.*;
 @Mapper(componentModel = ComponentModel.SPRING)
 public interface FileAttachmentMapper {
 
-    FileAttachmentResponse fromEntity(FileAttachment fileAttachment);
+    FileAttachmentResponse toResponse(FileAttachment fileAttachment);
 }

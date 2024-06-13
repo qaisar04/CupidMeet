@@ -1,6 +1,9 @@
 package kz.baltabayev.userdetailsservice.controller;
 
+import kz.baltabayev.userdetailsservice.mapper.UserMapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
+import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
+import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     @PostMapping("/create")
     public ResponseEntity<Void> create(
@@ -25,13 +29,16 @@ public class UserController {
     public ResponseEntity<Void> deactivate(
             @PathVariable Long userId
     ) {
+        userService.deactivate(userId);
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> get(
-            @PathVariable Long id
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> get(
+            @PathVariable Long userId
     ) {
-        userService.deactivate(id);
-        return ResponseEntity.ok().build();
+        User user = userService.get(userId);
+        UserResponse response = userMapper.toResponse(user);
+        return ResponseEntity.ok(response);
     }
 }

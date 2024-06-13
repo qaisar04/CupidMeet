@@ -1,7 +1,7 @@
 package kz.baltabayev.userdetailsservice.service.impl;
 
 import kz.baltabayev.userdetailsservice.client.StorageServiceClient;
-import kz.baltabayev.userdetailsservice.model.dto.FileUploadResponse;
+import kz.baltabayev.userdetailsservice.model.payload.FileUploadResponse;
 import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;

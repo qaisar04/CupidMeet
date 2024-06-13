@@ -49,13 +49,12 @@ public class StorageServiceImpl implements StorageService {
     private final S3FileService s3FileService;
 
     /**
-     * Creates a new S3 bucket with the specified name, or returns an existing one.
+     * Creates a new S3 bucket with the specified name
      *
      * @param bucketName the name of the bucket.
-     * @return the created or existing bucket.
      */
-    public Bucket createBucket(String bucketName) {
-        return listS3Buckets().stream()
+    public void createBucket(String bucketName) {
+        listS3Buckets().stream()
                 .filter(s -> StringUtils.equals(s.getName(), bucketName))
                 .findFirst()
                 .orElseGet(() -> s3.createBucket(bucketName));
@@ -87,8 +86,8 @@ public class StorageServiceImpl implements StorageService {
      * Uploads a list of files to an S3 bucket.
      *
      * @param source the source of the file content.
-     * @param id the id of the target.
-     * @param files the files to upload.
+     * @param id     the id of the target.
+     * @param files  the files to upload.
      * @return an array of responses from the file upload operations.
      */
     @Override
@@ -104,7 +103,9 @@ public class StorageServiceImpl implements StorageService {
             }
         }
 
-        createBucket(bucketName);
+        if (!doesBucketExist(bucketName)) {
+            createBucket(bucketName);
+        }
 
         List<FileUploadResponse> responses = new ArrayList<>();
         for (MultipartFile multipartFile : files) {
@@ -156,7 +157,7 @@ public class StorageServiceImpl implements StorageService {
     /**
      * Deletes a file from an S3 bucket.
      *
-     * @param source the source of the file content.
+     * @param source   the source of the file content.
      * @param fileName the name of the file.
      */
     @Override
@@ -190,7 +191,7 @@ public class StorageServiceImpl implements StorageService {
     /**
      * Downloads a file from an S3 bucket.
      *
-     * @param source the source of the file content.
+     * @param source   the source of the file content.
      * @param fileName the name of the file.
      * @return the downloaded file as a byte array.
      */
@@ -205,7 +206,6 @@ public class StorageServiceImpl implements StorageService {
             throw new FileDownloadException(e.getMessage());
         }
     }
-
 
     /**
      * Converts a MultipartFile to a File.
@@ -222,5 +222,10 @@ public class StorageServiceImpl implements StorageService {
             throw new RuntimeException("Error converting multipartFile to file", e);
         }
         return convertedFile;
+    }
+
+    // Method to check if a bucket exists
+    private boolean doesBucketExist(String bucketName) {
+        return s3.doesBucketExistV2(bucketName);
     }
 }

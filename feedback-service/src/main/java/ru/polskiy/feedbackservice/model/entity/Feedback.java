@@ -20,9 +20,7 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
-    private String username;
+    private Long userId;
 
-    @NotBlank
     private String comment;
 }

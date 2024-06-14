@@ -1,8 +1,6 @@
 package ru.polskiy.feedbackservice.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,16 +20,14 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email
-    private String username;
+    private Long userId;
 
-    @NotBlank
     private String comment;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "complaint_type")
     @Enumerated(EnumType.STRING)
     private ComplaintType complaintType;
+
 }

@@ -2,10 +2,11 @@ spring:
   application:
     name: feedback-service
   liquibase:
-    password: postgres
-    user: postgres
     enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.xml
+    change-log: db/changelog/db.changelog-master.xml
+    liquibase-schema: feedback_changelog
+    default-schema: feedback
+
   datasource:
     url: jdbc:postgresql://localhost:5433/cupid-meet
     driver-class-name: org.postgresql.Driver
@@ -13,9 +14,6 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: true
-    properties:
-      hibernate:
-        default_schema: feedback
 

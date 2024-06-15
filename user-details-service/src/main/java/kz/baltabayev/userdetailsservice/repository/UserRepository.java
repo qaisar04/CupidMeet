@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO user_detail.users (id, username, created_at) VALUES (:id, :username, :createdAt)", nativeQuery = true)
+    @Query(value = "INSERT INTO user_detail.users (id, username, created_at, status) VALUES (:id, :username, :createdAt, 'ACTIVE')", nativeQuery = true)
     void insertUser(Long id, String username, LocalDateTime createdAt);
 
     boolean existsById(Long id);

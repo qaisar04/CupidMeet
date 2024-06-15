@@ -104,7 +104,7 @@ public class StorageServiceImpl implements StorageService {
         }
 
         if (!doesBucketExist(bucketName)) {
-            createBucket(bucketName);
+            createBucket(bucketName); //todo: сделать postContruct метод который будет при инициализации создавать бакеты
         }
 
         List<FileUploadResponse> responses = new ArrayList<>();

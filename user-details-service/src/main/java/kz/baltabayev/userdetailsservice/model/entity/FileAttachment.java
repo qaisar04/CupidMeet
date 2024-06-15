@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 /**
  * Represents a file attachment entity in the system.
  * This entity contains information about a file attached to a user's profile.
@@ -24,32 +26,30 @@ public class FileAttachment extends BaseEntity {
      * The unique identifier of the file attachment.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     /**
      * The name of the file.
      */
-    @Column(name = "file_name", nullable = false)
+    @Column(name = "file_name")
     private String fileName;
 
     /**
      * The source of the file.
      */
-    @Column(nullable = false)
     private String source;
 
     /**
      * The URL where the file is stored.
      */
-    @Column(nullable = false)
     private String url;
 
     /**
      * The user information to which this file attachment belongs.
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_info_id", nullable = false)
+    @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
 
     /**

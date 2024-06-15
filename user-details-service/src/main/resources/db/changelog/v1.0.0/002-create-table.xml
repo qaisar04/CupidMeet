@@ -28,10 +28,10 @@
     <changeSet id="002-create-table-files-attachment" author="qaisar_baltabayev">
         <comment>create table files_attachment</comment>
         <createTable tableName="files_attachment">
-            <column name="id" type="bigint" remarks="unique identifier for the file attachment">
+            <column name="id" type="uuid" remarks="unique identifier for the file attachment">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="file_id" type="uuid" remarks="unique identifier for the file">
+            <column name="file_id" type="varchar(256)" remarks="unique identifier for the file">
                 <constraints nullable="false"/>
             </column>
             <column name="user_info_id" type="uuid" remarks="unique identifier for the userInfo">
@@ -43,7 +43,7 @@
             <column name="source" type="varchar(64)" remarks="bucket name">
                 <constraints nullable="false"/>
             </column>
-            <column name="url" type="varchar(64)" remarks="file url">
+            <column name="url" type="varchar(256)" remarks="file url">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamp" remarks="time the file attachment was created at">

@@ -145,11 +145,9 @@
     <modules>
         <module>api-gateway</module>
         <module>storage-service</module>
-        <module>discovery-service</module>
         <module>user-details-service</module>
         <module>location-data-service</module>
         <module>auth-service</module>
-        <module>telegram-bot-service</module>
     </modules>
 
     <build>

@@ -49,13 +49,16 @@ public class UserInfoServiceImpl implements UserInfoService {
         User user = userService.get(userId);
         FileUploadResponse[] responses = storageServiceClient.upload(USER_CONTENT_SOURCE, String.valueOf(user.getId()), multipartFiles).getBody();
         UserInfo userInfo = user.getUserInfo();
+
         Set<FileAttachment> fileAttachments = Arrays.stream(Objects.requireNonNull(responses))
-                .map(r -> new FileAttachment(r.id(), r.source(), r.url(), userInfo))
+                .map(r -> new FileAttachment(r.fileName(), r.source(), r.url(), userInfo))
                 .map(fileAttachmentRepository::save)
                 .collect(Collectors.toSet());
+
         userInfo.setFiles(fileAttachments);
         userInfoRepository.saveAndFlush(userInfo);
     }
+
 
     public void deleteAvatar(Long avatarId) {
         storageServiceClient.delete(USER_CONTENT_SOURCE, String.valueOf(avatarId));

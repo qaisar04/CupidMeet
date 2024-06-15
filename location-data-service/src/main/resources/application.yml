@@ -1,10 +1,6 @@
 spring:
   application:
     name: location-data-service
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
 springdoc:
   api-docs:
     enabled: true
@@ -12,4 +8,4 @@ springdoc:
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
 server:
-  port: 0
+  port: 8580

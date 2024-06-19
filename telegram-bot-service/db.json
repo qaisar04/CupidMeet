@@ -1,0 +1,152 @@
+[
+    {
+        "telegram_id": "123456789",
+        "username": "user1",
+        "name": "John Doe",
+        "age": 28,
+        "city": "New York",
+        "gender": "MALE",
+        "personalityType": "INTJ",
+        "bio": "Software engineer with a passion for artificial intelligence."
+    },
+    {
+        "telegram_id": "987654321",
+        "username": "user2",
+        "name": "Jane Smith",
+        "age": 34,
+        "city": "Los Angeles",
+        "gender": "FEMALE",
+        "personalityType": "ENFP",
+        "bio": "Marketing specialist who loves creative writing."
+    },
+    {
+        "telegram_id": "112233445",
+        "username": "user3",
+        "name": "Alice Johnson",
+        "age": 25,
+        "city": "Chicago",
+        "gender": "FEMALE",
+        "personalityType": "ISFJ",
+        "bio": "Teacher and amateur photographer."
+    },
+    {
+        "telegram_id": "556677889",
+        "username": "user4",
+        "name": "Bob Brown",
+        "age": 40,
+        "city": "Houston",
+        "gender": "MALE",
+        "personalityType": "ENTP",
+        "bio": "Entrepreneur and tech enthusiast."
+    },
+    {
+        "telegram_id": "223344556",
+        "username": "user5",
+        "name": "Carol Wilson",
+        "age": 31,
+        "city": "Phoenix",
+        "gender": "FEMALE",
+        "personalityType": "ISTP",
+        "bio": "Graphic designer with a love for traveling."
+    },
+    {
+        "telegram_id": "667788990",
+        "username": "user6",
+        "name": "David Taylor",
+        "age": 29,
+        "city": "Philadelphia",
+        "gender": "MALE",
+        "personalityType": "INFJ",
+        "bio": "Writer and social activist."
+    },
+    {
+        "telegram_id": "334455667",
+        "username": "user7",
+        "name": "Emily Davis",
+        "age": 22,
+        "city": "San Antonio",
+        "gender": "FEMALE",
+        "personalityType": "ESFJ",
+        "bio": "Student and aspiring chef."
+    },
+    {
+        "telegram_id": "778899001",
+        "username": "user8",
+        "name": "Frank Moore",
+        "age": 37,
+        "city": "San Diego",
+        "gender": "MALE",
+        "personalityType": "INFP",
+        "bio": "Psychologist and mindfulness coach."
+    },
+    {
+        "telegram_id": "445566778",
+        "username": "user9",
+        "name": "Grace Lee",
+        "age": 26,
+        "city": "Dallas",
+        "gender": "FEMALE",
+        "personalityType": "ENTJ",
+        "bio": "Financial analyst with a knack for numbers."
+    },
+    {
+        "telegram_id": "889900112",
+        "username": "user10",
+        "name": "Henry Miller",
+        "age": 30,
+        "city": "San Jose",
+        "gender": "MALE",
+        "personalityType": "ESFP",
+        "bio": "Event planner who loves bringing people together."
+    },
+    {
+        "telegram_id": "556677889",
+        "username": "user11",
+        "name": "Ivy Anderson",
+        "age": 33,
+        "city": "Austin",
+        "gender": "FEMALE",
+        "personalityType": "ISFP",
+        "bio": "Artist and yoga instructor."
+    },
+    {
+        "telegram_id": "667788990",
+        "username": "user12",
+        "name": "Jack Thomas",
+        "age": 24,
+        "city": "Jacksonville",
+        "gender": "MALE",
+        "personalityType": "ISTJ",
+        "bio": "Law student with a love for history."
+    },
+    {
+        "telegram_id": "334455667",
+        "username": "user13",
+        "name": "Karen Martinez",
+        "age": 27,
+        "city": "Fort Worth",
+        "gender": "FEMALE",
+        "personalityType": "ENFJ",
+        "bio": "Human resources manager and volunteer."
+    },
+    {
+        "telegram_id": "778899001",
+        "username": "user14",
+        "name": "Larry Robinson",
+        "age": 35,
+        "city": "Columbus",
+        "gender": "MALE",
+        "personalityType": "ESTP",
+        "bio": "Sales executive and sports fan."
+    },
+    {
+        "telegram_id": "445566778",
+        "username": "user15",
+        "name": "Megan Harris",
+        "age": 32,
+        "city": "Charlotte",
+        "gender": "FEMALE",
+        "personalityType": "INFJ",
+        "bio": "Journalist with a passion for storytelling."
+    }
+]

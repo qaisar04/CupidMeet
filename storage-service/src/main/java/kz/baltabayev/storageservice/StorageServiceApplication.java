@@ -2,21 +2,14 @@ package kz.baltabayev.storageservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-/**
- * This is the main entry point for the StorageService application.
- * It is annotated with @SpringBootApplication, indicating that it is a Spring Boot application.
- *
- * @author qaisar
- */
+@EnableRetry
+@EnableScheduling
 @SpringBootApplication
 public class StorageServiceApplication {
 
-    /**
-     * The main method that starts the application.
-     *
-     * @param args command line arguments.
-     */
     public static void main(String[] args) {
         SpringApplication.run(StorageServiceApplication.class, args);
     }

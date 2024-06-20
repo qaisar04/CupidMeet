@@ -22,7 +22,6 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <lombok-mapstruct-binding>0.2.0</lombok-mapstruct-binding>
-        <userinfo.security.starter.version>0.0.1-SNAPSHOT</userinfo.security.starter.version>
         <amazonaws.s3.version>1.12.667</amazonaws.s3.version>
         <commons-io.version>2.14.0</commons-io.version>
         <preliquibase.version>1.5.0</preliquibase.version>
@@ -33,7 +32,7 @@
         <commons-fileupload.version>1.5</commons-fileupload.version>
         <openapi.version>2.1.0</openapi.version>
         <jjwt.version>0.12.5</jjwt.version>
-        <telegram.version>7.2.1</telegram.version>
+        <aws-s3-starter.version>3.1.1</aws-s3-starter.version>
     </properties>
 
     <dependencies>
@@ -66,16 +65,6 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>kz.baltabayev</groupId>
-                <artifactId>userinfo-security-starter</artifactId>
-                <version>${userinfo.security.starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.amazonaws</groupId>
-                <artifactId>aws-java-sdk-s3</artifactId>
-                <version>${amazonaws.s3.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -138,6 +127,11 @@
                 <artifactId>jjwt-jackson</artifactId>
                 <version>${jjwt.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.awspring.cloud</groupId>
+                <artifactId>spring-cloud-aws-starter-s3</artifactId>
+                <version>${aws-s3-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

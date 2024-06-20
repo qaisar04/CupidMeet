@@ -9,7 +9,10 @@
             <column name="id" type="BIGSERIAL">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="BIGINT">
+            <column name="from_user_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="to_user_id" type="BIGINT">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="comment" type="VARCHAR(255)">
@@ -30,7 +33,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="comment" type="VARCHAR(255)">
                 <constraints nullable="false"/>

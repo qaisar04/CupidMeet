@@ -1,5 +1,9 @@
 package ru.polskiy.feedbackservice.dto;
 
-
-public record FeedbackRequestDTO(Long userId, String comment){
+/**
+ * DTO representing the request data needed from the user to create a feedback.
+ *
+ * @param comment The text of the feedback.
+ */
+public record FeedbackRequestDTO(String comment) {
 }

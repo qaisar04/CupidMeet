@@ -1,14 +1,14 @@
 package ru.polskiy.feedbackservice.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * Entity class representing user's feedback.
+ */
 @Data
 @Entity
 @Builder
@@ -16,10 +16,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "feedback")
 public class Feedback {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /**
+     * ID of the user who provided the feedback.
+     */
     private Long userId;
 
     private String comment;

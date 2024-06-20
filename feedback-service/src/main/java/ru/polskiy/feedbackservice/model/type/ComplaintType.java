@@ -1,9 +1,12 @@
 package ru.polskiy.feedbackservice.model.type;
 
+/**
+ * Enum representing different types of complaints that can be filed in the system.
+ */
 public enum ComplaintType {
     BAD_BEHAVIOR,
     SPAM,
-    FHISHING_AND_FRAUD,
+    FISHING_AND_FRAUD,
     INAPPROPRIATE_CONTENT,
     COPYRIGHT_INFRINGEMENT,
     HARASSMENT_AND_CYBERBULLYING,

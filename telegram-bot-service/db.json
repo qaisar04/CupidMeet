@@ -7,7 +7,9 @@
         "city": "New York",
         "gender": "MALE",
         "personalityType": "INTJ",
-        "bio": "Software engineer with a passion for artificial intelligence."
+        "bio": "Software engineer with a passion for artificial intelligence.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "987654321",
@@ -17,7 +19,9 @@
         "city": "Los Angeles",
         "gender": "FEMALE",
         "personalityType": "ENFP",
-        "bio": "Marketing specialist who loves creative writing."
+        "bio": "Marketing specialist who loves creative writing.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "112233445",
@@ -27,7 +31,9 @@
         "city": "Chicago",
         "gender": "FEMALE",
         "personalityType": "ISFJ",
-        "bio": "Teacher and amateur photographer."
+        "bio": "Teacher and amateur photographer.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "556677889",
@@ -37,7 +43,9 @@
         "city": "Houston",
         "gender": "MALE",
         "personalityType": "ENTP",
-        "bio": "Entrepreneur and tech enthusiast."
+        "bio": "Entrepreneur and tech enthusiast.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "223344556",
@@ -47,7 +55,9 @@
         "city": "Phoenix",
         "gender": "FEMALE",
         "personalityType": "ISTP",
-        "bio": "Graphic designer with a love for traveling."
+        "bio": "Graphic designer with a love for traveling.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "667788990",
@@ -57,7 +67,9 @@
         "city": "Philadelphia",
         "gender": "MALE",
         "personalityType": "INFJ",
-        "bio": "Writer and social activist."
+        "bio": "Writer and social activist.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "334455667",
@@ -67,7 +79,9 @@
         "city": "San Antonio",
         "gender": "FEMALE",
         "personalityType": "ESFJ",
-        "bio": "Student and aspiring chef."
+        "bio": "Student and aspiring chef.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "778899001",
@@ -77,7 +91,9 @@
         "city": "San Diego",
         "gender": "MALE",
         "personalityType": "INFP",
-        "bio": "Psychologist and mindfulness coach."
+        "bio": "Psychologist and mindfulness coach.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "445566778",
@@ -87,7 +103,9 @@
         "city": "Dallas",
         "gender": "FEMALE",
         "personalityType": "ENTJ",
-        "bio": "Financial analyst with a knack for numbers."
+        "bio": "Financial analyst with a knack for numbers.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "889900112",
@@ -97,7 +115,9 @@
         "city": "San Jose",
         "gender": "MALE",
         "personalityType": "ESFP",
-        "bio": "Event planner who loves bringing people together."
+        "bio": "Event planner who loves bringing people together.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "556677889",
@@ -107,7 +127,9 @@
         "city": "Austin",
         "gender": "FEMALE",
         "personalityType": "ISFP",
-        "bio": "Artist and yoga instructor."
+        "bio": "Artist and yoga instructor.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "667788990",
@@ -117,7 +139,9 @@
         "city": "Jacksonville",
         "gender": "MALE",
         "personalityType": "ISTJ",
-        "bio": "Law student with a love for history."
+        "bio": "Law student with a love for history.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "334455667",
@@ -127,7 +151,9 @@
         "city": "Fort Worth",
         "gender": "FEMALE",
         "personalityType": "ENFJ",
-        "bio": "Human resources manager and volunteer."
+        "bio": "Human resources manager and volunteer.",
+        "is_active": "True",
+        "preference": "MALE"
     },
     {
         "telegram_id": "778899001",
@@ -137,7 +163,9 @@
         "city": "Columbus",
         "gender": "MALE",
         "personalityType": "ESTP",
-        "bio": "Sales executive and sports fan."
+        "bio": "Sales executive and sports fan.",
+        "is_active": "True",
+        "preference": "FEMALE"
     },
     {
         "telegram_id": "445566778",
@@ -147,6 +175,22 @@
         "city": "Charlotte",
         "gender": "FEMALE",
         "personalityType": "INFJ",
-        "bio": "Journalist with a passion for storytelling."
+        "bio": "Journalist with a passion for storytelling.",
+        "is_active": "True",
+        "preference": "MALE"
+    },
+    {
+        "name": "\u0421\u0435\u0440\u044b\u0439",
+        "age": "25",
+        "location": {
+            "latitude": 52.291999,
+            "longitude": 76.951198
+        },
+        "gender": "MALE",
+        "personalityType": "ISFJ",
+        "bio": "Fkskdk",
+        "telegram_id": 751792880,
+        "username": "DarthZiel",
+        "is_active": "True"
     }
 ]

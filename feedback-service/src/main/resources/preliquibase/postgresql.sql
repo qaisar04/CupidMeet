@@ -1,1 +1,1 @@
-CREATE SCHEMA IF NOT EXISTS feedback_changelog;
+CREATE SCHEMA IF NOT EXISTS develop;

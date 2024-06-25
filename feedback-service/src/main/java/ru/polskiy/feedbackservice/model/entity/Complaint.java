@@ -13,30 +13,36 @@ import ru.polskiy.feedbackservice.model.type.Status;
  */
 @Data
 @Entity
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "complaint")
-public class Complaint {
+public class Complaint extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     /**
-     * ID of the user who initiated the complaint.
+     * ID of the user who send the complaint.
      */
     private Long fromUserId;
+
     /**
-     * ID of the user against whom the complaint is filed.
+     * ID of the user against whom the complaint.
      */
     private Long toUserId;
 
+    /**
+     * Comment provided by the user.
+     */
     private String comment;
 
+    /**
+     * Status of the complaint.
+     */
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    /**
+     * Type of the complaint.
+     * Filling by user
+     */
     @Enumerated(EnumType.STRING)
     private ComplaintType complaintType;
-
 }

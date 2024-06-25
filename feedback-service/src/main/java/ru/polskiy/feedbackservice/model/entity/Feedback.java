@@ -1,29 +1,37 @@
 package ru.polskiy.feedbackservice.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 /**
  * Entity class representing user's feedback.
  */
 @Data
 @Entity
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "feedback")
-public class Feedback {
+public class Feedback extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     /**
      * ID of the user who provided the feedback.
      */
     private Long userId;
 
+    /**
+     * Grade provided by the user, must be between 1 and 5.
+     */
+    @Min(value = 1, message = "Grade must be at least 1")
+    @Max(value = 5, message = "Grade must be at most 5")
+    private Byte grade;
+
+    /**
+     * Comment provided by the user.
+     */
     private String comment;
 }

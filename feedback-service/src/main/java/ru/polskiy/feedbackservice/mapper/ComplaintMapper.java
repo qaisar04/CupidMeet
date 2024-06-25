@@ -2,7 +2,7 @@ package ru.polskiy.feedbackservice.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import ru.polskiy.feedbackservice.dto.ComplaintCreateDTO;
+import ru.polskiy.feedbackservice.dto.ComplaintCreate;
 import ru.polskiy.feedbackservice.model.entity.Complaint;
 
 /**
@@ -17,7 +17,7 @@ public interface ComplaintMapper {
      * @param complaint Complaint entity to convert.
      * @return ComplaintCreateDTO representing the entity.
      */
-    ComplaintCreateDTO toDto(Complaint complaint);
+    ComplaintCreate toDto(Complaint complaint);
 
     /**
      * Converts ComplaintCreateDTO to Complaint entity.
@@ -26,8 +26,7 @@ public interface ComplaintMapper {
      * @param dto ComplaintCreateDTO to convert.
      * @return Complaint entity.
      */
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", source = "status", defaultValue = "NEW")
-    @Mapping(target = "complaintType", source = "complaintType", defaultValue = "UNKNOWN")
-    Complaint toEntity(ComplaintCreateDTO dto);
+    @Mapping(target = "complaintType", source = "complaintType")
+    Complaint toEntity(ComplaintCreate dto);
 }

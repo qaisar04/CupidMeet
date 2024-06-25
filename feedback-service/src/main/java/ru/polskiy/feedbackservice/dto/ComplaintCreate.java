@@ -12,9 +12,9 @@ import ru.polskiy.feedbackservice.model.type.Status;
  * @param status        The initial status of the complaint.
  * @param complaintType The type of complaint being filed.
  */
-public record ComplaintCreateDTO(Long fromUserId,
-                                 Long toUserId,
-                                 String comment,
-                                 Status status,
-                                 ComplaintType complaintType) {
+public record ComplaintCreate(Long fromUserId,
+                              Long toUserId,
+                              String comment,
+                              Status status,
+                              ComplaintType complaintType) {
 }

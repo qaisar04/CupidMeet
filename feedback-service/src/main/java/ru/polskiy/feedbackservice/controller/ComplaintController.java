@@ -1,9 +1,12 @@
 package ru.polskiy.feedbackservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.polskiy.feedbackservice.dto.ComplaintCreateDTO;
-import ru.polskiy.feedbackservice.dto.ComplaintRequestDTO;
+import ru.polskiy.feedbackservice.dto.ComplaintCreate;
+import ru.polskiy.feedbackservice.dto.ComplaintRequest;
+import ru.polskiy.feedbackservice.exception.CreateComplaintException;
 import ru.polskiy.feedbackservice.mapper.ComplaintMapper;
 import ru.polskiy.feedbackservice.service.ComplaintService;
 
@@ -25,11 +28,11 @@ public class ComplaintController {
     /**
      * Retrieves a list of all complaints.
      *
-     * @return A list of {@link ComplaintCreateDTO} representing all complaints.
+     * @return A list of {@link ComplaintCreate} representing all complaints.
      */
     @GetMapping("/all")
-    public List<ComplaintCreateDTO> findComplaints() {
-
+    public List<ComplaintCreate> findComplaints(
+    ) {
         return complaintService.findAllComplaints()
                 .stream()
                 .map(complaintMapper::toDto)
@@ -40,21 +43,20 @@ public class ComplaintController {
      * Creates a new complaint.
      *
      * @param dto    The DTO containing the necessary information for creating a complaint.
-     * @param userId The ID of the user who is filing the complaint. This is obtained from the path variable.
-     * @return The created complaint as a {@link ComplaintCreateDTO} object. Returns null if the creation fails.
+     * @return The created complaint as a {@link ComplaintCreate} object. Returns null if the creation fails.
      */
-    @PostMapping("/create/{userId}")
-    public ComplaintCreateDTO complaintCreate(
-            @RequestBody ComplaintRequestDTO dto,
-            @PathVariable Long userId
+    @PostMapping("/create")
+    public ResponseEntity<ComplaintCreate> complaintCreate(
+            @RequestBody ComplaintRequest dto
     ) {
-        return Optional.of(new ComplaintCreateDTO(userId,
+        return Optional.of(new ComplaintCreate(dto.userId(),
                         dto.toUserId(), dto.comment(),
                         null,
-                        null))
+                        dto.type()))
                 .map(complaintMapper::toEntity)
-                .map(complaintService::createComplaint)
-                .map(complaintMapper::toDto)
-                .orElse(null);
+                .map(entity->{
+                    complaintService.createComplaint(entity);
+                    return ResponseEntity.ok(complaintMapper.toDto(entity));
+                }).orElseThrow(()-> new CreateComplaintException(dto.toString()));
     }
 }

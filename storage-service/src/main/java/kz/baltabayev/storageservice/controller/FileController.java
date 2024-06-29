@@ -99,7 +99,7 @@ public class FileController {
      * @return a ResponseEntity containing the information of the saved file
      */
     @PostMapping("/upload")
-    public ResponseEntity<FileInfoDto> fileUpload(@RequestPart(value = "file", required = true) MultipartFile file) {
+    public ResponseEntity<FileInfoDto> fileUpload(@RequestPart(value = "file") MultipartFile file) {
         log.info("[FileController] starts endpoint fileUpload");
         return ResponseEntity
                 .status(HttpStatus.OK)

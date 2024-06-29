@@ -60,5 +60,16 @@ services:
       "mc alias set cupidmeet http://minio:9000 ${MINIO_ACCESS_KEY:-minioadmin} ${MINIO_SECRET_KEY:-minioadmin} 
       && mc mb cupidmeet/cupid-meet" ]
 
+  storage-service:
+    image: qaaaaisar04/storage-service
+    container_name: storage-service
+    depends_on:
+      - minio-config
+      - database
+    ports:
+      - "8084:8080"
+    restart: always
+
+
 volumes:
   minio_data:

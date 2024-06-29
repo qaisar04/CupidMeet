@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_preferences")
+@Table(name = "user_preferences", schema = "user_detail")
 @EqualsAndHashCode(callSuper = true)
 public class UserPreference extends BaseEntity {
 

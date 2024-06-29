@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "files_attachment")
+@Table(name = "files_attachment", schema = "user_detail")
 @EqualsAndHashCode(callSuper = true)
 public class FileAttachment extends BaseEntity {
 
@@ -36,14 +37,15 @@ public class FileAttachment extends BaseEntity {
     private String fileName;
 
     /**
-     * The source of the file.
+     * The content type of the file attachment.
      */
-    private String source;
+    @Column(name = "content_type")
+    private String contentType;
 
     /**
-     * The URL where the file is stored.
+     * The path to the file attachment.
      */
-    private String url;
+    private String path;
 
     /**
      * The user information to which this file attachment belongs.
@@ -53,17 +55,8 @@ public class FileAttachment extends BaseEntity {
     private UserInfo userInfo;
 
     /**
-     * Constructs a new FileAttachment with the specified file name, source, URL, and user information.
-     *
-     * @param fileName The name of the file.
-     * @param source   The source of the file.
-     * @param url      The URL where the file is stored.
-     * @param userInfo The user information to which this file attachment belongs.
+     * The timestamp when the file attachment was deleted.
      */
-    public FileAttachment(String fileName, String source, String url, UserInfo userInfo) {
-        this.fileName = fileName;
-        this.source = source;
-        this.url = url;
-        this.userInfo = userInfo;
-    }
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 }

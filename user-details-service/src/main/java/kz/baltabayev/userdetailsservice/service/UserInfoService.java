@@ -1,9 +1,6 @@
 package kz.baltabayev.userdetailsservice.service;
 
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * Service interface for managing user information.
@@ -31,19 +28,4 @@ public interface UserInfoService {
      * @param userId          the ID of the user
      */
     void update(String name, Integer age, String city, String gender, String personalityType, String bio, Long userId);
-
-    /**
-     * Uploads avatar images for the specified user ID.
-     *
-     * @param userId         the ID of the user
-     * @param multipartFiles the avatar images to upload
-     */
-    void uploadAvatar(Long userId, List<MultipartFile> multipartFiles);
-
-    /**
-     * Deletes the avatar image with the specified ID.
-     *
-     * @param avatarId the ID of the avatar image to delete
-     */
-    void deleteAvatar(Long avatarId);
 }

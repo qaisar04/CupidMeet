@@ -15,9 +15,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-aws:
-  s3:
-    bucket:
-      content-bucket: USER_CONTENT
+url:
+  storage-service: localhost:8084
 server:
   port: 8728

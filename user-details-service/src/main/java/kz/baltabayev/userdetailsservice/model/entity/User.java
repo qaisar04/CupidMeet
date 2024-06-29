@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "users", schema = "user_detail")
 @EqualsAndHashCode(callSuper = true)
 public class User extends BaseEntity {
 

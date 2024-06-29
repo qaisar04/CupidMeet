@@ -8,20 +8,23 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
-@FeignClient(name = "storage-service", path = "/api/v1/storage")
+@FeignClient(name = "storage-service", path = "/api/v1/file", url = "${url.storage-service}")
 public interface StorageServiceClient {
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<FileUploadResponse[]> upload(
-            @RequestParam("source") String source,
-            @RequestParam("target") String target,
-            @RequestPart("file") List<MultipartFile> file
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<FileUploadResponse> upload(
+            @RequestPart("file") MultipartFile file
     );
 
-    @DeleteMapping("/{source}/{fileName}")
+    @PostMapping(path = "/upload/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<List<FileUploadResponse>> uploadBatch(
+            @RequestBody List<MultipartFile> files
+    );
+
+    @DeleteMapping("/{fileId}")
     ResponseEntity<String> delete(
-            @PathVariable String source,
-            @PathVariable String fileName
+            @PathVariable UUID fileId
     );
 }

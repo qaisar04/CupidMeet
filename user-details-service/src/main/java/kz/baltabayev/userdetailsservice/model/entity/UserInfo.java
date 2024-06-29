@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_infos")
+@Table(name = "user_infos", schema = "user_detail")
 @EqualsAndHashCode(callSuper = true)
 public class UserInfo extends BaseEntity {
 
@@ -67,8 +68,8 @@ public class UserInfo extends BaseEntity {
     /**
      * The set of file attachments associated with this user information.
      */
-    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<FileAttachment> files;
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private Set<FileAttachment> files = new HashSet<>();
 
     /**
      * The user entity associated with this user information.

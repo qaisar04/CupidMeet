@@ -1,8 +1,11 @@
 package kz.baltabayev.userdetailsservice.model.payload;
 
+import java.util.UUID;
+
 public record FileUploadResponse(
-        String fileName,
-        String source,
-        String url
+        UUID id,
+        String path,
+        String name,
+        String contentType
 ) {
 }

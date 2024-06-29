@@ -1,15 +1,18 @@
 package kz.baltabayev.userdetailsservice.controller;
 
+import kz.baltabayev.userdetailsservice.mapper.FileAttachmentMapper;
 import kz.baltabayev.userdetailsservice.mapper.UserInfoMapper;
+import kz.baltabayev.userdetailsservice.model.dto.FileAttachmentRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
+import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.service.FileAttachmentService;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/info")
@@ -18,6 +21,8 @@ public class UserInfoController {
 
     private final UserInfoService userInfoService;
     private final UserInfoMapper userInfoMapper;
+    private final FileAttachmentMapper fileAttachmentMapper;
+    private final FileAttachmentService fileAttachmentService;
 
     @PostMapping("{userId}/create")
     public ResponseEntity<Void> create(
@@ -29,31 +34,18 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{userId}/update")
-    public ResponseEntity<Void> update(
-            @RequestBody UserInfoRequest request,
-            @PathVariable("userId") Long userId
-    ) {
-        userInfoService.update(
-                request.name(), request.age(), request.city(), request.gender(),
-                request.personalityType(), request.bio(), userId
-        );
+    @PostMapping
+    public ResponseEntity<Void> addAttachment(Long userId, FileAttachmentRequest request) {
+        FileAttachment fileAttachment = fileAttachmentMapper.toEntity(request);
+        fileAttachmentService.addAttachment(userId, fileAttachment);
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("{userId}/avatar")
-    public ResponseEntity<Void> uploadAvatar(
-            @RequestParam("file") List<MultipartFile> multipartFiles,
-            @PathVariable Long userId) {
-        userInfoService.uploadAvatar(userId, multipartFiles);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{avatarId}/avatar")
+    @DeleteMapping("attachments/{attachmentId}")
     public ResponseEntity<Void> deleteAvatar(
-            @PathVariable Long avatarId
+            @PathVariable UUID attachmentId
     ) {
-        userInfoService.deleteAvatar(avatarId);
+        fileAttachmentService.removeAttachment(attachmentId);
         return ResponseEntity.ok().build();
     }
 }

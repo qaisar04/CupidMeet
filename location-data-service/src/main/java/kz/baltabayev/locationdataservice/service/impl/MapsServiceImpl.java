@@ -3,7 +3,6 @@ package kz.baltabayev.locationdataservice.service.impl;
 import kz.baltabayev.locationdataservice.exception.LocationServiceException;
 import kz.baltabayev.locationdataservice.model.dto.DistanceResponse;
 import kz.baltabayev.locationdataservice.model.dto.LocationResponse;
-import kz.baltabayev.locationdataservice.model.payload.LocationInfo;
 import kz.baltabayev.locationdataservice.service.MapsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,7 @@ public class MapsServiceImpl implements MapsService {
         return restTemplate = new RestTemplate();
     }
 
-    public LocationInfo geocode(String latitude, String longitude) {
+    public LocationResponse geocode(String latitude, String longitude) {
         if (latitude == null || longitude == null) {
             log.error("Latitude and longitude must not be null");
             throw new IllegalArgumentException("Latitude and longitude must not be null");
@@ -43,7 +42,7 @@ public class MapsServiceImpl implements MapsService {
                 log.error("No response from location service");
                 throw new IllegalStateException("No response from location service");
             }
-            return parseLocation(response);
+            return response;
         } catch (RestClientException e) {
             log.error("Error during calling Location IQ API: {}", e.getMessage());
             throw new LocationServiceException("Error when calling Location IQ API", e);
@@ -52,7 +51,6 @@ public class MapsServiceImpl implements MapsService {
 
     @Override
     public DistanceResponse haversine(double lat1, double lon1, double lat2, double lon2) {
-
         double phi1 = Math.toRadians(lat1);
         double phi2 = Math.toRadians(lat2);
         double deltaPhi = Math.toRadians(lat2 - lat1);
@@ -64,13 +62,5 @@ public class MapsServiceImpl implements MapsService {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return new DistanceResponse((double) Math.round(EARTH_RADIUS * c * 10) / 10);
-    }
-
-    private LocationInfo parseLocation(LocationResponse response) {
-        if (response.getAddress() == null) {
-            log.error("Address is null in the response");
-            throw new IllegalStateException("Address is null in the response");
-        }
-        return new LocationInfo(response.getAddress().getCity());
     }
 }

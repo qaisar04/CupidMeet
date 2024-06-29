@@ -31,25 +31,28 @@
             <column name="id" type="uuid" remarks="unique identifier for the file attachment">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="file_id" type="varchar(256)" remarks="unique identifier for the file">
+            <column name="file_id" type="uuid" remarks="unique identifier for the file">
                 <constraints nullable="false"/>
             </column>
             <column name="user_info_id" type="uuid" remarks="unique identifier for the userInfo">
                 <constraints nullable="false"/>
             </column>
-            <column name="file_name" type="varchar(64)" remarks="file descriptive name">
+            <column name="name" type="varchar(64)" remarks="file descriptive name">
                 <constraints nullable="false"/>
             </column>
-            <column name="source" type="varchar(64)" remarks="bucket name">
+            <column name="content_type" type="varchar(64)" remarks="file content type">
                 <constraints nullable="false"/>
             </column>
-            <column name="url" type="varchar(256)" remarks="file url">
+            <column name="path" type="varchar(64)" remarks="file path">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="timestamp" remarks="time the file attachment was created at">
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="timestamp" remarks="time the file attachment was updated at">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted_at" type="timestamp" remarks="time the file attachment was deleted at">
                 <constraints nullable="true"/>
             </column>
         </createTable>

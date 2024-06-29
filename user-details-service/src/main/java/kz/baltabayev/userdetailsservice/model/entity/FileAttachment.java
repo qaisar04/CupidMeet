@@ -34,7 +34,7 @@ public class FileAttachment extends BaseEntity {
      * The name of the file.
      */
     @Column(name = "file_name")
-    private String fileName;
+    private UUID fileName;
 
     /**
      * The content type of the file attachment.

@@ -15,7 +15,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-url:
-  storage-service: localhost:8084
 server:
   port: 8728

@@ -29,7 +29,7 @@ public class FileInfo extends BaseEntity {
     private long size;
     private String contentType;
 
-    @OneToOne(mappedBy = "fileInfo", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "fileInfo", cascade = CascadeType.REMOVE)
     private FileToDelete fileToDelete;
 
     /**

@@ -8,10 +8,8 @@ import java.io.IOException;
 public class WritingToStorageFailsException extends RuntimeException {
 
     private static final String MESSAGE = "Error occurred when writing to storage";
-    private final IOException cause;
 
     public WritingToStorageFailsException(IOException cause) {
         super(MESSAGE);
-        this.cause = cause;
     }
 }

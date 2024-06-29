@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
 
-    <changeSet id="001-create-table-files" author="denis_miagkov">
+    <changeSet id="001-create-table-files" author="qaisar_baltabayev">
         <comment>Create table files</comment>
         <createTable tableName="files">
             <column name="id" type="uuid" remarks="Unique identifier for the fileInfo">
@@ -33,7 +33,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="003-create-table-deleted-files" author="sergey.patseev">
+    <changeSet id="003-create-table-deleted-files" author="qaisar_baltabayev">
         <comment>create table for deleted files</comment>
         <createTable tableName="files_to_delete">
             <column name="id" type="uuid" remarks="Unique identifier for the file to delete">

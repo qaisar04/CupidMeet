@@ -28,6 +28,9 @@ public class MapsServiceImpl implements MapsService {
         return restTemplate = new RestTemplate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public LocationResponse geocode(String latitude, String longitude) {
         if (latitude == null || longitude == null) {
             log.error("Latitude and longitude must not be null");
@@ -49,6 +52,9 @@ public class MapsServiceImpl implements MapsService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DistanceResponse haversine(double lat1, double lon1, double lat2, double lon2) {
         double phi1 = Math.toRadians(lat1);

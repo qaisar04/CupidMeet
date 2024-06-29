@@ -6,5 +6,8 @@ import org.springframework.core.io.Resource;
 /**
  * Represents a prepared resource containing both the resource and its associated file information.
  */
-public record PreparedResource(Resource resource, FileInfo fileInfo) {
+public record PreparedResource(
+        Resource resource,
+        FileInfo fileInfo
+) {
 }

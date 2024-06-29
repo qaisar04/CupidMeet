@@ -31,5 +31,7 @@ jobs:
       - name: build and push docker image
         run: |
           cd storage-service
-          docker buildx build --platform linux/amd64,linux/arm64 \
-            --push -t $DOCKER_USERNAME/storage-service:latest .
+          mvn compile jib:build  -DskipTests\
+            -Djib.to.auth.username=$DOCKER_USERNAME\
+            -Djib.to.auth.password=$DOCKER_PASSWORD\
+            -Djib.to.platform=linux/amd64,linux/arm64

@@ -1,5 +1,10 @@
 package kz.baltabayev.storageservice.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import kz.baltabayev.storageservice.domain.dto.DeleteFileRequest;
 import kz.baltabayev.storageservice.domain.dto.FileInfoDto;
 import kz.baltabayev.storageservice.domain.model.PreparedResource;
@@ -38,6 +43,12 @@ public class FileController {
      * @param path The path of the file to be downloaded.
      * @return The ResponseEntity with the file contents and appropriate headers.
      */
+    @Operation(summary = "Download a file by path")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "File downloaded successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)),
+            @ApiResponse(responseCode = "404", description = "File not found")
+    })
     @GetMapping("/download")
     public ResponseEntity<Object> fileDownload(String path) {
         log.info("Received request downloading file with path : {}", path);
@@ -58,6 +69,10 @@ public class FileController {
      * @param files List of business idea's files
      * @return List<FileInfoDto> Detailed information about saved files
      */
+    @Operation(summary = "Upload multiple files")
+    @ApiResponse(responseCode = "200", description = "Files uploaded successfully",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = FileInfoDto.class)))
     @PostMapping("/upload/batch")
     public ResponseEntity<List<FileInfoDto>> fileUploadBatch(@RequestBody List<MultipartFile> files) {
         log.info("[FileController] starts endpoint fileUploadBatch");
@@ -73,6 +88,8 @@ public class FileController {
      * @param fileId the unique identifier of the file to be deleted.
      * @return ResponseEntity with an empty body and status 200 (OK) if the deletion is successful.
      */
+    @Operation(summary = "Delete a file by ID")
+    @ApiResponse(responseCode = "200", description = "File deleted successfully")
     @DeleteMapping("/{fileId}")
     public ResponseEntity<Void> deleteFile(@PathVariable UUID fileId) {
         fileFacade.deleteFileById(fileId);
@@ -87,6 +104,8 @@ public class FileController {
      * @param request The request containing a list of file IDs to be deleted.
      * @return A ResponseEntity with status code 200 (OK) if the files are successfully deleted.
      */
+    @Operation(summary = "Delete multiple files by IDs")
+    @ApiResponse(responseCode = "200", description = "Files deleted successfully")
     @DeleteMapping
     public ResponseEntity<Void> deleteFiles(@RequestBody DeleteFileRequest request) {
         fileFacade.addFilesToDelete(request.getFilesId());
@@ -99,6 +118,10 @@ public class FileController {
      * @param file the file to be uploaded
      * @return a ResponseEntity containing the information of the saved file
      */
+    @Operation(summary = "Upload a file")
+    @ApiResponse(responseCode = "200", description = "File uploaded successfully",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = FileInfoDto.class)))
     @PostMapping("/upload")
     public ResponseEntity<FileInfoDto> fileUpload(@RequestPart(value = "file") MultipartFile file) {
         log.info("[FileController] starts endpoint fileUpload");

@@ -77,5 +77,21 @@ services:
       DB_PASSWORD: postgres
     restart: always
 
+  user-details-service:
+    image: qaaaaisar04/user-details-service
+    container_name: user-details-service
+    depends_on:
+      - database
+      - storage-service
+    ports:
+      - "8728:8728"
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: cupid-meet
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    restart: always
+
 volumes:
   minio_data:

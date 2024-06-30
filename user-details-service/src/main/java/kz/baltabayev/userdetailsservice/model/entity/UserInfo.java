@@ -3,10 +3,7 @@ package kz.baltabayev.userdetailsservice.model.entity;
 import jakarta.persistence.*;
 import kz.baltabayev.userdetailsservice.model.types.Gender;
 import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +19,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_infos", schema = "user_detail")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"files", "user"})
+@ToString(callSuper = true, exclude = {"files", "user"})
 public class UserInfo extends BaseEntity {
 
     /**
@@ -68,13 +66,13 @@ public class UserInfo extends BaseEntity {
     /**
      * The set of file attachments associated with this user information.
      */
-    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Set<FileAttachment> files = new HashSet<>();
 
     /**
      * The user entity associated with this user information.
      */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

@@ -2,10 +2,7 @@ package kz.baltabayev.userdetailsservice.model.entity;
 
 import jakarta.persistence.*;
 import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -19,7 +16,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_preferences", schema = "user_detail")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = "user")
+@ToString(callSuper = true, exclude = "user")
 public class UserPreference extends BaseEntity {
 
     /**
@@ -49,7 +47,7 @@ public class UserPreference extends BaseEntity {
     /**
      * The user entity associated with this user preference.
      */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

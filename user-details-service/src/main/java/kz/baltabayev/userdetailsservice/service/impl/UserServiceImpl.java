@@ -2,15 +2,18 @@ package kz.baltabayev.userdetailsservice.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
+import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.types.Status;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User get(Long id) {
         return getById(id);
     }

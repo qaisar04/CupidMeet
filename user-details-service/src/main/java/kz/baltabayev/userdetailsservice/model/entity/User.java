@@ -1,11 +1,10 @@
 package kz.baltabayev.userdetailsservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import kz.baltabayev.userdetailsservice.model.types.Status;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Represents a user entity in the system.
@@ -18,7 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users", schema = "user_detail")
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"userPreference", "userInfo"})
+@ToString(callSuper = true, exclude = {"userPreference", "userInfo"})
 public class User extends BaseEntity {
 
     /**
@@ -41,13 +41,13 @@ public class User extends BaseEntity {
     /**
      * The user's preferences, represented by the {@link UserPreference} entity.
      */
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.MERGE)
     private UserPreference userPreference;
 
     /**
      * The user's additional information, represented by the {@link UserInfo} entity.
      */
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.MERGE)
     private UserInfo userInfo;
 
     /**

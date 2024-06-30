@@ -11,10 +11,9 @@ public interface FeedbackService {
      * Creates a user's feedback.
      *
      * @param entity The feedback entity mapped from dto in FeedbackController.
-     * @return The original feedback entity.
      * @throws  ru.polskiy.feedbackservice.exception.CreateFeedbackException with bad request status
      */
-    Feedback createFeedback(Feedback entity);
+    void createFeedback(Feedback entity);
 
     /**
      * Retrieves all feedbacks.
@@ -22,4 +21,12 @@ public interface FeedbackService {
      * @return A list of all feedback entities.
      */
     List<Feedback> findAllFeedbacks();
+
+    /**
+     * Updating existed feedback
+     *
+     * @param feedback entity that patches.
+     * @return patched entity
+     */
+    Feedback patchFeedback(Feedback feedback);
 }

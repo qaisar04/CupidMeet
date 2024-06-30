@@ -20,13 +20,16 @@ public class ComplaintServiceImpl implements ComplaintService {
 
     @Transactional
     @Override
-    public Complaint createComplaint(Complaint entity) {
+    public void createComplaint(Complaint entity) {
         if (complaintRepository.findByFromUserIdAndToUserId(entity.getFromUserId(), entity.getToUserId()) != null) {
             throw new ComplaintToThisUserAlreadyExistException(entity.toString());
         }
-        return Optional.of(entity)
-                .map(complaintRepository::save)
-                .orElseThrow(() -> new CreateComplaintException(entity.toString()));
+        try {
+            complaintRepository.save(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CreateComplaintException(entity.toString());
+        }
     }
 
     @Override

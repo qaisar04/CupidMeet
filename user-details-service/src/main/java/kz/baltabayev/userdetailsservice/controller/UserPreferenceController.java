@@ -1,5 +1,8 @@
 package kz.baltabayev.userdetailsservice.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +15,18 @@ public class UserPreferenceController {
 
     private final UserPreferenceService userPreferenceService;
 
-    @PostMapping("{userId}/create")
+    /**
+     * Endpoint for creating a new user preference.
+     * @param gender The gender preference of the user.
+     * @param userId The ID of the user for whom the preference is being created.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
+    @Operation(summary = "Create user preference")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User preference created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    @PostMapping("{userId}")
     public ResponseEntity<Void> create(
             @RequestParam("gender") String gender,
             @PathVariable("userId") Long userId
@@ -21,6 +35,20 @@ public class UserPreferenceController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Endpoint for updating a user's preference.
+     * @param userId The ID of the user whose preference is being updated.
+     * @param gender The updated gender preference of the user.
+     * @param minAge The updated minimum age preference of the user.
+     * @param maxAge The updated maximum age preference of the user.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
+    @Operation(summary = "Update user preference")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User preference updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input"),
+            @ApiResponse(responseCode = "404", description = "User preference not found")
+    })
     @PatchMapping("{userId}/update")
     public ResponseEntity<Void> update(
             @PathVariable("userId") Long userId,

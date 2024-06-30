@@ -1,5 +1,6 @@
 package kz.baltabayev.userdetailsservice.repository;
 
+import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,4 +29,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, UUID> {
             String name, Integer age, String city, String gender,
             String personalityType, String bio, Long userId
     );
+
+    boolean existsByUserId(Long userId);
 }

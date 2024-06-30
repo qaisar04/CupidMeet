@@ -1,5 +1,6 @@
 package kz.baltabayev.userdetailsservice.controller;
 
+import jakarta.validation.Valid;
 import kz.baltabayev.userdetailsservice.mapper.FileAttachmentMapper;
 import kz.baltabayev.userdetailsservice.mapper.UserInfoMapper;
 import kz.baltabayev.userdetailsservice.model.dto.FileAttachmentRequest;
@@ -26,7 +27,7 @@ public class UserInfoController {
 
     @PostMapping("{userId}/create")
     public ResponseEntity<Void> create(
-            @RequestBody UserInfoRequest request,
+            @Valid @RequestBody UserInfoRequest request,
             @PathVariable("userId") Long userId
     ) {
         UserInfo userInfo = userInfoMapper.toEntity(request);
@@ -34,15 +35,20 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping
-    public ResponseEntity<Void> addAttachment(Long userId, FileAttachmentRequest request) {
+    //todo: endpoint for update
+
+    @PostMapping("{userId}/attachments")
+    public ResponseEntity<Void> addAttachment(
+            @PathVariable Long userId,
+            @RequestBody FileAttachmentRequest request
+    ) {
         FileAttachment fileAttachment = fileAttachmentMapper.toEntity(request);
         fileAttachmentService.addAttachment(userId, fileAttachment);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("attachments/{attachmentId}")
-    public ResponseEntity<Void> deleteAvatar(
+    public ResponseEntity<Void> removeAttachment(
             @PathVariable UUID attachmentId
     ) {
         fileAttachmentService.removeAttachment(attachmentId);

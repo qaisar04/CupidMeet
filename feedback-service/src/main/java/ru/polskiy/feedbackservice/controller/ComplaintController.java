@@ -1,18 +1,15 @@
 package ru.polskiy.feedbackservice.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.polskiy.feedbackservice.dto.ComplaintCreate;
-import ru.polskiy.feedbackservice.dto.ComplaintRequest;
-import ru.polskiy.feedbackservice.exception.CreateComplaintException;
+import ru.polskiy.feedbackservice.dto.ComplaintCreateRequest;
+import ru.polskiy.feedbackservice.dto.ComplaintResponse;
 import ru.polskiy.feedbackservice.mapper.ComplaintMapper;
 import ru.polskiy.feedbackservice.service.ComplaintService;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Controller for managing complaints via REST API.
@@ -29,29 +26,28 @@ public class ComplaintController {
     /**
      * Retrieves a list of all complaints.
      *
-     * @return A list of {@link ComplaintCreate} representing all complaints.
+     * @return A ResponseEntity containing a list of {@link ComplaintResponse} representing all complaints.
      */
     @GetMapping("/all")
-    public ResponseEntity<List<ComplaintCreate>> findComplaints(
-    ) {
+    public ResponseEntity<List<ComplaintResponse>> findComplaints() {
         return ResponseEntity.ok(
-                complaintService.findAllComplaints().stream()
-                .map(complaintMapper::toDto)
-                .toList());
+                complaintService.findAllComplaints()
+                        .stream()
+                        .map(complaintMapper::toResponse)
+                        .toList());
     }
 
     /**
      * Creates a new complaint.
      *
-     * @param dto    The DTO containing the necessary information for creating a complaint.
-     * @return The created complaint as a {@link ComplaintCreate} object. Returns null if the creation fails.
+     * @param dto The DTO containing the necessary information for creating a complaint.
+     * @return A ResponseEntity with HTTP status 200 (OK) if the creation is successful.
      */
     @PostMapping("/create")
     public ResponseEntity<Void> complaintCreate(
-            @RequestBody ComplaintRequest dto
+            @Valid @RequestBody ComplaintCreateRequest dto
     ) {
-        ComplaintCreate complaintCreate = new ComplaintCreate(dto.userId(), dto.toUserId(), dto.comment(), null, dto.type());
-        complaintService.createComplaint(complaintMapper.toEntity(complaintCreate));
+        complaintService.createComplaint(complaintMapper.toEntity(dto));
         return ResponseEntity.ok().build();
     }
 }

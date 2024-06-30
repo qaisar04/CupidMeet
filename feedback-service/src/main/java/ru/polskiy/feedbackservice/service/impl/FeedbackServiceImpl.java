@@ -1,7 +1,6 @@
 package ru.polskiy.feedbackservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.polskiy.feedbackservice.exception.*;
@@ -21,21 +20,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Transactional
     @Override
     public void createFeedback(Feedback entity) {
-        if (feedbackRepository.exists(Example.of(entity))
-        ) {
-            throw new ThisFeedbackAlreadyExistException(entity.toString());
+        if (feedbackRepository.existsByUserId(entity.getUserId())) {
+            throw new ThisFeedbackAlreadyExistException(entity);
         }
-        if (entity.getGrade() < 1 || entity.getGrade() > 5) {
-            throw new GradeOutOfBoundsException(entity.getGrade().toString());
-        }
-        try {
-            feedbackRepository.save(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CreateFeedbackException(entity.toString());
-        }
-
-
+        feedbackRepository.save(entity);
     }
 
     @Override
@@ -45,18 +33,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Transactional
     @Override
-    public Feedback patchFeedback(Feedback feedback) {
-        Optional<Feedback> dbFeedback = Optional.ofNullable(feedbackRepository.findByUserId(feedback.getUserId()));
-        if (dbFeedback.isEmpty()) {
+    public void updateFeedback(Feedback feedback) {
+        if (!feedbackRepository.existsByUserId(feedback.getUserId())) {
             throw new NoSuchFeedbackException(feedback.toString());
         }
-        Feedback feedbackToPatch = dbFeedback.get();
-        return Optional.of(feedbackToPatch)
-                .map(IT -> {
-                    IT.setComment(feedback.getComment());
-                    return IT;
-                })
-                .map(feedbackRepository::save)
-                .orElseThrow(() -> new CreateFeedbackException(feedback.toString()));
+        Feedback feedbackToUpdate = feedbackRepository.findByUserId(feedback.getUserId());
+        feedbackRepository.updateFeedback(feedback.getComment(),feedback.getGrade(),feedbackToUpdate.getId());
     }
 }

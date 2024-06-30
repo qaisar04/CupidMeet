@@ -26,8 +26,6 @@ public class Feedback extends BaseEntity {
     /**
      * Grade provided by the user, must be between 1 and 5.
      */
-    @Min(value = 1, message = "Grade must be at least 1")
-    @Max(value = 5, message = "Grade must be at most 5")
     private Byte grade;
 
     /**

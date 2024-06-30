@@ -2,7 +2,6 @@ package ru.polskiy.feedbackservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.polskiy.feedbackservice.model.type.ComplaintType;

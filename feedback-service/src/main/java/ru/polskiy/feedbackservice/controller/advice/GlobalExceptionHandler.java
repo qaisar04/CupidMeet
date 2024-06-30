@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
      * @param exception The exception thrown during the creation of an entity.
      * @return A {@link ProblemDetail} object with HTTP status 400 (Bad Request) and the exception message.
      */
-    @ExceptionHandler({CreateComplaintException.class, CreateFeedbackException.class, GradeOutOfBoundsException.class})
+    @ExceptionHandler({CreateComplaintException.class, UpdateFeedbackException.class})
     ProblemDetail handleCreateEntityException(RuntimeException exception) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
     }

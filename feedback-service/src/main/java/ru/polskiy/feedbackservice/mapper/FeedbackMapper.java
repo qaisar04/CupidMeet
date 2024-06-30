@@ -1,8 +1,9 @@
 package ru.polskiy.feedbackservice.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import ru.polskiy.feedbackservice.dto.FeedbackCreate;
+import ru.polskiy.feedbackservice.dto.FeedbackCreateRequest;
+//import ru.polskiy.feedbackservice.dto.FeedbackRequest;
+import ru.polskiy.feedbackservice.dto.FeedbackResponse;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
 
 /**
@@ -12,20 +13,13 @@ import ru.polskiy.feedbackservice.model.entity.Feedback;
 public interface FeedbackMapper {
 
     /**
-     * Converts Feedback entity to FeedbackCreateDTO.
-     *
-     * @param feedback Feedback entity to convert.
-     * @return FeedbackCreateDTO representing the entity.
-     */
-    FeedbackCreate toDto(Feedback feedback);
-
-    /**
      * Converts FeedbackCreateDTO to Feedback entity.
      * Ignores the "id" field during conversion.
      *
      * @param dto FeedbackCreateDTO to convert.
      * @return Feedback entity.
      */
-//    @Mapping(target = "id", ignore = true)
-    Feedback toEntity(FeedbackCreate dto);
+    Feedback toEntity(FeedbackCreateRequest dto);
+
+    FeedbackResponse toResponse(Feedback feedback);
 }

@@ -6,12 +6,11 @@ spring:
     change-log: db/changelog/db.changelog-master.xml
     liquibase-schema: develop
     default-schema: feedback
-
   datasource:
-    url: jdbc:postgresql://localhost:5433/cupid-meet
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:cupid-meet}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
   jpa:
     hibernate:
       ddl-auto: validate

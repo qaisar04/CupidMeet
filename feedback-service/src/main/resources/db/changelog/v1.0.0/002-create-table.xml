@@ -10,10 +10,10 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="from_user_id" type="BIGINT">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="to_user_id" type="BIGINT">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="comment" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -27,13 +27,7 @@
             <column name="created_at" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="updated_at" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_by" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

@@ -16,5 +16,5 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
      * @param toUserId   The ID of the user who is the subject of the complaint.
      * @return The {@link Complaint} entity if found, otherwise null.
      */
-    Complaint findByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
+    Boolean existsByFromUserIdAndToUserId(Long fromUserId, Long toUserId);
 }

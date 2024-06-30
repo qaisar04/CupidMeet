@@ -1,15 +1,15 @@
 package ru.polskiy.feedbackservice.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.polskiy.feedbackservice.dto.FeedbackCreate;
-import ru.polskiy.feedbackservice.dto.FeedbackRequest;
+import ru.polskiy.feedbackservice.dto.FeedbackCreateRequest;
+import ru.polskiy.feedbackservice.dto.FeedbackResponse;
 import ru.polskiy.feedbackservice.mapper.FeedbackMapper;
 import ru.polskiy.feedbackservice.service.FeedbackService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Controller for managing feedback with REST API.
@@ -26,47 +26,42 @@ public class FeedbackController {
     /**
      * Retrieves a list of all feedbacks.
      *
-     * @return A ResponseEntity containing a list of {@link FeedbackCreate} representing all feedbacks.
+     * @return A ResponseEntity containing a list of {@link FeedbackResponse} representing all feedbacks.
      */
     @GetMapping("/all")
-    public ResponseEntity<List<FeedbackCreate>> findFeedbacks() {
+    public ResponseEntity<List<FeedbackResponse>> findFeedbacks() {
         return ResponseEntity.ok(
                 feedbackService.findAllFeedbacks()
                         .stream()
-                        .map(feedbackMapper::toDto)
+                        .map(feedbackMapper::toResponse)
                         .toList());
     }
 
     /**
      * Creates a new feedback.
      *
-     * @param feedbackRequest The request body containing the necessary information for creating feedback.
+     * @param createDto The request body containing the necessary information for creating feedback.
      * @return A ResponseEntity with HTTP status 200 (OK) if the creation is successful.
      */
     @PostMapping("/create")
     public ResponseEntity<Void> feedbackCreate(
-            @RequestBody FeedbackRequest feedbackRequest
+            @Valid @RequestBody FeedbackCreateRequest createDto
     ) {
-        FeedbackCreate dto = new FeedbackCreate(feedbackRequest.userId(),
-                feedbackRequest.comment(), feedbackRequest.grade());
-        feedbackService.createFeedback(feedbackMapper.toEntity(dto));
+        feedbackService.createFeedback(feedbackMapper.toEntity(createDto));
         return ResponseEntity.ok().build();
     }
 
     /**
      * Updates an existing feedback.
      *
-     * @param feedbackRequest The request body containing updated feedback data.
-     * @return A ResponseEntity containing the updated {@link FeedbackCreate} object.
+     * @param createDto The request body containing updated feedback data.
+     * @return A ResponseEntity with HTTP status 200 (OK) if the update is successful.
      */
-    @PatchMapping("/redact")
-    public ResponseEntity<FeedbackCreate> patchFeedback(@RequestBody FeedbackRequest feedbackRequest) {
-        return Optional.of(new FeedbackCreate(feedbackRequest.userId(),
-                        feedbackRequest.comment(), feedbackRequest.grade()))
-                .map(feedbackMapper::toEntity)
-                .map(feedbackService::patchFeedback)
-                .map(feedbackMapper::toDto)
-                .map(ResponseEntity::ok)
-                .orElse(null);
+    @PatchMapping("/update")
+    public ResponseEntity<Void> updateFeedback(@Valid @RequestBody FeedbackCreateRequest createDto) {
+        feedbackService.updateFeedback(feedbackMapper.toEntity(createDto));
+        return ResponseEntity.ok().build();
+        //TODO may be change @RequestBody FeedbackCreateRequest to FeedbackResponse,
+        // because we need only comment and grade in fact to update this entity
     }
 }

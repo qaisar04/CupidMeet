@@ -4,13 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.polskiy.feedbackservice.exception.ComplaintToThisUserAlreadyExistException;
-import ru.polskiy.feedbackservice.exception.CreateComplaintException;
 import ru.polskiy.feedbackservice.model.entity.Complaint;
 import ru.polskiy.feedbackservice.model.repository.ComplaintRepository;
 import ru.polskiy.feedbackservice.service.ComplaintService;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,15 +20,13 @@ public class ComplaintServiceImpl implements ComplaintService {
     @Transactional
     @Override
     public void createComplaint(Complaint entity) {
-        if (complaintRepository.findByFromUserIdAndToUserId(entity.getFromUserId(), entity.getToUserId()) != null) {
+        if (complaintRepository.existsByFromUserIdAndToUserId(entity.getFromUserId(), entity.getToUserId())) {
             throw new ComplaintToThisUserAlreadyExistException(entity.toString());
         }
-        try {
-            complaintRepository.save(entity);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CreateComplaintException(entity.toString());
+        if(Objects.equals(entity.getFromUserId(), entity.getToUserId())){
+            throw new RuntimeException("Complaint can't be sent to yourself");
         }
+        complaintRepository.save(entity);
     }
 
     @Override

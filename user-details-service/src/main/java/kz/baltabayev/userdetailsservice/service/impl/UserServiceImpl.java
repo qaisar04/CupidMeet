@@ -2,18 +2,13 @@ package kz.baltabayev.userdetailsservice.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
-import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.types.Status;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -30,15 +25,16 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsById(id)) {
             throw new EntityAlreadyExistsException(USER_ALREADY_EXISTS_MESSAGE + id);
         }
-        userRepository.insertUser(id, username, LocalDateTime.now()); // updated_at
+        userRepository.insertUser(id, username);
     }
 
     @Override
     @Transactional
     public void deactivate(Long id) {
-        User user = getById(id);
-        user.setStatus(Status.INACTIVE);
-        userRepository.save(user); //todo: improve it by querying the repository :)
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException(NOT_FOUND_USER_MESSAGE + id);
+        }
+        userRepository.updateUserStatus(id, Status.INACTIVE);
     }
 
     @Override

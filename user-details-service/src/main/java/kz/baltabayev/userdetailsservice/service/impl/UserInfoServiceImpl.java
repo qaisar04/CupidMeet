@@ -5,6 +5,8 @@ import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.model.types.Gender;
+import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import kz.baltabayev.userdetailsservice.service.UserService;
@@ -40,6 +42,6 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (!userInfoRepository.existsByUserId(userId)) {
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
         }
-        userInfoRepository.updateUserInfoByUserId(userInfo.name(), userInfo.age(), userInfo.city(), userInfo.gender(), userInfo.personalityType(), userInfo.bio(), userId);
+        userInfoRepository.updateUserInfoByUserId(userInfo.name(), userInfo.age(), userInfo.city(), Gender.valueOf(userInfo.gender()), PersonalityType.valueOf(userInfo.personalityType()), userInfo.bio(), userId);
     }
 }

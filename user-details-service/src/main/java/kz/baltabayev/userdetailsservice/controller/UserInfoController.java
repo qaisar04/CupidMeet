@@ -37,7 +37,7 @@ public class UserInfoController {
 
     @PostMapping("{userId}/update")
     public ResponseEntity<Void> update(
-            @Valid @RequestBody UserInfoRequest userInfo, // Argument [FEMALE] of type [java.lang.String] did not match parameter type [kz.baltabayev.userdetailsservice.model.types.Gender (n/a)]
+            @Valid @RequestBody UserInfoRequest userInfo,
             @PathVariable("userId") Long userId
     ) {
         userInfoService.update(userInfo, userId);

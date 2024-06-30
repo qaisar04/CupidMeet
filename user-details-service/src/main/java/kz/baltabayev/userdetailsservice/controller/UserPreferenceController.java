@@ -25,8 +25,8 @@ public class UserPreferenceController {
     public ResponseEntity<Void> update(
             @PathVariable("userId") Long userId,
             @RequestParam("gender") String gender,
-            @RequestParam(value = "minAge") Integer minAge,
-            @RequestParam(value = "minAge") Integer maxAge
+            @RequestParam("minAge") Integer minAge,
+            @RequestParam("minAge") Integer maxAge
     ) {
         userPreferenceService.update(userId, gender, minAge, maxAge);
         return ResponseEntity.ok().build();

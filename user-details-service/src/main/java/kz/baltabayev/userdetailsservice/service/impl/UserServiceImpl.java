@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsById(id)) {
             throw new EntityAlreadyExistsException(USER_ALREADY_EXISTS_MESSAGE + id);
         }
-        userRepository.insertUser(id, username, LocalDateTime.now());
+        userRepository.insertUser(id, username, LocalDateTime.now()); // updated_at
     }
 
     @Override

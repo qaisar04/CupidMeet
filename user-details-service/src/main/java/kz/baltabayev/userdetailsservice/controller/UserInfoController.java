@@ -35,7 +35,14 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    //todo: endpoint for update
+    @PostMapping("{userId}/update")
+    public ResponseEntity<Void> update(
+            @Valid @RequestBody UserInfoRequest userInfo, // Argument [FEMALE] of type [java.lang.String] did not match parameter type [kz.baltabayev.userdetailsservice.model.types.Gender (n/a)]
+            @PathVariable("userId") Long userId
+    ) {
+        userInfoService.update(userInfo, userId);
+        return ResponseEntity.ok().build();
+    }
 
     @PostMapping("{userId}/attachments")
     public ResponseEntity<Void> addAttachment(

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -16,6 +17,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "INSERT INTO user_detail.users (id, username, created_at, status) VALUES (:id, :username, :createdAt, 'ACTIVE')", nativeQuery = true)
     void insertUser(Long id, String username, LocalDateTime createdAt);
-
-    boolean existsById(Long id);
 }

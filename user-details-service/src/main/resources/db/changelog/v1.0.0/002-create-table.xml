@@ -37,7 +37,7 @@
             <column name="user_info_id" type="uuid" remarks="unique identifier for the userInfo">
                 <constraints nullable="false"/>
             </column>
-            <column name="file_name" type="uuid" remarks="file descriptive name">
+            <column name="name" type="varchar(64)" remarks="file descriptive name">
                 <constraints nullable="false"/>
             </column>
             <column name="content_type" type="varchar(64)" remarks="file content type">

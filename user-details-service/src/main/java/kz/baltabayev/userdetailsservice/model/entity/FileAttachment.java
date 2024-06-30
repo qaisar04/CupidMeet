@@ -1,5 +1,7 @@
 package kz.baltabayev.userdetailsservice.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,10 +33,15 @@ public class FileAttachment extends BaseEntity {
     private UUID id;
 
     /**
+     * The unique identifier of the file associated with the attachment.
+     */
+    @Column(name = "file_id")
+    private UUID fileId;
+
+    /**
      * The name of the file.
      */
-    @Column(name = "file_name")
-    private UUID fileName;
+    private String name;
 
     /**
      * The content type of the file attachment.
@@ -51,7 +58,6 @@ public class FileAttachment extends BaseEntity {
      * The user information to which this file attachment belongs.
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
 
     /**

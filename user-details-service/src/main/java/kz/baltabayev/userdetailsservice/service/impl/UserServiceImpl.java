@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
     public static final String NOT_FOUND_USER_MESSAGE = "Not found user with id: ";
     public static final String USER_ALREADY_EXISTS_MESSAGE = "User already exists with id: ";
 

@@ -2,6 +2,7 @@ package kz.baltabayev.userdetailsservice.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
+import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
@@ -35,10 +36,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     @Transactional
-    public void update(String name, Integer age, String city, String gender, String personalityType, String bio, Long userId) {
+    public void update(UserInfoRequest userInfo, Long userId) {
         if (!userInfoRepository.existsByUserId(userId)) {
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
         }
-        userInfoRepository.updateUserInfoByUserId(name, age, city, gender, personalityType, bio, userId);
+        userInfoRepository.updateUserInfoByUserId(userInfo.name(), userInfo.age(), userInfo.city(), userInfo.gender(), userInfo.personalityType(), userInfo.bio(), userId);
     }
 }

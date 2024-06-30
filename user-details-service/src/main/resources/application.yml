@@ -11,7 +11,7 @@ spring:
     default-schema: user_detail
     liquibase-schema: develop
     change-log: db/changelog/changelog.xml
-    drop-first: true
+    drop-first: false
   jpa:
     hibernate:
       ddl-auto: validate

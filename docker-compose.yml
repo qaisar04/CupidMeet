@@ -67,9 +67,15 @@ services:
       - minio-config
       - database
     ports:
-      - "8084:8080"
+      - "8084:8084"
+    environment:
+      S3_ENDPOINT: http://minio:9000
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: cupid-meet
+      DB_USER: postgres
+      DB_PASSWORD: postgres
     restart: always
-
 
 volumes:
   minio_data:

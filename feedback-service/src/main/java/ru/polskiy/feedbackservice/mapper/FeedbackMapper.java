@@ -3,7 +3,7 @@ package ru.polskiy.feedbackservice.mapper;
 import org.mapstruct.Mapper;
 import ru.polskiy.feedbackservice.dto.FeedbackCreateRequest;
 //import ru.polskiy.feedbackservice.dto.FeedbackRequest;
-import ru.polskiy.feedbackservice.dto.FeedbackResponse;
+import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
 
 /**
@@ -21,5 +21,5 @@ public interface FeedbackMapper {
      */
     Feedback toEntity(FeedbackCreateRequest dto);
 
-    FeedbackResponse toResponse(Feedback feedback);
+    FeedbackRequestResponse toResponse(Feedback feedback);
 }

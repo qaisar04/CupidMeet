@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.polskiy.feedbackservice.dto.FeedbackCreateRequest;
-import ru.polskiy.feedbackservice.dto.FeedbackResponse;
+import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
 import ru.polskiy.feedbackservice.mapper.FeedbackMapper;
 import ru.polskiy.feedbackservice.service.FeedbackService;
 
@@ -26,10 +26,10 @@ public class FeedbackController {
     /**
      * Retrieves a list of all feedbacks.
      *
-     * @return A ResponseEntity containing a list of {@link FeedbackResponse} representing all feedbacks.
+     * @return A ResponseEntity containing a list of {@link FeedbackRequestResponse} representing all feedbacks.
      */
     @GetMapping("/all")
-    public ResponseEntity<List<FeedbackResponse>> findFeedbacks() {
+    public ResponseEntity<List<FeedbackRequestResponse>> findFeedbacks() {
         return ResponseEntity.ok(
                 feedbackService.findAllFeedbacks()
                         .stream()
@@ -52,16 +52,22 @@ public class FeedbackController {
     }
 
     /**
-     * Updates an existing feedback.
+     * Updates the feedback for the specified user.
      *
-     * @param createDto The request body containing updated feedback data.
-     * @return A ResponseEntity with HTTP status 200 (OK) if the update is successful.
+     * This method handles PATCH requests to update the comment and grade of a feedback entry
+     * for the user with the given ID. It utilizes the FeedbackRequestResponse object to obtain
+     * the new comment and grade values.
+     *
+     * @param id The ID of the user whose feedback is to be updated
+     * @param request The FeedbackRequestResponse object containing the new comment and grade
+     * @return A ResponseEntity with a status of 200 (OK) if the update is successful
      */
-    @PatchMapping("/update")
-    public ResponseEntity<Void> updateFeedback(@Valid @RequestBody FeedbackCreateRequest createDto) {
-        feedbackService.updateFeedback(feedbackMapper.toEntity(createDto));
+    @PatchMapping("/update/{userId}")
+    public ResponseEntity<Void> updateFeedback(
+            @PathVariable("userId") Long id,
+            @Valid @RequestBody FeedbackRequestResponse request
+    ) {
+        feedbackService.updateFeedback(id, request.comment(), request.grade());
         return ResponseEntity.ok().build();
-        //TODO may be change @RequestBody FeedbackCreateRequest to FeedbackResponse,
-        // because we need only comment and grade in fact to update this entity
     }
 }

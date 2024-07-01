@@ -1,5 +1,6 @@
 package ru.polskiy.feedbackservice.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,13 +10,14 @@ import ru.polskiy.feedbackservice.model.repository.FeedbackRepository;
 import ru.polskiy.feedbackservice.service.FeedbackService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
+
+    public static final String NOT_FOUND_MESSAGE = "Not found feedback with id: ";
 
     @Transactional
     @Override
@@ -33,11 +35,10 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Transactional
     @Override
-    public void updateFeedback(Feedback feedback) {
-        if (!feedbackRepository.existsByUserId(feedback.getUserId())) {
-            throw new NoSuchFeedbackException(feedback.toString());
+    public void updateFeedback(Long Id, String comment, Byte grade) {
+        if (!feedbackRepository.existsById(Id)) {
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE+Id);
         }
-        Feedback feedbackToUpdate = feedbackRepository.findByUserId(feedback.getUserId());
-        feedbackRepository.updateFeedback(feedback.getComment(),feedback.getGrade(),feedbackToUpdate.getId());
+        feedbackRepository.updateFeedback(comment,grade,Id);
     }
 }

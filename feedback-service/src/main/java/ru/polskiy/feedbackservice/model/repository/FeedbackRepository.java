@@ -27,6 +27,8 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
      */
     Boolean existsByUserId(Long userId);
 
+    boolean existsById(Long id);
+
     /**
      * Updates the comment, grade, and updatedAt fields of a Feedback entity with the specified id.
      *

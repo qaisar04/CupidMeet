@@ -1,5 +1,6 @@
 package ru.polskiy.feedbackservice.service;
 
+import ru.polskiy.feedbackservice.exception.ComplaintToThisUserAlreadyExistException;
 import ru.polskiy.feedbackservice.model.entity.Complaint;
 
 import java.util.List;
@@ -10,7 +11,8 @@ public interface ComplaintService {
      * Creates a user's complaint and sets its status to "NEW" by default.
      *
      * @param entity The complaint entity mapped in FeedbackController from dto.
-     * @throws ru.polskiy.feedbackservice.exception.CreateComplaintException with bad request status
+     * @throws ComplaintToThisUserAlreadyExistException with conflict status
+     * @throws IllegalArgumentException  with bad request status
      */
     void createComplaint(Complaint entity);
 

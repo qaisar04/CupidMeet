@@ -21,7 +21,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public void createFeedback(Feedback entity) {
         if (feedbackRepository.existsByUserId(entity.getUserId())) {
-            throw new ThisFeedbackAlreadyExistException(entity);
+            throw new ThisFeedbackAlreadyExistException(entity.toString());
         }
         feedbackRepository.save(entity);
     }

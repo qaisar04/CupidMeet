@@ -12,6 +12,6 @@ public class NoSuchFeedbackException extends RuntimeException {
      * @param message The detail message, which is appended with the information about non-existence in the database.
      */
     public NoSuchFeedbackException(String message) {
-        super("This object:" + message + " doesn't exist in database and can't be patched");
+        super("This object: %s doesn't exist in database and can't be patched".formatted(message));
     }
 }

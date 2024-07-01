@@ -24,7 +24,7 @@ public class ComplaintServiceImpl implements ComplaintService {
             throw new ComplaintToThisUserAlreadyExistException(entity.toString());
         }
         if(Objects.equals(entity.getFromUserId(), entity.getToUserId())){
-            throw new RuntimeException("Complaint can't be sent to yourself");
+            throw new IllegalArgumentException("Complaint mustn't be sent to yourself");
         }
         complaintRepository.save(entity);
     }

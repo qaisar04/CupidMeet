@@ -16,4 +16,5 @@ public class CreateComplaintException extends RuntimeException {
     public CreateComplaintException(String message) {
         super("Failed to create complaint: " + message);
     }
+    //TODO no need in this exception if others are adorable
 }

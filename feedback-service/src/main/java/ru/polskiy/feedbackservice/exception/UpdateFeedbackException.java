@@ -13,6 +13,6 @@ public class UpdateFeedbackException extends RuntimeException {
      * @param message error message, {@link Feedback} expected.
      */
     public UpdateFeedbackException(String message) {
-        super("Failed to update feedback: " + message);
+        super("Failed to update feedback: %s".formatted(message));
     }
 }

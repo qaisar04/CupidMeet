@@ -54,6 +54,19 @@ public class UserController {
     }
 
     /**
+     * Endpoint for activating a user.
+     *
+     * @param userId The ID of the user to activate.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
+    @Operation(summary = "Activate a user")
+    @PatchMapping("/{userId}/activate")
+    public ResponseEntity<Void> activate(@PathVariable Long userId) {
+        userService.activate(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * Endpoint for retrieving a user's details.
      *
      * @param userId The ID of the user to retrieve.

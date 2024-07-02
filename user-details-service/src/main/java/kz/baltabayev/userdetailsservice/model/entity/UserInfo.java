@@ -66,7 +66,7 @@ public class UserInfo extends BaseEntity {
     /**
      * The set of file attachments associated with this user information.
      */
-    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FileAttachment> files = new HashSet<>();
 
     /**

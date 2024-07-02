@@ -22,19 +22,22 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void create(Long id, String username) {
-        if (userRepository.existsById(id)) {
-            throw new EntityAlreadyExistsException(USER_ALREADY_EXISTS_MESSAGE + id);
-        }
+        checkIfUserExists(id, true);
         userRepository.insertUser(id, username);
     }
 
     @Override
     @Transactional
     public void deactivate(Long id) {
-        if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException(NOT_FOUND_USER_MESSAGE + id);
-        }
+        checkIfUserExists(id, false);
         userRepository.updateUserStatus(id, Status.INACTIVE);
+    }
+
+    @Override
+    @Transactional
+    public void activate(Long id) {
+        checkIfUserExists(id, false);
+        userRepository.updateUserStatus(id, Status.ACTIVE);
     }
 
     @Override
@@ -43,8 +46,24 @@ public class UserServiceImpl implements UserService {
         return getById(id);
     }
 
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        User user = getById(id);
+        userRepository.delete(user);
+    }
+
     private User getById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_USER_MESSAGE + userId));
+    }
+
+    private void checkIfUserExists(Long id, boolean shouldNotExist) {
+        boolean exists = userRepository.existsById(id);
+        if (shouldNotExist && exists) {
+            throw new EntityAlreadyExistsException(USER_ALREADY_EXISTS_MESSAGE + id);
+        } else if (!shouldNotExist && !exists) {
+            throw new EntityNotFoundException(NOT_FOUND_USER_MESSAGE + id);
+        }
     }
 }

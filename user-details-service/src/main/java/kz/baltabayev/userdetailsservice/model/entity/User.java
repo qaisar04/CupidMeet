@@ -41,13 +41,13 @@ public class User extends BaseEntity {
     /**
      * The user's preferences, represented by the {@link UserPreference} entity.
      */
-    @OneToOne(mappedBy = "user", cascade = CascadeType.MERGE)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserPreference userPreference;
 
     /**
      * The user's additional information, represented by the {@link UserInfo} entity.
      */
-    @OneToOne(mappedBy = "user", cascade = CascadeType.MERGE)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserInfo userInfo;
 
     /**

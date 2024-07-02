@@ -22,9 +22,17 @@ public interface UserService {
     void deactivate(Long id);
 
     /**
+     * Activates an existing user.
+     * @param id The ID of the user.
+     */
+    void activate(Long id);
+
+    /**
      * Retrieves a user by their ID.
      * @param id The ID of the user.
      * @return The user with the given ID.
      */
     User get(Long id);
+
+    void delete(Long id);
 }

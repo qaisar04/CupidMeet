@@ -66,6 +66,18 @@ public class UserPreferenceController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Endpoint for retrieving matching users based on user preferences.
+     *
+     * @param userId The ID of the user for whom the matches are being searched.
+     * @param userIds Optional set of user IDs to be excluded from the search.
+     * @return A ResponseEntity containing a list of matching users.
+     */
+    @Operation(summary = "Get matching users based on preferences")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Matching users retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("{userId}/users")
     public ResponseEntity<List<UserMatchResponse>> getMatchingUsers(@PathVariable Long userId, @RequestParam(required = false) Set<Long> userIds) {
         return ResponseEntity.ok(userPreferenceService.findMatchingUsers(userId, userIds));

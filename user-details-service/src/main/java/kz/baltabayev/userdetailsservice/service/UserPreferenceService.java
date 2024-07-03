@@ -1,5 +1,10 @@
 package kz.baltabayev.userdetailsservice.service;
 
+import kz.baltabayev.userdetailsservice.model.dto.UserMatchResponse;
+
+import java.util.List;
+import java.util.Set;
+
 /**
  * UserPreferenceService interface.
  * This interface provides methods to manage user preferences.
@@ -21,4 +26,6 @@ public interface UserPreferenceService {
      * @param minAge The minimum age preference of the user.
      */
     void update(Long userId, String gender, Integer maxAge, Integer minAge);
+
+    List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds);
 }

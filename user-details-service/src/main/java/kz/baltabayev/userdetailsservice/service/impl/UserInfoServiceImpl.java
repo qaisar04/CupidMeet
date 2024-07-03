@@ -42,6 +42,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (!userInfoRepository.existsByUserId(userId)) {
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
         }
-        userInfoRepository.updateUserInfoByUserId(userInfo.name(), userInfo.age(), userInfo.city(), Gender.valueOf(userInfo.gender()), PersonalityType.valueOf(userInfo.personalityType()), userInfo.bio(), userId);
+        userInfoRepository.updateUserInfoByUserId(
+                userInfo.name(), userInfo.age(), userInfo.city(), Gender.valueOf(userInfo.gender()),
+                PersonalityType.valueOf(userInfo.personalityType()), userInfo.bio(), userId
+        );
     }
 }

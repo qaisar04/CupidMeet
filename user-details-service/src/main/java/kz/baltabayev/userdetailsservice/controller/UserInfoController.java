@@ -31,7 +31,6 @@ public class UserInfoController {
     private final FileAttachmentMapper fileAttachmentMapper;
     private final FileAttachmentService fileAttachmentService;
 
-
     /**
      * Endpoint for creating a new user information.
      * @param request The request body containing the user information details.

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller class for handling administrative operations related to users.
+ */
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
@@ -16,6 +19,12 @@ public class AdminUserController {
 
     private final UserService userService;
 
+    /**
+     * Deletes a user by the provided user ID.
+     *
+     * @param userId The ID of the user to delete
+     * @return ResponseEntity indicating success or failure of the deletion operation
+     */
     @Operation(summary = "Delete a user")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable Long userId) {

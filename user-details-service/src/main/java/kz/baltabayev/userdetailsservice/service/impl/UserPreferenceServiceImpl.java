@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of {@link UserPreferenceService} providing operations related to user preferences.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserPreferenceServiceImpl implements UserPreferenceService {
@@ -31,6 +34,13 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     public static final String NOT_FOUND_MESSAGE = "Not found userPreference for the user with id: ";
     public static final String ALREADY_EXISTS_MESSAGE = "UserPreference already exists for user with id: ";
 
+    /**
+     * Creates a new user preference for the specified user.
+     *
+     * @param userId the ID of the user for whom the preference is created
+     * @param gender the preferred gender as a string
+     * @throws EntityAlreadyExistsException if a user preference already exists for the specified user
+     */
     @Override
     public void create(Long userId, String gender) {
         if (userPreferenceRepository.existsByUserId(userId)) {
@@ -44,6 +54,14 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         userPreferenceRepository.save(userPreference);
     }
 
+    /**
+     * Updates the user preference for the specified user.
+     *
+     * @param userId    the ID of the user for whom the preference is updated
+     * @param gender    the preferred gender as a string
+     * @param maxAge    the maximum age preference
+     * @param minAge    the minimum age preference
+     */
     @Override
     public void update(Long userId, String gender, Integer maxAge, Integer minAge) {
         UserPreference preference = getByIdUserId(userId);
@@ -56,6 +74,13 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         userPreferenceRepository.save(preference);
     }
 
+    /**
+     * Finds matching users based on the user's preferences.
+     *
+     * @param userId         the ID of the user for whom matching users are sought
+     * @param excludedUserIds set of user IDs to be excluded from matching
+     * @return a list of {@link UserMatchResponse} containing details of the matching users
+     */
     @Override
     public List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds) {
         User user = userService.get(userId);
@@ -80,15 +105,9 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
 
         if (remainingResults > 0) {
-            List<UserInfo> step3Results = executeQueryWithAgeVariation(excludedUserIds, preference, info);
+            List<UserInfo> step3Results = executeQuery(excludedUserIds, preference, info, false, false);
             userInfos.addAll(step3Results);
-            remainingResults = updateRemainingResults(userInfos, step3Results, remainingResults, excludedUserIds);
-        }
-
-        if (remainingResults > 0) {
-            List<UserInfo> step4Results = executeQuery(excludedUserIds, preference, info, false, false);
-            userInfos.addAll(step4Results);
-            updateRemainingResults(userInfos, step4Results, remainingResults, excludedUserIds);
+            updateRemainingResults(userInfos, step3Results, remainingResults, excludedUserIds);
         }
 
         return userInfos.stream()
@@ -105,6 +124,15 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Updates the set of matching user information and excluded user IDs based on new query results.
+     *
+     * @param userInfos          current set of user information results
+     * @param newResults         new results from the latest query execution
+     * @param remainingResults   remaining number of results needed
+     * @param excludedUserIds    set of user IDs to be excluded from matching
+     * @return updated count of remaining results needed
+     */
     private int updateRemainingResults(Set<UserInfo> userInfos, List<UserInfo> newResults, int remainingResults, Set<Long> excludedUserIds) {
         int initialSize = userInfos.size();
         userInfos.addAll(newResults);
@@ -113,6 +141,16 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         return remainingResults - (newSize - initialSize);
     }
 
+    /**
+     * Executes a query to find user information based on preferences.
+     *
+     * @param excludedUserIds      set of user IDs to be excluded from matching
+     * @param preference           user preference criteria
+     * @param info                 user information criteria
+     * @param includeCity          flag indicating whether to include city in the criteria
+     * @param includePersonalityType flag indicating whether to include personality type in the criteria
+     * @return a list of {@link UserInfo} matching the criteria
+     */
     private List<UserInfo> executeQuery(Set<Long> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<UserInfo> query = cb.createQuery(UserInfo.class);
@@ -131,6 +169,18 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         return typedQuery.setMaxResults(10).getResultList();
     }
 
+    /**
+     * Builds predicates based on the criteria for user matching.
+     *
+     * @param cb                    CriteriaBuilder instance
+     * @param root                  Root entity for the criteria query
+     * @param excludedUserIds       set of user IDs to be excluded from matching
+     * @param preference            user preference criteria
+     * @param info                  user information criteria
+     * @param includeCity           flag indicating whether to include city in the criteria
+     * @param includePersonalityType flag indicating whether to include personality type in the criteria
+     * @return a list of {@link Predicate} representing the criteria for user matching
+     */
     private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<UserInfo> root, Set<Long> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType) {
         List<Predicate> predicates = new ArrayList<>();
 
@@ -154,6 +204,15 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         return predicates;
     }
 
+    /**
+     * Constructs a gender-based predicate for querying user information based on preference criteria.
+     *
+     * @param cb             CriteriaBuilder instance to build predicates
+     * @param root           Root entity representing UserInfo for querying
+     * @param preference     UserPreference object containing preferred gender and age criteria
+     * @param info           UserInfo object representing current user's information
+     * @return Predicate representing the gender matching criteria for the query
+     */
     private Predicate getGenderPredicate(CriteriaBuilder cb, Root<UserInfo> root, UserPreference preference, UserInfo info) {
         if (preference.getPreferredGender() == PreferredGender.ANY) {
             Join<UserInfo, User> userJoin = root.join("user");
@@ -172,24 +231,13 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
     }
 
-    private List<UserInfo> executeQueryWithAgeVariation(Set<Long> excludedUserIds, UserPreference preference, UserInfo info) {
-        List<UserInfo> results = new ArrayList<>();
-        int ageVariation = 1;
-
-        while (results.size() < 10 && preference.getMinAge() - ageVariation >= 0) {
-            UserPreference ageVariedPreference = new UserPreference(
-                    preference.getPreferredGender(),
-                    preference.getMaxAge(),
-                    preference.getMinAge() - ageVariation,
-                    null
-            );
-            results.addAll(executeQuery(excludedUserIds, ageVariedPreference, info, true, false));
-            ageVariation++;
-        }
-
-        return results;
-    }
-
+    /**
+     * Retrieves the user preference by user ID.
+     *
+     * @param userId the ID of the user
+     * @return the {@link UserPreference} entity corresponding to the user ID
+     * @throws EntityNotFoundException if no user preference is found for the specified user ID
+     */
     private UserPreference getByIdUserId(Long userId) {
         return userPreferenceRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE + userId));

@@ -43,7 +43,7 @@ public class ComplaintController {
      * @param dto The DTO containing the necessary information for creating a complaint.
      * @return A ResponseEntity with HTTP status 200 (OK) if the creation is successful.
      */
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Void> complaintCreate(
             @Valid @RequestBody ComplaintCreateRequest dto
     ) {

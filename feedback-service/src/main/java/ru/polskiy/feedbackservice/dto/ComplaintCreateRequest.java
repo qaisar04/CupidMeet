@@ -21,7 +21,7 @@ public record ComplaintCreateRequest(
 
         Long toUserId,
 
-        @Size(max = 500,message = "comment must be less than 500 or equal")
+        @Size(max = 500, message = "comment must be less than 500 or equal")
         @NotNull(message = "comment mustn't be null")
         @NotBlank(message = "comment mustn't be blank")
         String comment,

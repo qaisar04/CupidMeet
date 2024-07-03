@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
+import ru.polskiy.feedbackservice.model.type.Grade;
 
 /**
  * Repository for managing Complaint entities.
@@ -27,6 +28,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
      */
     Boolean existsByUserId(Long userId);
 
+
     boolean existsById(Long id);
 
     /**
@@ -39,5 +41,5 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE Feedback u SET u.comment = :comment,u.grade= :grade, u.updatedAt = CURRENT_TIMESTAMP WHERE u.id = :id")
-    void updateFeedback(String comment, Byte grade, Long id);
+    void updateFeedback(String comment, Grade grade, Long id);
 }

@@ -6,6 +6,6 @@ package ru.polskiy.feedbackservice.exception;
 public class ComplaintToThisUserAlreadyExistException extends RuntimeException {
 
     public ComplaintToThisUserAlreadyExistException(String message) {
-        super("complaint against this user: %s \nhas already been sent".formatted(message));
+        super("complaint against this user: %s has already been sent".formatted(message));
     }
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * Base class for entities in the application, providing common fields like id, createdAt, and updatedAt.
+ *
  * @MappedSuperclass indicate that its fields should be mapped to the database
  * columns when extended by  entity classes.
  */

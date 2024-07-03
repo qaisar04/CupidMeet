@@ -1,6 +1,7 @@
 package ru.polskiy.feedbackservice.dto;
 
 import jakarta.validation.constraints.*;
+import ru.polskiy.feedbackservice.model.type.Grade;
 
 /**
  * Represents a response object for feedback.
@@ -11,7 +12,6 @@ public record FeedbackRequestResponse(
         @NotBlank(message = "comment mustn't be blank")
         String comment,
 
-        @Min(value = 1, message = "grade must be in range from 1 to 5")
-        @Max(value = 5, message = "grade must be in range from 1 to 5")
-        Byte grade) {
+        Grade grade
+) {
 }

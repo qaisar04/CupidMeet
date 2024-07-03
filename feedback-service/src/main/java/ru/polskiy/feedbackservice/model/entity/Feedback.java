@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.polskiy.feedbackservice.model.type.Grade;
 
 
 /**
@@ -26,7 +27,8 @@ public class Feedback extends BaseEntity {
     /**
      * Grade provided by the user, must be between 1 and 5.
      */
-    private Byte grade;
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
 
     /**
      * Comment provided by the user.

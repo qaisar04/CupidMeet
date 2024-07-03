@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
 import ru.polskiy.feedbackservice.exception.*;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
 import ru.polskiy.feedbackservice.model.repository.FeedbackRepository;
@@ -22,9 +23,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Transactional
     @Override
     public void createFeedback(Feedback entity) {
-        if (feedbackRepository.existsByUserId(entity.getUserId())) {
-            throw new ThisFeedbackAlreadyExistException(entity.toString());
-        }
+        checkIfFeedbackExists(entity.getUserId(), true);
         feedbackRepository.save(entity);
     }
 
@@ -35,10 +34,18 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Transactional
     @Override
-    public void updateFeedback(Long Id, String comment, Byte grade) {
-        if (!feedbackRepository.existsById(Id)) {
-            throw new EntityNotFoundException(NOT_FOUND_MESSAGE+Id);
+    public void updateFeedback(Long userId, FeedbackRequestResponse feedbackDto) {
+        checkIfFeedbackExists(userId, false);
+        feedbackRepository.updateFeedback(feedbackDto.comment(), feedbackDto.grade(), userId);
+    }
+
+    private void checkIfFeedbackExists(Long userId, boolean shouldNotExist) {
+        boolean exists = feedbackRepository.existsByUserId(userId);
+        if (shouldNotExist && exists) {
+            throw new ThisFeedbackAlreadyExistException(userId.toString());
+        } else if (!shouldNotExist && !exists) {
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
         }
-        feedbackRepository.updateFeedback(comment,grade,Id);
+
     }
 }

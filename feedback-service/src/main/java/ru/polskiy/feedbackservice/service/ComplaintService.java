@@ -12,7 +12,7 @@ public interface ComplaintService {
      *
      * @param entity The complaint entity mapped in FeedbackController from dto.
      * @throws ComplaintToThisUserAlreadyExistException with conflict status
-     * @throws IllegalArgumentException  with bad request status
+     * @throws IllegalArgumentException                 with bad request status
      */
     void createComplaint(Complaint entity);
 

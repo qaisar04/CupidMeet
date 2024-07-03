@@ -1,6 +1,7 @@
 package ru.polskiy.feedbackservice.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import ru.polskiy.feedbackservice.dto.FeedbackCreateRequest;
 //import ru.polskiy.feedbackservice.dto.FeedbackRequest;
 import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
@@ -19,6 +20,7 @@ public interface FeedbackMapper {
      * @param dto FeedbackCreateDTO to convert.
      * @return Feedback entity.
      */
+    @Mapping(target = "grade", source = "grade")
     Feedback toEntity(FeedbackCreateRequest dto);
 
     FeedbackRequestResponse toResponse(Feedback feedback);

@@ -43,7 +43,7 @@ public class FeedbackController {
      * @param createDto The request body containing the necessary information for creating feedback.
      * @return A ResponseEntity with HTTP status 200 (OK) if the creation is successful.
      */
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Void> feedbackCreate(
             @Valid @RequestBody FeedbackCreateRequest createDto
     ) {
@@ -53,21 +53,21 @@ public class FeedbackController {
 
     /**
      * Updates the feedback for the specified user.
-     *
+     * <p>
      * This method handles PATCH requests to update the comment and grade of a feedback entry
      * for the user with the given ID. It utilizes the FeedbackRequestResponse object to obtain
      * the new comment and grade values.
      *
-     * @param id The ID of the user whose feedback is to be updated
+     * @param userId  The ID of the user whose feedback is to be updated
      * @param request The FeedbackRequestResponse object containing the new comment and grade
      * @return A ResponseEntity with a status of 200 (OK) if the update is successful
      */
     @PatchMapping("/update/{userId}")
     public ResponseEntity<Void> updateFeedback(
-            @PathVariable("userId") Long id,
+            @PathVariable("userId") Long userId,
             @Valid @RequestBody FeedbackRequestResponse request
     ) {
-        feedbackService.updateFeedback(id, request.comment(), request.grade());
+        feedbackService.updateFeedback(userId, request);
         return ResponseEntity.ok().build();
     }
 }

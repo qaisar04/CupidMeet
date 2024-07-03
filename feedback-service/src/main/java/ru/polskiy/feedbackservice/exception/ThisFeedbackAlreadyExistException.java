@@ -8,6 +8,6 @@ import ru.polskiy.feedbackservice.model.entity.Feedback;
 public class ThisFeedbackAlreadyExistException extends RuntimeException {
 
     public ThisFeedbackAlreadyExistException(String message) {
-        super("The feedback: %S already exists in database".formatted(message));
+        super("The feedback with userId: %s already exists in database".formatted(message));
     }
 }

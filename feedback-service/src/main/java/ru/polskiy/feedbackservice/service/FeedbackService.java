@@ -1,5 +1,6 @@
 package ru.polskiy.feedbackservice.service;
 
+import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
 import ru.polskiy.feedbackservice.exception.ThisFeedbackAlreadyExistException;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
 
@@ -25,11 +26,10 @@ public interface FeedbackService {
     /**
      * Updates the feedback for a given user.
      *
-     * @param userId  the ID of the user whose feedback is being updated; must not be null
-     * @param comment the comment provided by the user; can be null or empty
-     * @param grade   the grade given by the user; must be between 1 and 5 inclusive
+     * @param userId      the ID of the user whose feedback is being updated; must not be null
+     * @param feedbackDto data provided by the user, for updating comment and grade
      * @throws IllegalArgumentException if userId is null
      * @throws IllegalArgumentException if grade is null or not between 1 and 5
      */
-    void updateFeedback(Long userId, String comment, Byte grade);
+    void updateFeedback(Long userId, FeedbackRequestResponse feedbackDto);
 }

@@ -19,7 +19,7 @@ public interface ComplaintMapper {
      * @param dto ComplaintCreateDTO to convert.
      * @return Complaint entity.
      */
-    @Mapping(target = "status",  defaultValue = "NEW")
+    @Mapping(target = "status", defaultValue = "NEW")
     @Mapping(target = "complaintType", source = "complaintType")
     Complaint toEntity(ComplaintCreateRequest dto);
 

@@ -17,10 +17,7 @@ import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,28 +62,31 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         UserPreference preference = user.getUserPreference();
         UserInfo info = user.getUserInfo();
 
+        if (excludedUserIds == null) {
+            excludedUserIds = new HashSet<>();
+        }
         excludedUserIds.add(userId);
 
         int remainingResults = 10;
 
-        List<UserInfo> step1Results = executeQuery(userId, excludedUserIds, preference, info, true, true);
+        List<UserInfo> step1Results = executeQuery(excludedUserIds, preference, info, true, true);
         Set<UserInfo> userInfos = new LinkedHashSet<>(step1Results);
         remainingResults = updateRemainingResults(userInfos, step1Results, remainingResults, excludedUserIds);
 
         if (remainingResults > 0) {
-            List<UserInfo> step2Results = executeQuery(userId, excludedUserIds, preference, info, false, true);
+            List<UserInfo> step2Results = executeQuery(excludedUserIds, preference, info, true, false);
             userInfos.addAll(step2Results);
             remainingResults = updateRemainingResults(userInfos, step2Results, remainingResults, excludedUserIds);
         }
 
         if (remainingResults > 0) {
-            List<UserInfo> step3Results = executeQueryWithAgeVariation(userId, excludedUserIds, preference, info);
+            List<UserInfo> step3Results = executeQueryWithAgeVariation(excludedUserIds, preference, info);
             userInfos.addAll(step3Results);
             remainingResults = updateRemainingResults(userInfos, step3Results, remainingResults, excludedUserIds);
         }
 
         if (remainingResults > 0) {
-            List<UserInfo> step4Results = executeQuery(userId, excludedUserIds, preference, info, false, false);
+            List<UserInfo> step4Results = executeQuery(excludedUserIds, preference, info, false, false);
             userInfos.addAll(step4Results);
             updateRemainingResults(userInfos, step4Results, remainingResults, excludedUserIds);
         }
@@ -113,30 +113,35 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         return remainingResults - (newSize - initialSize);
     }
 
-    private List<UserInfo> executeQuery(Long userId, Set<Long> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType) {
+    private List<UserInfo> executeQuery(Set<Long> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<UserInfo> query = cb.createQuery(UserInfo.class);
         Root<UserInfo> root = query.from(UserInfo.class);
 
-        List<Predicate> predicates = buildPredicates(cb, root, excludedUserIds, userId, preference, info, includeCity, includePersonalityType);
+        List<Predicate> predicates = buildPredicates(cb, root, excludedUserIds, preference, info, includeCity, includePersonalityType);
 
         query.select(root).where(predicates.toArray(new Predicate[0]));
+
+        query.orderBy(
+                cb.asc(cb.equal(root.get("city"), info.getCity())),
+                cb.asc(cb.equal(root.get("personalityType"), info.getPersonalityType()))
+        );
 
         TypedQuery<UserInfo> typedQuery = entityManager.createQuery(query);
         return typedQuery.setMaxResults(10).getResultList();
     }
 
-    private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<UserInfo> root, Set<Long> excludedUserIds, Long userId, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType) {
+    private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<UserInfo> root, Set<Long> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType) {
         List<Predicate> predicates = new ArrayList<>();
 
         if (excludedUserIds != null && !excludedUserIds.isEmpty()) {
-            excludedUserIds.add(userId);
             predicates.add(root.get("user").get("id").in(excludedUserIds).not());
         }
 
         if (includeCity) {
             predicates.add(cb.equal(root.get("city"), info.getCity()));
         }
+
         if (includePersonalityType) {
             predicates.add(cb.equal(root.get("personalityType"), info.getPersonalityType()));
         }
@@ -153,7 +158,10 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         if (preference.getPreferredGender() == PreferredGender.ANY) {
             Join<UserInfo, User> userJoin = root.join("user");
             Join<User, UserPreference> userPreferenceJoin = userJoin.join("userPreference");
-            return cb.equal(userPreferenceJoin.get("preferredGender"), root.get("gender"));
+            return cb.or(
+                    cb.equal(userPreferenceJoin.get("preferredGender"), info.getGender()),
+                    cb.equal(userPreferenceJoin.get("preferredGender"), PreferredGender.ANY)
+            );
         } else {
             Join<UserInfo, User> userJoin = root.join("user");
             Join<User, UserPreference> userPreferenceJoin = userJoin.join("userPreference");
@@ -164,7 +172,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         }
     }
 
-    private List<UserInfo> executeQueryWithAgeVariation(Long userId, Set<Long> excludedUserIds, UserPreference preference, UserInfo info) {
+    private List<UserInfo> executeQueryWithAgeVariation(Set<Long> excludedUserIds, UserPreference preference, UserInfo info) {
         List<UserInfo> results = new ArrayList<>();
         int ageVariation = 1;
 
@@ -175,7 +183,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                     preference.getMinAge() - ageVariation,
                     null
             );
-            results.addAll(executeQuery(userId, excludedUserIds, ageVariedPreference, info, true, false));
+            results.addAll(executeQuery(excludedUserIds, ageVariedPreference, info, true, false));
             ageVariation++;
         }
 

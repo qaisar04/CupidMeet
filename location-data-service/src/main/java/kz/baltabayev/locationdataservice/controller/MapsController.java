@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
 @Slf4j
+@RestController
 @RequestMapping("api/v1/maps")
 @RequiredArgsConstructor
 public class MapsController {
@@ -54,6 +54,7 @@ public class MapsController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get the nearest city by coordinates", description = "in development!")
     @GetMapping("/nearest-city")
     public ResponseEntity<LocationResponse> getNearestCity(
             @RequestParam String latitude,

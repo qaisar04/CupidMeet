@@ -38,5 +38,6 @@ minio:
 contentDisposition: attachment
 server:
   port: 8084
+  forward-headers-strategy: framework
 scheduler:
   cron: 0 0 0 * * MON

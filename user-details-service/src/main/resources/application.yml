@@ -27,3 +27,4 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 server:
   port: 8728
+  forward-headers-strategy: framework

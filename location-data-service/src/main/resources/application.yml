@@ -11,3 +11,4 @@ locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
 server:
   port: 8580
+  forward-headers-strategy: framework

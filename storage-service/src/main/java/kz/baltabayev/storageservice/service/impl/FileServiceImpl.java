@@ -122,7 +122,8 @@ public class FileServiceImpl implements FileService {
      */
     @Override
     public FileInfo getFileInfoByPath(String path) {
-        return fileRepository.findByPath(path).orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND_MESSAGE, "path", path)));
+        return fileRepository.findByPath(path).orElseThrow(() ->
+                new EntityNotFoundException(String.format(ENTITY_NOT_FOUND_MESSAGE, "path", path)));
     }
 
     /**
@@ -144,7 +145,12 @@ public class FileServiceImpl implements FileService {
     @Override
     @Transactional
     public void addFilesToDelete(List<UUID> fileIDs) {
-        List<FileToDelete> deletionFiles = fileRepository.findAllById(fileIDs).stream().peek(fileInfo -> fileInfo.setDeletedAt(LocalDateTime.now())).map(fileInfo -> FileToDelete.builder().fileInfo(fileInfo).build()).toList();
+        List<FileToDelete> deletionFiles = fileRepository.findAllById(fileIDs).stream()
+                .peek(fileInfo -> fileInfo.setDeletedAt(LocalDateTime.now()))
+                .map(fileInfo -> FileToDelete.builder()
+                        .fileInfo(fileInfo)
+                        .build())
+                .toList();
         deletionFileRepository.saveAll(deletionFiles);
     }
 

@@ -78,8 +78,11 @@ public class UserPreferenceController {
             @ApiResponse(responseCode = "200", description = "Matching users retrieved successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @GetMapping("{userId}/users")
-    public ResponseEntity<List<UserMatchResponse>> getMatchingUsers(@PathVariable Long userId, @RequestParam(required = false) Set<Long> userIds) {
+    @GetMapping("{userId}/users") //todo: it is possible to remove userIds in the body
+    public ResponseEntity<List<UserMatchResponse>> getMatchingUsers(
+            @PathVariable Long userId,
+            @RequestParam(required = false) Set<Long> userIds
+    ) {
         return ResponseEntity.ok(userPreferenceService.findMatchingUsers(userId, userIds));
     }
 }

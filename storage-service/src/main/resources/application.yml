@@ -26,6 +26,12 @@ spring:
     multipart:
       max-file-size: ${MAX_FILE_SIZE:10MB}
       max-request-size: ${MAX_REQUEST_SIZE:10MB}
+springdoc:
+  api-docs:
+    enabled: true
+    path: /storage-service/doc/json
+  swagger-ui:
+    path: /storage-service/doc
 minio:
   environment:
     bucket-name: ${MINIO_BUCKET_NAME:cupid-meet}

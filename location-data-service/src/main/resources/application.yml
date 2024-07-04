@@ -4,7 +4,9 @@ spring:
 springdoc:
   api-docs:
     enabled: true
-    path: /swagger-ui.html
+    path: /location-data-service/doc/json
+  swagger-ui:
+    path: /location-data-service/doc
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
 server:

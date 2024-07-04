@@ -15,6 +15,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+springdoc:
+  api-docs:
+    enabled: true
+    path: /user-details-service/doc/json
+  swagger-ui:
+    path: /user-details-service/doc
 logging:
   level:
     org.hibernate.SQL: DEBUG

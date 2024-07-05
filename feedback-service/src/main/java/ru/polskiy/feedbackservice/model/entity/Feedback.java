@@ -1,11 +1,7 @@
 package ru.polskiy.feedbackservice.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.polskiy.feedbackservice.model.type.Grade;
 
 
@@ -16,7 +12,9 @@ import ru.polskiy.feedbackservice.model.type.Grade;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "feedback")
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "feedback", schema = "feedback")
 public class Feedback extends BaseEntity {
 
     /**

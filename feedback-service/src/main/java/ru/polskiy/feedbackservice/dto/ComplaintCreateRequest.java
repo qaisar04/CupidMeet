@@ -15,18 +15,19 @@ import ru.polskiy.feedbackservice.model.type.Status;
  * @param status        The initial status of the complaint.
  * @param complaintType The type of complaint being filed.
  */
-public record ComplaintCreateRequest(
+public record ComplaintCreateRequest
+        (
+                Long fromUserId,
+                Long toUserId,
 
-        Long fromUserId,
+                @Size(max = 500, message = "comment must be less than 500 or equal")
+                @NotNull(message = "comment mustn't be null")
+                @NotBlank(message = "comment mustn't be blank")
+                String comment,
 
-        Long toUserId,
+                Status status,
 
-        @Size(max = 500, message = "comment must be less than 500 or equal")
-        @NotNull(message = "comment mustn't be null")
-        @NotBlank(message = "comment mustn't be blank")
-        String comment,
-
-        Status status,
-        @NotNull(message = "type mustn't be null")
-        ComplaintType complaintType) {
+                @NotNull(message = "type mustn't be null")
+                ComplaintType complaintType
+        ) {
 }

@@ -3,7 +3,6 @@ package ru.polskiy.feedbackservice.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.polskiy.feedbackservice.dto.FeedbackCreateRequest;
-//import ru.polskiy.feedbackservice.dto.FeedbackRequest;
 import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
 

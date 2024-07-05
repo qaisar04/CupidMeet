@@ -1,9 +1,7 @@
 package ru.polskiy.feedbackservice.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.polskiy.feedbackservice.model.type.ComplaintType;
 import ru.polskiy.feedbackservice.model.type.Status;
 
@@ -14,7 +12,9 @@ import ru.polskiy.feedbackservice.model.type.Status;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "complaint")
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "complaint", schema = "feedback")
 public class Complaint extends BaseEntity {
 
     /**

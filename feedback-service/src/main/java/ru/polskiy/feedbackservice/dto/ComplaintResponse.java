@@ -5,5 +5,6 @@ package ru.polskiy.feedbackservice.dto;
  */
 public record ComplaintResponse(
         Long toUserId,
-        String comment) {
+        String comment
+) {
 }

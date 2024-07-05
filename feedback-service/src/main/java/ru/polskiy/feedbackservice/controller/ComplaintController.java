@@ -28,7 +28,7 @@ public class ComplaintController {
      *
      * @return A ResponseEntity containing a list of {@link ComplaintResponse} representing all complaints.
      */
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<ComplaintResponse>> findComplaints() {
         return ResponseEntity.ok(
                 complaintService.findAllComplaints()

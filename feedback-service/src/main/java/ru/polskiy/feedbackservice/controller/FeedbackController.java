@@ -28,7 +28,7 @@ public class FeedbackController {
      *
      * @return A ResponseEntity containing a list of {@link FeedbackRequestResponse} representing all feedbacks.
      */
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<FeedbackRequestResponse>> findFeedbacks() {
         return ResponseEntity.ok(
                 feedbackService.findAllFeedbacks()

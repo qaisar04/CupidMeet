@@ -10,7 +10,6 @@ import ru.polskiy.feedbackservice.model.type.Grade;
  * @param comment The text of the feedback. This field cannot be empty and must be less than 500 characters.
  */
 public record FeedbackCreateRequest(
-
         Long userId,
 
         @Size(max = 500, message = "comment must be less than 500 or equal")

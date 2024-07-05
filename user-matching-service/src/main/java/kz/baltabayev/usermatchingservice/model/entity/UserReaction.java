@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_reaction") // schema = "user-matching-service"
+@Table(name = "user_reaction", schema = "matching_service")
 public class UserReaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "target_user_id", nullable = false)
+    @Column(name = "target_user_id")
     private Long targetUserId;
 
     @Enumerated(EnumType.STRING)

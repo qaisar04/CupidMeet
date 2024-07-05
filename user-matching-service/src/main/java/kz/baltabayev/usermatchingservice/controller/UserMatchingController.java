@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/matching")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/matching")
 public class UserMatchingController {
 
     private final UserReactionService userReactionService;
     private final UserRatingService userRatingService;
 
-    @PostMapping("/submit")
+    @PostMapping("/reactions")
     public ResponseEntity<ReactionOutcome> submitReaction(
             @RequestParam Long from,
             @RequestParam Long to,
@@ -28,7 +28,7 @@ public class UserMatchingController {
         return ResponseEntity.ok(outcome);
     }
 
-    @GetMapping("/{userId}/rated-user-ids")
+    @GetMapping("/{userId}/rated-users")
     public ResponseEntity<List<Long>> getRatedUserIds(@PathVariable("userId") Long userId) {
         List<Long> ratedUserIds = userRatingService.findRatedUserIds(userId);
         return ResponseEntity.ok(ratedUserIds);

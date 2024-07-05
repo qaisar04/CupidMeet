@@ -23,7 +23,7 @@ public class UserRating {
     private Long userId;
 
     @ElementCollection
-    @CollectionTable(name = "rated_user_ids", joinColumns = @JoinColumn(name = "rated_users_ids_id"))
+    @CollectionTable(name = "rated_users", joinColumns = @JoinColumn(name = "user_rating_id"))
     @Column(name = "rated_user_id")
     private List<Long> ratedUserIds = new LinkedList<>();
 }

@@ -7,7 +7,7 @@
     <changeSet id="001-create-table-user-reaction" author="qaisar_baltabayev">
         <comment>create table user reaction</comment>
         <createTable tableName="user_reaction">
-            <column name="id" type="bigint" remarks="unique identifier for the user reaction">
+            <column name="id" type="bigserial" remarks="unique identifier for the user reaction">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint" remarks="user ID for the reaction">
@@ -22,19 +22,37 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="002-create-table-user-rating" author="qaisar_baltabayev">
+    <changeSet id="002-create-table-rated-users" author="qaisar_baltabayev">
+        <comment>create table rated users</comment>
+        <createTable tableName="rated_users">
+            <column name="user_rating_id" type="bigserial" remarks="ID of the user rating">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rated_user_id" type="bigint" remarks="ID of the rated user">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="003-create-table-user-rating" author="qaisar_baltabayev">
         <comment>create table user rating</comment>
         <createTable tableName="user_rating">
-            <column name="id" type="bigint" remarks="unique identifier for the user rating">
+            <column name="id" type="bigserial" remarks="unique identifier for the user rating">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint" remarks="user ID for the rating">
                 <constraints nullable="false"/>
             </column>
-            <column name="rated_user_id" type="bigint" remarks="rated user ID">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="004-add-fk-rated-users" author="qaisar_baltabayev">
+        <comment>add foreign key constraint to rated_users table</comment>
+        <addForeignKeyConstraint baseTableName="rated_users"
+                                 baseColumnNames="user_rating_id"
+                                 constraintName="fk_rated_users_user_rating"
+                                 referencedTableName="user_rating"
+                                 referencedColumnNames="id"/>
     </changeSet>
 
 </databaseChangeLog>

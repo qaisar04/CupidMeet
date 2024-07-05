@@ -11,7 +11,7 @@ spring:
     default-schema: matching_service
     liquibase-schema: develop
     change-log: db/changelog/changelog.xml
-    drop-first: false
+    drop-first: true
   jpa:
     hibernate:
       ddl-auto: validate

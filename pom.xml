@@ -136,11 +136,9 @@
     </dependencyManagement>
 
     <modules>
-        <module>api-gateway</module>
         <module>storage-service</module>
         <module>user-details-service</module>
         <module>location-data-service</module>
-        <module>auth-service</module>
         <module>feedback-service</module>
     </modules>
 

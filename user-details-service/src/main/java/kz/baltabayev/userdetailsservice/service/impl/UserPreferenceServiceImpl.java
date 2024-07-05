@@ -110,6 +110,8 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
             updateRemainingResults(userInfos, step3Results, remainingResults, excludedUserIds);
         }
 
+        //todo: filter по деактивированным аккаунтам
+
         return userInfos.stream()
                 .limit(10)
                 .map(userInfo -> new UserMatchResponse(

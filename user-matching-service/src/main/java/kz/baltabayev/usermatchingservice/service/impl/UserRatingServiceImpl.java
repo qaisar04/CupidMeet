@@ -1,6 +1,5 @@
 package kz.baltabayev.usermatchingservice.service.impl;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityNotFoundException;
 import kz.baltabayev.usermatchingservice.model.entity.UserRating;
 import kz.baltabayev.usermatchingservice.repository.UserRatingRepository;
@@ -31,13 +30,6 @@ public class UserRatingServiceImpl implements UserRatingService {
     public List<Long> findRatedUserIds(Long userId) {
         UserRating userRating = getByUserId(userId);
         return userRating.getRatedUserIds();
-    }
-
-    @PostConstruct
-    public void init() {
-        UserRating userRating = new UserRating();
-        userRating.setUserId(697119914L);
-        userRatingRepository.save(userRating);
     }
 
     private UserRating getByUserId(Long userId) {

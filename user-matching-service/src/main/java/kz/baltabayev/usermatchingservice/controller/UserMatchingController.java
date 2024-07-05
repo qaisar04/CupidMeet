@@ -18,7 +18,7 @@ public class UserMatchingController {
     private final UserReactionService userReactionService;
     private final UserRatingService userRatingService;
 
-    @PostMapping("/reactions")
+    @PostMapping("/reaction")
     public ResponseEntity<ReactionOutcome> submitReaction(
             @RequestParam Long from,
             @RequestParam Long to,

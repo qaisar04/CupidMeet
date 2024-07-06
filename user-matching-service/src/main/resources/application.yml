@@ -15,5 +15,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+springdoc:
+  api-docs:
+    enabled: true
+    path: /user-matching-service/doc/json
+  swagger-ui:
+    path: /user-matching-service/doc
 server:
   port: 8146

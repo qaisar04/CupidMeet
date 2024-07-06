@@ -15,3 +15,9 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+springdoc:
+  api-docs:
+    enabled: true
+    path: /feedback-service/doc/json
+  swagger-ui:
+    path: /feedback-service/doc

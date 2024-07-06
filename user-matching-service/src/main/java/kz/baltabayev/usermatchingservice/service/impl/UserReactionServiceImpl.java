@@ -4,7 +4,7 @@ import kz.baltabayev.usermatchingservice.model.entity.UserReaction;
 import kz.baltabayev.usermatchingservice.model.types.ReactionOutcome;
 import kz.baltabayev.usermatchingservice.model.types.ReactionType;
 import kz.baltabayev.usermatchingservice.repository.UserReactionRepository;
-import kz.baltabayev.usermatchingservice.service.UserRatingService;
+import kz.baltabayev.usermatchingservice.service.UserEvaluationService;
 import kz.baltabayev.usermatchingservice.service.UserReactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,11 @@ import java.util.Optional;
 public class UserReactionServiceImpl implements UserReactionService {
 
     private final UserReactionRepository userReactionRepository;
-    private final UserRatingService userRatingService;
+    private final UserEvaluationService userRatingService;
 
     @Override
     @Transactional
-    public ReactionOutcome reactToUser(Long userId, Long targetUserId, ReactionType reactionType) {
+    public ReactionOutcome submitReaction(Long userId, Long targetUserId, ReactionType reactionType) {
         Optional<UserReaction> existingReaction = userReactionRepository.findByUserIdAndTargetUserId(userId, targetUserId);
 
         UserReaction userReaction;

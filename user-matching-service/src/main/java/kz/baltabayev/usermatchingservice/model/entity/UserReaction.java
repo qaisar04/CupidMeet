@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a user's reaction to another user.
+ */
 @Data
 @Entity
 @NoArgsConstructor
@@ -24,5 +27,6 @@ public class UserReaction {
     private Long targetUserId;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "reaction_type")
     private ReactionType reactionType;
 }

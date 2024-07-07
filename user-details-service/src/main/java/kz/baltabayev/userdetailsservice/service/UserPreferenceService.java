@@ -27,5 +27,11 @@ public interface UserPreferenceService {
      */
     void update(Long userId, String gender, Integer maxAge, Integer minAge);
 
+    /**
+     * Retrieves a user preference by their ID.
+     * @param userId The ID of the user.
+     * @param excludedUserIds The IDs of users to exclude from the search.
+     * @return The user preference with the given ID.
+     */
     List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds);
 }

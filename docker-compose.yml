@@ -82,7 +82,7 @@ services:
     ports:
       - "8580:8580"
     environment:
-      LOCATIONIQ_API_KEY: pk:e7adea0216da76d494f2416952b8527d
+      LOCATIONIQ_API_KEY:
     restart: always
     networks:
       - cupid-network

@@ -192,5 +192,75 @@
         "telegram_id": 751792880,
         "username": "DarthZiel",
         "is_active": "True"
+    },
+    {
+        "name": "\u041d\u0443\u0440\u0436\u0430\u043d",
+        "age": 21,
+        "location": {
+            "latitude": 52.291975,
+            "longitude": 76.951207
+        },
+        "gender": "FEMALE",
+        "personalityType": "ISFJ",
+        "bio": "16644",
+        "telegram_id": 751792880,
+        "username": "DarthZiel",
+        "is_active": "True"
+    },
+    {
+        "name": "\u041d\u0443\u0440\u0436\u0430\u043d",
+        "age": 21,
+        "location": {
+            "latitude": 52.292004,
+            "longitude": 76.951237
+        },
+        "gender": "FEMALE",
+        "personalityType": "INFP",
+        "bio": "Xndjjdd",
+        "telegram_id": 751792880,
+        "username": "DarthZiel",
+        "is_active": "True"
+    },
+    {
+        "name": "\u041d\u0443\u0440\u0436\u0430\u043d",
+        "age": 24,
+        "location": {
+            "latitude": 52.292004,
+            "longitude": 76.951237
+        },
+        "gender": "FEMALE",
+        "personalityType": "INFP",
+        "bio": "Brsh",
+        "telegram_id": 751792880,
+        "username": "DarthZiel",
+        "is_active": "True"
+    },
+    {
+        "name": "\u041d\u0443\u0440\u0436\u0430\u043d",
+        "age": 21,
+        "location": {
+            "latitude": 52.292004,
+            "longitude": 76.951237
+        },
+        "gender": "FEMALE",
+        "personalityType": "INFP",
+        "bio": "4646",
+        "telegram_id": 751792880,
+        "username": "DarthZiel",
+        "is_active": "True"
+    },
+    {
+        "name": "\u041d\u0443\u0440\u0436\u0430\u043d",
+        "age": 21,
+        "location": {
+            "latitude": 52.291992,
+            "longitude": 76.951324
+        },
+        "gender": "FEMALE",
+        "personalityType": "INFP",
+        "bio": "7467",
+        "telegram_id": 751792880,
+        "username": "DarthZiel",
+        "is_active": "True"
     }
 ]

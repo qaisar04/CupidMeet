@@ -1,119 +1,15 @@
+import requests
 from aiogram import Router, types, F
 from aiogram.filters import CommandStart, StateFilter, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import Message
 from app.fakeData.utils import is_exist, add_user, read_data, deactivate_user, get_user, update_user
-from app.keyboards import profile
-from app.keyboards import menu, location_keyboard, gender_keyboard, mbti_keyboard
+from app.keyboards.keyboards import profile
+from app.keyboards.keyboards import menu, location_keyboard, gender_keyboard, mbti_keyboard
+from run import bot
 
 router = Router()
-
-
-class RegistrationStates(StatesGroup):
-    waiting_for_name = State()
-    waiting_for_age = State()
-    waiting_for_city = State()
-    waiting_for_gender = State()
-    waiting_for_personality_type = State()
-    waiting_for_bio = State()
-    waiting_for_preference_gender = State()
-
-
-@router.message(CommandStart())
-async def cmd_start(message: Message, state: FSMContext):
-    if not await is_exist(message.from_user.id):
-        await message.answer("Привет! Давайте зарегистрируем вас. Как вас зовут?",
-                             reply_markup=profile([message.from_user.first_name]))
-        await state.set_state(RegistrationStates.waiting_for_name)
-    else:
-        await message.answer("Вы уже зарегистрированы.")
-
-
-@router.message(Command("menu"))
-async def send_welcome(message: types.Message):
-    await message.reply("Welcome to the bot! Please choose an option from the menu below:", reply_markup=menu)
-
-
-@router.message(F.text == "Деактивация")
-async def deactivate(message: types.Message):
-    await deactivate_user(message.from_user.id)
-    await message.reply("Аккаунт декативирован")
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_name))
-async def process_name(message: Message, state: FSMContext):
-    await state.update_data(name=message.text)
-    await message.answer("Сколько вам лет?")
-    await state.set_state(RegistrationStates.waiting_for_age)
-
-
-"""
-@router.message(lambda message: not message.text.isdigit(), StateFilter(RegistrationStates.waiting_for_age))
-async def process_age_invalid(message: Message):
-    return await message.reply("Возраст должен быть числом. Попробуйте снова:")
-"""
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_age))
-async def process_age(message: Message, state: FSMContext):
-    await state.update_data(age=int(message.text))
-
-    await message.answer("В каком городе вы живете?", reply_markup=location_keyboard)
-    await state.set_state(RegistrationStates.waiting_for_city)
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_city))
-async def process_city(message: Message, state: FSMContext):
-    location = message.location  # Получаем объект с информацией о местоположении
-    await state.update_data(location={
-        "latitude": location.latitude,
-        "longitude": location.longitude})
-    await message.answer("Ваш пол?", reply_markup=gender_keyboard)
-    await state.set_state(RegistrationStates.waiting_for_gender)
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_gender))
-async def process_gender(message: Message, state: FSMContext):
-    if message.text == "Парень":
-        await state.update_data(gender="MALE")
-    elif message.text == "Девушка":
-        await state.update_data(gender="FEMALE")
-    await message.answer("Ваш тип личности по MBTI?", reply_markup=mbti_keyboard)
-    await state.set_state(RegistrationStates.waiting_for_personality_type)
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_personality_type))
-async def process_personality_type(message: Message, state: FSMContext):
-    await state.update_data(personalityType=message.text.upper())
-    await message.answer("Кого ищете?", reply_markup=gender_keyboard)
-    await state.set_state(RegistrationStates.waiting_for_preference_gender)
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_preference_gender))
-async def process_preference_gender(message: Message, state: FSMContext):
-    if message.text == "Парень":
-        await state.update_data(gender="MALE")
-    elif message.text == "Девушка":
-        await state.update_data(gender="FEMALE")
-    await message.answer("Расскажите о себе")
-    await state.set_state(RegistrationStates.waiting_for_bio)
-
-
-@router.message(StateFilter(RegistrationStates.waiting_for_bio))
-async def process_bio(message: Message, state: FSMContext):
-    await state.update_data(bio=message.text)
-
-    # Получение всех данных пользователя
-    user_data = await state.get_data()
-    user_data['telegram_id'] = message.from_user.id
-    user_data['username'] = message.from_user.username
-    user_data['is_active'] = 'True'
-    # Добавление пользователя в базу данных
-    await add_user(user_data)
-
-    await message.answer("Регистрация завершена. Спасибо!")
-    await state.clear()
 
 
 @router.message(F.text == 'Моя анкета')
@@ -130,7 +26,6 @@ async def edit_profile(message: Message):
     )
 
 
-
 class UpdateStates(StatesGroup):
     waiting_for_name = State()
     waiting_for_age = State()
@@ -139,6 +34,7 @@ class UpdateStates(StatesGroup):
     waiting_for_personality_type = State()
     waiting_for_bio = State()
     waiting_for_preference_gender = State()
+
 
 @router.message(F.text == 'Редактирование')
 async def start_edit_profile(message: Message, state: FSMContext):
@@ -150,6 +46,7 @@ async def start_edit_profile(message: Message, state: FSMContext):
     else:
         await message.answer("Ваша анкета не найдена.")
 
+
 @router.message(StateFilter(UpdateStates.waiting_for_name))
 async def process_name_update(message: Message, state: FSMContext):
     new_name = message.text
@@ -158,6 +55,7 @@ async def process_name_update(message: Message, state: FSMContext):
     await message.answer("Сколько вам лет?")
     await state.set_state(UpdateStates.waiting_for_age)
 
+
 @router.message(StateFilter(UpdateStates.waiting_for_age))
 async def process_age_update(message: Message, state: FSMContext):
     new_age = message.text
@@ -165,6 +63,7 @@ async def process_age_update(message: Message, state: FSMContext):
         await update_user(message.from_user.id, {"age": new_age})
     await message.answer("В каком городе вы живете?", reply_markup=location_keyboard)
     await state.set_state(UpdateStates.waiting_for_city)
+
 
 @router.message(StateFilter(UpdateStates.waiting_for_city))
 async def process_city_update(message: Message, state: FSMContext):
@@ -179,6 +78,7 @@ async def process_city_update(message: Message, state: FSMContext):
     await message.answer("Ваш пол?", reply_markup=gender_keyboard)
     await state.set_state(UpdateStates.waiting_for_gender)
 
+
 @router.message(StateFilter(UpdateStates.waiting_for_gender))
 async def process_gender_update(message: Message, state: FSMContext):
     if message.text == "Парень":
@@ -188,6 +88,7 @@ async def process_gender_update(message: Message, state: FSMContext):
     await message.answer("Ваш тип личности по MBTI?", reply_markup=mbti_keyboard)
     await state.set_state(UpdateStates.waiting_for_personality_type)
 
+
 @router.message(StateFilter(UpdateStates.waiting_for_personality_type))
 async def process_personality_type_update(message: Message, state: FSMContext):
     new_personality_type = message.text.upper()
@@ -195,6 +96,7 @@ async def process_personality_type_update(message: Message, state: FSMContext):
         await update_user(message.from_user.id, {"personalityType": new_personality_type})
     await message.answer("Кого ищете?", reply_markup=gender_keyboard)
     await state.set_state(UpdateStates.waiting_for_preference_gender)
+
 
 @router.message(StateFilter(UpdateStates.waiting_for_preference_gender))
 async def process_preference_gender_update(message: Message, state: FSMContext):
@@ -205,6 +107,7 @@ async def process_preference_gender_update(message: Message, state: FSMContext):
     await message.answer("Расскажите о себе")
     await state.set_state(UpdateStates.waiting_for_bio)
 
+
 @router.message(StateFilter(UpdateStates.waiting_for_bio))
 async def process_bio_update(message: Message, state: FSMContext):
     new_bio = message.text
@@ -213,13 +116,16 @@ async def process_bio_update(message: Message, state: FSMContext):
     await message.answer("Ваш профиль успешно обновлен.")
     await state.clear()
 
+
 class FeedbackStates(StatesGroup):
     waiting_for_feedback = State()
+
 
 @router.message(F.text == "Обратная связь")
 async def request_feedback(message: Message, state: FSMContext):
     await message.answer("Пожалуйста, оставьте ваш отзыв:")
     await state.set_state(FeedbackStates.waiting_for_feedback)
+
 
 @router.message(StateFilter(FeedbackStates.waiting_for_feedback))
 async def process_feedback(message: Message, state: FSMContext):
@@ -240,3 +146,14 @@ async def process_feedback(message: Message, state: FSMContext):
         await message.answer("Произошла ошибка при отправке отзыва. Пожалуйста, попробуйте позже.")
     await state.clear()
     """
+
+
+@router.message(Command("menu"))
+async def send_welcome(message: types.Message):
+    await message.reply("Welcome to the bot! Please choose an option from the menu below:", reply_markup=menu)
+
+
+@router.message(F.text == "Деактивация")
+async def deactivate(message: types.Message):
+    await deactivate_user(message.from_user.id)
+    await message.reply("Аккаунт декативирован")

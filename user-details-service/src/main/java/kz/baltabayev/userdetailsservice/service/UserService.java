@@ -1,6 +1,9 @@
 package kz.baltabayev.userdetailsservice.service;
 
+import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
+import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.entity.User;
+import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 
 /**
  * UserService interface.
@@ -9,26 +12,30 @@ import kz.baltabayev.userdetailsservice.model.entity.User;
 public interface UserService {
 
     /**
-     * Creates a new user.
-     * @param id The ID of the user.
-     * @param username The username of the user.
+     * Creates a new user with the specified details.
+     *
+     * @param user The user object containing all necessary information to create the user, including ID, username, additional user information, and preferences.
+     * @throws EntityAlreadyExistsException if a user with the given ID already exists.
      */
-    void create(Long id, String username);
+    void create(User user);
 
     /**
      * Deactivates an existing user.
+     *
      * @param id The ID of the user.
      */
     void deactivate(Long id);
 
     /**
      * Activates an existing user.
+     *
      * @param id The ID of the user.
      */
     void activate(Long id);
 
     /**
      * Retrieves a user by their ID.
+     *
      * @param id The ID of the user.
      * @return The user with the given ID.
      */

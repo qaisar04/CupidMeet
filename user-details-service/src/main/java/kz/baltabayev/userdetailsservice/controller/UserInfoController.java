@@ -27,35 +27,15 @@ import java.util.UUID;
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
-    private final UserInfoMapper userInfoMapper;
     private final FileAttachmentMapper fileAttachmentMapper;
     private final FileAttachmentService fileAttachmentService;
 
-    /**
-     * Endpoint for creating a new user information.
-     * @param request The request body containing the user information details.
-     * @param userId The ID of the user for whom the information is being created.
-     * @return A ResponseEntity indicating the result of the operation.
-     */
-    @Operation(summary = "Create user information")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User information created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
-    @PostMapping("{userId}")
-    public ResponseEntity<Void> create(
-            @Valid @RequestBody UserInfoRequest request,
-            @PathVariable("userId") Long userId
-    ) {
-        UserInfo userInfo = userInfoMapper.toEntity(request);
-        userInfoService.create(userInfo, userId);
-        return ResponseEntity.ok().build();
-    }
 
     /**
      * Endpoint for updating a user's information.
+     *
      * @param userInfo The request body containing the updated user information.
-     * @param userId The ID of the user whose information is being updated.
+     * @param userId   The ID of the user whose information is being updated.
      * @return A ResponseEntity indicating the result of the operation.
      */
     @Operation(summary = "Update user information")
@@ -75,7 +55,8 @@ public class UserInfoController {
 
     /**
      * Endpoint for adding an attachment to a user's information.
-     * @param userId The ID of the user to whom the attachment is being added.
+     *
+     * @param userId  The ID of the user to whom the attachment is being added.
      * @param request The request body containing the attachment details.
      * @return A ResponseEntity indicating the result of the operation.
      */
@@ -96,6 +77,7 @@ public class UserInfoController {
 
     /**
      * Endpoint for removing an attachment.
+     *
      * @param attachmentId The ID of the attachment to be removed.
      * @return A ResponseEntity indicating the result of the operation.
      */

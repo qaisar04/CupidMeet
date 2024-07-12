@@ -12,10 +12,14 @@ import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
 import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import kz.baltabayev.userdetailsservice.model.types.Status;
+import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
 import kz.baltabayev.userdetailsservice.repository.UserPreferenceRepository;
+import kz.baltabayev.userdetailsservice.repository.UserRepository;
+import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,9 +32,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserPreferenceServiceImpl implements UserPreferenceService {
 
-    private final UserService userService;
-    private final UserPreferenceRepository userPreferenceRepository;
     private final EntityManager entityManager;
+    private final UserRepository userRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
+
 
     public static final String NOT_FOUND_MESSAGE = "Not found userPreference for the user with id: ";
     public static final String ALREADY_EXISTS_MESSAGE = "UserPreference already exists for user with id: ";
@@ -48,9 +53,11 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         if (userPreferenceRepository.existsByUserId(userId)) {
             throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
         }
-
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with id:%d doesn't exist".formatted(userId));
+        }
+        User user = userRepository.findById(userId).get();
         PreferredGender preferredGender = PreferredGender.fromString(gender);
-        User user = userService.get(userId);
         Integer age = user.getUserInfo().getAge();
         UserPreference userPreference = new UserPreference(preferredGender, age + 3, age - 3, user);
         userPreferenceRepository.save(userPreference);
@@ -85,7 +92,10 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
      */
     @Override
     public List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds) {
-        User user = userService.get(userId);
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User with id:%d doesn't exist".formatted(userId));
+        }
+        User user = userRepository.findById(userId).get();
         UserPreference preference = user.getUserPreference();
         UserInfo info = user.getUserInfo();
 

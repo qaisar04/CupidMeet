@@ -3,10 +3,18 @@ package kz.baltabayev.userdetailsservice.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
+import kz.baltabayev.userdetailsservice.mapper.UserInfoMapper;
 import kz.baltabayev.userdetailsservice.mapper.UserMapper;
+import kz.baltabayev.userdetailsservice.model.dto.UserAndInfoCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
+import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
+import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
+import kz.baltabayev.userdetailsservice.service.UserInfoService;
+import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,21 +28,25 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
     private final UserMapper userMapper;
+    private final UserService userService;
 
     /**
      * Endpoint for creating a new user.
      *
-     * @param request The request body containing the user details.
+     * @param gender                   The gender preferred.
+     * @param userAndInfoCreateRequest The request body containing the user creation request and additional user information.
      * @return A ResponseEntity indicating the result of the operation.
      */
     @Operation(summary = "Create a new user")
     @PostMapping
     public ResponseEntity<Void> create(
-            @RequestBody UserCreateRequest request
+            @RequestParam("gender") String gender,
+            @Valid @RequestBody UserAndInfoCreateRequest userAndInfoCreateRequest
     ) {
-        userService.create(request.id(), request.username());
+        User user = userMapper.toEntity(userAndInfoCreateRequest.createRequest(),
+                gender, userAndInfoCreateRequest.userInfoRequest());
+        userService.create(user);
         return ResponseEntity.ok().build();
     }
 

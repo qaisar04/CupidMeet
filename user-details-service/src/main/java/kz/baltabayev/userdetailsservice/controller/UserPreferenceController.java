@@ -20,27 +20,6 @@ public class UserPreferenceController {
     private final UserPreferenceService userPreferenceService;
 
     /**
-     * Endpoint for creating a new user preference.
-     *
-     * @param gender The gender preference of the user.
-     * @param userId The ID of the user for whom the preference is being created.
-     * @return A ResponseEntity indicating the result of the operation.
-     */
-    @Operation(summary = "Create user preference")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User preference created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
-    @PostMapping("{userId}")
-    public ResponseEntity<Void> create(
-            @RequestParam("gender") String gender,
-            @PathVariable("userId") Long userId
-    ) {
-        userPreferenceService.create(userId, gender);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
      * Endpoint for updating a user's preference.
      *
      * @param userId The ID of the user whose preference is being updated.
@@ -69,7 +48,7 @@ public class UserPreferenceController {
     /**
      * Endpoint for retrieving matching users based on user preferences.
      *
-     * @param userId The ID of the user for whom the matches are being searched.
+     * @param userId  The ID of the user for whom the matches are being searched.
      * @param userIds Optional set of user IDs to be excluded from the search.
      * @return A ResponseEntity containing a list of matching users.
      */

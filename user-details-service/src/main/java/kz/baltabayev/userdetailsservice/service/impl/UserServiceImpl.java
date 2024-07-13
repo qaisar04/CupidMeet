@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void ban(Long id) {
+    public void block(Long id) {
         checkIfUserExists(id, false);
         userRepository.updateUserStatus(id, Status.BANNED);
     }

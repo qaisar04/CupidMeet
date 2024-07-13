@@ -30,8 +30,8 @@ public class AdminUserController {
     }
 
     @PatchMapping("/block/{userId}")
-    public ResponseEntity<Void> ban(@PathVariable Long userId) {
-        userService.ban(userId);
+    public ResponseEntity<Void> block(@PathVariable Long userId) {
+        userService.block(userId);
         return ResponseEntity.ok().build();
     }
 }

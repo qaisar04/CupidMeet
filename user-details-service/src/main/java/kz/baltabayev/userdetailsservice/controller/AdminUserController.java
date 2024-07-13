@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller class for handling administrative operations related to users.
@@ -29,6 +26,12 @@ public class AdminUserController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable Long userId) {
         userService.delete(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/block/{userId}")
+    public ResponseEntity<Void> ban(@PathVariable Long userId) {
+        userService.ban(userId);
         return ResponseEntity.ok().build();
     }
 }

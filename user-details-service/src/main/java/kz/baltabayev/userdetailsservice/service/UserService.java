@@ -35,4 +35,6 @@ public interface UserService {
     User get(Long id);
 
     void delete(Long id);
+
+    void ban(Long id);
 }

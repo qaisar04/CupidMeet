@@ -91,6 +91,12 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public void ban(Long id) {
+        checkIfUserExists(id, false);
+        userRepository.updateUserStatus(id, Status.BANNED);
+    }
+
     /**
      * Retrieves the user entity with the specified ID.
      *

@@ -51,11 +51,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (userInfoRepository.existsByUserId(userId)) {
             throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
         }
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isEmpty()) {
-            throw new EntityNotFoundException("User with id:%d doesn't exist".formatted(userId));
-        }
-        User user = optionalUser.get();
+        User user = userRepository.findById(userId).get();
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
         return userInfoRepository.save(userInfo);

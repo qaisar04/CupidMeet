@@ -53,9 +53,6 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         if (userPreferenceRepository.existsByUserId(userId)) {
             throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
         }
-        if (!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("User with id:%d doesn't exist".formatted(userId));
-        }
         User user = userRepository.findById(userId).get();
         PreferredGender preferredGender = PreferredGender.fromString(gender);
         Integer age = user.getUserInfo().getAge();

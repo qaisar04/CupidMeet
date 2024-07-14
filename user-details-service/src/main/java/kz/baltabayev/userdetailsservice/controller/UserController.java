@@ -4,17 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import kz.baltabayev.userdetailsservice.mapper.UserInfoMapper;
 import kz.baltabayev.userdetailsservice.mapper.UserMapper;
-import kz.baltabayev.userdetailsservice.model.dto.UserAndInfoCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
-import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
-import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
-import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
-import kz.baltabayev.userdetailsservice.service.UserInfoService;
-import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,18 +27,15 @@ public class UserController {
     /**
      * Endpoint for creating a new user.
      *
-     * @param gender                   The gender preferred.
-     * @param userAndInfoCreateRequest The request body containing the user creation request and additional user information.
+     * @param request The request body containing the user creation request and additional user information and preference.
      * @return A ResponseEntity indicating the result of the operation.
      */
     @Operation(summary = "Create a new user")
     @PostMapping
     public ResponseEntity<Void> create(
-            @RequestParam("gender") String gender,
-            @Valid @RequestBody UserAndInfoCreateRequest userAndInfoCreateRequest
+            @Valid @RequestBody UserCreateRequest request
     ) {
-        User user = userMapper.toEntity(userAndInfoCreateRequest.createRequest(),
-                gender, userAndInfoCreateRequest.userInfoRequest());
+        User user = userMapper.toEntity(request);
         userService.create(user);
         return ResponseEntity.ok().build();
     }

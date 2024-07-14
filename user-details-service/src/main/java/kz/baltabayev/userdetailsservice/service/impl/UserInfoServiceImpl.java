@@ -86,7 +86,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Transactional
     public void addAttachment(Long userId, Set<String> fileIds) {
         UserInfo userInfo = userService.get(userId).getUserInfo();
-        userInfo.setFileIds(fileIds);
+        userInfo.getFileIds().addAll(fileIds);
         userInfoRepository.saveAndFlush(userInfo);
     }
 
@@ -102,7 +102,6 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo userInfo = userService.get(userId).getUserInfo();
         Set<String> currentFileIds = userInfo.getFileIds();
         currentFileIds.removeAll(fileIds);
-        // userInfo.setFileIds(currentFileIds); (not needed as Set is modified directly)
         userInfoRepository.saveAndFlush(userInfo);
     }
 }

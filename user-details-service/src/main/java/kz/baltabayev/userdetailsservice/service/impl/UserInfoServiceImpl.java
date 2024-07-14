@@ -76,6 +76,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         );
     }
 
+    /**
+     * Adds attachments to the user information for the specified user ID.
+     *
+     * @param userId   The ID of the user
+     * @param fileIds  The IDs of the files to add as attachments
+     */
     @Override
     @Transactional
     public void addAttachment(Long userId, Set<String> fileIds) {
@@ -84,13 +90,19 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfoRepository.saveAndFlush(userInfo);
     }
 
+    /**
+     * Removes attachments from the user information for the specified user ID.
+     *
+     * @param userId   The ID of the user
+     * @param fileIds  The IDs of the files to remove as attachments
+     */
     @Override
     @Transactional
     public void removeAttachment(Long userId, Set<String> fileIds) {
         UserInfo userInfo = userService.get(userId).getUserInfo();
         Set<String> currentFileIds = userInfo.getFileIds();
         currentFileIds.removeAll(fileIds);
-//        userInfo.setFileIds(currentFileIds); (вроде не нужно)
+        // userInfo.setFileIds(currentFileIds); (not needed as Set is modified directly)
         userInfoRepository.saveAndFlush(userInfo);
     }
 }

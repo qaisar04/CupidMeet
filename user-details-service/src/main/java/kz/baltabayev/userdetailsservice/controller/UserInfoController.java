@@ -69,6 +69,13 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Endpoint for adding attachments to user information.
+     *
+     * @param userId  The ID of the user to add attachments to.
+     * @param fileIds Set of file IDs representing attachments to add.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
     @Operation(summary = "Add attachment to user information")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Attachment added successfully"),
@@ -83,7 +90,14 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Remove attachment")
+    /**
+     * Endpoint for removing attachments from user information.
+     *
+     * @param userId  The ID of the user to remove attachments from.
+     * @param fileIds Set of file IDs representing attachments to remove.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
+    @Operation(summary = "Remove attachment from user information")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Attachment removed successfully"),
             @ApiResponse(responseCode = "404", description = "Attachment not found")

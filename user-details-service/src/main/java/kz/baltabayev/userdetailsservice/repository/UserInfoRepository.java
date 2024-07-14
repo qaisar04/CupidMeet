@@ -11,9 +11,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+/**
+ * Repository interface for managing UserInfo entities in the database.
+ */
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, UUID> {
 
+    /**
+     * Updates UserInfo attributes by user ID.
+     *
+     * @param name           The updated name of the user.
+     * @param age            The updated age of the user.
+     * @param city           The updated city of residence of the user.
+     * @param gender         The updated gender of the user.
+     * @param personalityType The updated personality type of the user.
+     * @param bio            The updated biography of the user.
+     * @param userId         The ID of the user whose information is being updated.
+     */
     @Modifying
     @Transactional
     @Query(
@@ -32,5 +46,11 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, UUID> {
             PersonalityType personalityType, String bio, Long userId
     );
 
+    /**
+     * Checks if UserInfo exists for a given user ID.
+     *
+     * @param userId The ID of the user to check for existence of UserInfo.
+     * @return True if UserInfo exists, false otherwise.
+     */
     boolean existsByUserId(Long userId);
 }

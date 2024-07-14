@@ -8,7 +8,7 @@ on:
       - 'location-data-service/**'
 
 jobs:
-  api-gateway:
+  build-and-deploy:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_ACCESS_TOKEN }}

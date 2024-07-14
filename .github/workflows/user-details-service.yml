@@ -8,31 +8,35 @@ on:
       - 'user-details-service/**'
 
 jobs:
-  api-gateway:
+  build-and-deploy:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_ACCESS_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository user details service
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up jdk 17
-        uses: actions/setup-java@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
-          distribution: 'temurin'
           java-version: '17'
 
-      - name: Login to docker hub
+      - name: Run Maven tests
+        run: |
+          cd user-details-service
+          mvn test
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
 
-      - name: Build and push docker image
+      - name: Build and push Docker image
         run: |
           cd user-details-service
-          mvn compile jib:build  -DskipTests\
-            -Djib.to.auth.username=$DOCKER_USERNAME\
-            -Djib.to.auth.password=$DOCKER_PASSWORD\
+          mvn compile jib:build \
+            -Djib.to.auth.username=$DOCKER_USERNAME \
+            -Djib.to.auth.password=$DOCKER_PASSWORD \
             -Djib.to.platform=linux/amd64,linux/arm64

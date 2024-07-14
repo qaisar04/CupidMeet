@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UserServiceImplTest {
+class UserServiceImplTest {
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -31,6 +31,7 @@ public class UserServiceImplTest {
     private UserRepository userRepository;
 
     @Nested
+    @DisplayName("Happy path")
     class HappyPath {
 
         @Test
@@ -103,6 +104,7 @@ public class UserServiceImplTest {
     }
 
     @Nested
+    @DisplayName("Bad path")
     class BadPath {
 
         @Test

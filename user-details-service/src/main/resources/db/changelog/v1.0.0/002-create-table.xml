@@ -55,53 +55,76 @@
     <changeSet id="003-create-table-user-info" author="qaisar_baltabayev">
         <comment>create table user info</comment>
         <createTable tableName="user_infos">
-            <column name="id" type="uuid" remarks="unique identifier for the vote">
+            <column name="id" type="uuid" remarks="unique identifier for the user info">
                 <constraints primaryKey="true"/>
             </column>
             <column name="user_id" type="bigint" remarks="unique identifier for the user">
                 <constraints unique="true" nullable="false"/>
             </column>
+            <column name="name" type="varchar(64)" remarks="user name">
+                <constraints nullable="false"/>
+            </column>
             <column name="age" type="integer" remarks="user age">
                 <constraints nullable="false"/>
             </column>
-            <column name="bio" type="varchar(1024)" remarks="user bio description">
-                <constraints nullable="false"/>
-            </column>
-            <column name="city" type="varchar(64)" remarks="user bio description">
+            <column name="city" type="varchar(64)" remarks="user city">
                 <constraints nullable="false"/>
             </column>
             <column name="gender" type="varchar(16)" remarks="gender type">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="varchar(64)" remarks="user name">
+            <column name="personality_type" type="varchar(255)" remarks="user personality type">
                 <constraints nullable="false"/>
             </column>
-            <column name="personality_type" type="varchar(255)" remarks="user mbti type">
+            <column name="bio" type="varchar(1024)" remarks="user bio description">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_at" type="timestamp" remarks="time the vote was created at">
+            <column name="created_at" type="timestamp" remarks="time the user info was created at">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_at" type="timestamp" remarks="time the vote was updated at">
+            <column name="updated_at" type="timestamp" remarks="time the user info was updated at">
                 <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="004-add-foreign-key-user-infos-users" author="qaisar_baltabayev">
+    <changeSet id="004-create-table-user-info-fileIds" author="qaisar_baltabayev">
+        <comment>create table for storing file IDs associated with user information</comment>
+        <createTable tableName="user_info_file_ids">
+            <column name="user_info_id" type="uuid" remarks="ID of the associated user information">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_ids" type="varchar(255)" remarks="ID of the file">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="005-add-foreign-key-user-infos-users" author="qaisar_baltabayev">
         <comment>add foreign key constraint between user_infos and users</comment>
         <addForeignKeyConstraint baseTableName="user_infos"
                                  baseColumnNames="user_id"
                                  constraintName="fk_user_infos_users"
-                                 referencedTableName="users" referencedColumnNames="id"/>
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="005-add-foreign-key-user-preferences-users" author="qaisar_baltabayev">
+    <changeSet id="006-add-foreign-key-user-preferences-users" author="qaisar_baltabayev">
         <comment>add foreign key constraint between user_preferences and users</comment>
         <addForeignKeyConstraint baseTableName="user_preferences"
                                  baseColumnNames="user_id"
-                                 constraintName="fk_user-preferences-users"
-                                 referencedTableName="users" referencedColumnNames="id"/>
+                                 constraintName="fk_user_preferences_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="007-add-foreign-key-user-info-fileIds" author="qaisar_baltabayev">
+        <comment>Add foreign key constraint between user_info_file_ids and user_infos</comment>
+        <addForeignKeyConstraint baseTableName="user_info_file_ids"
+                                 baseColumnNames="user_info_id"
+                                 constraintName="fk_user_info_file_ids_user_infos"
+                                 referencedTableName="user_infos"
+                                 referencedColumnNames="id"/>
     </changeSet>
 
 </databaseChangeLog>

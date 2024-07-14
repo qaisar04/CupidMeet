@@ -8,9 +8,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants.ComponentModel;
 import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-        componentModel = ComponentModel.SPRING
+        componentModel = ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface UserInfoMapper {
 
@@ -19,7 +21,6 @@ public interface UserInfoMapper {
     @Mapping(source = "personalityType", target = "personalityType", qualifiedByName = "stringToPersonalityType")
     UserInfo toEntity(UserInfoRequest request);
 
-    @Mapping(source = "files", target = "files")
     UserInfoResponse toResponse(UserInfo userInfo);
 
     @Named("stringToPersonalityType")

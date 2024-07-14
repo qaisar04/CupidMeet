@@ -78,6 +78,28 @@ public class UserServiceImplTest {
             assertDoesNotThrow(() -> userService.assignRole(adminId, userId, role));
             assertEquals(role, user.getRole());
         }
+
+        @Test
+        @DisplayName("Test deactivate user successfully")
+        public void testDeactivateUser() {
+            Long userId = 1L;
+
+            when(userRepository.existsById(userId)).thenReturn(true);
+
+            assertDoesNotThrow(() -> userService.deactivate(userId));
+            verify(userRepository, times(1)).updateUserStatus(userId, Status.INACTIVE);
+        }
+
+        @Test
+        @DisplayName("Test block user successfully")
+        public void testBlockUser() {
+            Long userId = 1L;
+
+            when(userRepository.existsById(userId)).thenReturn(true);
+
+            assertDoesNotThrow(() -> userService.block(userId));
+            verify(userRepository, times(1)).updateUserStatus(userId, Status.BANNED);
+        }
     }
 
     @Nested
@@ -152,6 +174,19 @@ public class UserServiceImplTest {
 
             assertEquals(Role.USER, secondUser.getRole());
             verify(userRepository, never()).saveAndFlush(secondUser);
+        }
+
+        @Test
+        @DisplayName("Test deactivate user when user not found")
+        public void testDeactivateUser_EntityNotFoundException() {
+            Long userId = 1L;
+
+            when(userRepository.existsById(userId)).thenReturn(false);
+
+            EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> userService.deactivate(userId));
+            assertEquals("Not found user with id: " + userId, exception.getMessage());
+
+            verify(userRepository, never()).updateUserStatus(userId, Status.INACTIVE);
         }
     }
 }

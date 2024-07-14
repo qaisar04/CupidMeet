@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO user_detail.users (id, username, created_at, updated_at, status) VALUES (:id, :username, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE')", nativeQuery = true)
+    @Query(value = "INSERT INTO user_detail.users (id, username, created_at, updated_at, status, role) VALUES (:id, :username, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE', 'USER')", nativeQuery = true)
     void insertUser(Long id, String username);
 
     /**

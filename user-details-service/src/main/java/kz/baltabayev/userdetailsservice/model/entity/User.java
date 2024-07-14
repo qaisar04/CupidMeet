@@ -1,6 +1,7 @@
 package kz.baltabayev.userdetailsservice.model.entity;
 
 import jakarta.persistence.*;
+import kz.baltabayev.userdetailsservice.model.types.Role;
 import kz.baltabayev.userdetailsservice.model.types.Status;
 import lombok.*;
 
@@ -35,6 +36,13 @@ public class User extends BaseEntity {
      */
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    /**
+     * The role of the user, indicating their level of access within the system.
+     * Represented by the {@link Role} enum, it determines the user's permissions.
+     */
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     /**
      * The user's preferences, represented by the {@link UserPreference} entity.

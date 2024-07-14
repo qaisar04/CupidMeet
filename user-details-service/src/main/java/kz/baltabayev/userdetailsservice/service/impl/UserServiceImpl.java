@@ -91,6 +91,11 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    /**
+     * Blocks the user with the specified ID.
+     *
+     * @param id The ID of the user to block.
+     */
     @Override
     public void block(Long id) {
         checkIfUserExists(id, false);

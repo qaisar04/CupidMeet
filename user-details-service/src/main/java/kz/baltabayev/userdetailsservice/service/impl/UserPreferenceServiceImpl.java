@@ -6,7 +6,6 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.model.dto.UserMatchResponse;
-import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
@@ -120,7 +119,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                         userInfo.getAge(),
                         userInfo.getPersonalityType(),
                         userInfo.getBio(),
-                        userInfo.getFiles().stream().map(FileAttachment::getPath).collect(Collectors.toSet())
+                        userInfo.getFileIds()
                 ))
                 .collect(Collectors.toList());
     }

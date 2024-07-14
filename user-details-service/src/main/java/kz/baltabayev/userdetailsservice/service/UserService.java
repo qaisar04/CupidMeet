@@ -34,7 +34,17 @@ public interface UserService {
      */
     User get(Long id);
 
+    /**
+     * Deletes the user with the specified ID.
+     *
+     * @param id The ID of the user to delete.
+     */
     void delete(Long id);
 
+    /**
+     * Blocks the user with the specified ID.
+     *
+     * @param id The ID of the user to block.
+     */
     void block(Long id);
 }

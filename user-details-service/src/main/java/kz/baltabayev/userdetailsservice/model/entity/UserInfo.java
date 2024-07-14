@@ -19,8 +19,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_infos", schema = "user_detail")
-@EqualsAndHashCode(callSuper = true, exclude = {"files", "user"})
-@ToString(callSuper = true, exclude = {"files", "user"})
+@EqualsAndHashCode(callSuper = true, exclude = {"user"})
+@ToString(callSuper = true, exclude = {"user"})
 public class UserInfo extends BaseEntity {
 
     /**
@@ -64,10 +64,10 @@ public class UserInfo extends BaseEntity {
     private String bio;
 
     /**
-     * The set of file attachments associated with this user information.
+     * The set of file ids associated with this user information.
      */
-    @OneToMany(mappedBy = "userInfo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FileAttachment> files = new HashSet<>();
+    @ElementCollection
+    private Set<String> fileIds = new HashSet<>();
 
     /**
      * The user entity associated with this user information.

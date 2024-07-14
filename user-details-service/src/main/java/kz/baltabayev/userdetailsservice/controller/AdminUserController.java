@@ -29,6 +29,13 @@ public class AdminUserController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Blocks a user by the provided user ID.
+     *
+     * @param userId The ID of the user to block
+     * @return ResponseEntity indicating success or failure of the block operation
+     */
+    @Operation(summary = "Block a user")
     @PatchMapping("/block/{userId}")
     public ResponseEntity<Void> block(@PathVariable Long userId) {
         userService.block(userId);

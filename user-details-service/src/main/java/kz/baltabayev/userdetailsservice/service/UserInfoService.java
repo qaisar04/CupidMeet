@@ -3,6 +3,8 @@ package kz.baltabayev.userdetailsservice.service;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 
+import java.util.Set;
+
 /**
  * Service interface for managing user information.
  */
@@ -20,8 +22,12 @@ public interface UserInfoService {
     /**
      * Updates the user information for the specified user ID.
      *
-     * @param userInfo        the information of the user
-     * @param userId          the ID of the user
+     * @param userInfo the information of the user
+     * @param userId   the ID of the user
      */
     void update(UserInfoRequest userInfo, Long userId);
+
+    void addAttachment(Long userId, Set<String> fileIds);
+
+    void removeAttachment(Long userId, Set<String> fileIds);
 }

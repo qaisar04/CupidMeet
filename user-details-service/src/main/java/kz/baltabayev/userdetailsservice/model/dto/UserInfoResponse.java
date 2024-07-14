@@ -3,7 +3,7 @@ package kz.baltabayev.userdetailsservice.model.dto;
 import kz.baltabayev.userdetailsservice.model.types.Gender;
 import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 
-import java.util.List;
+import java.util.Set;
 
 public record UserInfoResponse(
         String name,
@@ -12,6 +12,6 @@ public record UserInfoResponse(
         Gender gender,
         PersonalityType personalityType,
         String bio,
-        List<FileAttachmentResponse> files
+        Set<String> files
 ) {
 }

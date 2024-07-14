@@ -16,6 +16,9 @@
             <column name="status" type="varchar(64)" remarks="status for the user">
                 <constraints nullable="false"/>
             </column>
+            <column name="role" type="varchar(64)" remarks="role of the user">
+                <constraints nullable="false"/>
+            </column>
             <column name="created_at" type="timestamp" remarks="time the idea was created at">
                 <constraints nullable="false"/>
             </column>

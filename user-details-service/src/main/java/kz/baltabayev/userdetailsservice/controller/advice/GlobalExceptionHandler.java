@@ -2,6 +2,8 @@ package kz.baltabayev.userdetailsservice.controller.advice;
 
 import jakarta.persistence.EntityNotFoundException;
 import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
+import kz.baltabayev.userdetailsservice.exception.RoleAlreadyAssignedException;
+import kz.baltabayev.userdetailsservice.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,7 @@ public class GlobalExceptionHandler {
      * @return The {@link ResponseEntity} with the error message in the body and a status of
      * {@link HttpStatus#BAD_REQUEST}.
      */
-    @ExceptionHandler({IllegalArgumentException.class, EntityAlreadyExistsException.class})
+    @ExceptionHandler({IllegalArgumentException.class, EntityAlreadyExistsException.class, RoleAlreadyAssignedException.class})
     public ResponseEntity<String> handleBadRequestException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -62,5 +64,20 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    /**
+     * Handles {@link UnauthorizedException} exceptions.
+     * This method catches unauthorized exceptions and returns a response entity with HTTP status code 401 (UNAUTHORIZED),
+     * indicating that the request has not been applied because it lacks valid authentication credentials for the target resource.
+     *
+     * @param ex The caught {@link UnauthorizedException}.
+     * @return A {@link ResponseEntity<String>} with the unauthorized status and the exception message as the body.
+     */
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(ex.getMessage());
     }
 }

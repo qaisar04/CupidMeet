@@ -2,6 +2,8 @@ package kz.baltabayev.userdetailsservice.model.dto;
 
 import jakarta.validation.constraints.*;
 
+import java.util.Set;
+
 public record UserInfoRequest(
         @NotNull(message = "Name cannot be null")
         @Size(min = 1, max = 100, message = "Name must be between 1 and 100 characters")
@@ -26,6 +28,9 @@ public record UserInfoRequest(
         String personalityType,
 
         @Size(max = 255, message = "Bio must be less than or equal to 255 characters")
-        String bio
+        String bio,
+
+        @NotNull
+        Set<String> fileIds
 ) {
 }

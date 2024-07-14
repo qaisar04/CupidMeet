@@ -5,7 +5,9 @@ import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(
+        componentModel = MappingConstants.ComponentModel.SPRING
+)
 public interface UserPreferenceMapper {
 
     UserPreferenceResponse toUserPreferenceResponse(UserPreference userPreference);

@@ -9,7 +9,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants.ComponentModel;
 import org.mapstruct.Named;
 
-@Mapper(componentModel = ComponentModel.SPRING)
+@Mapper(
+        componentModel = ComponentModel.SPRING
+)
 public interface UserInfoMapper {
 
     @Mapping(target = "id", ignore = true)

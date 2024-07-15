@@ -89,10 +89,4 @@ public class UserController {
         UserResponse response = userMapper.toResponse(user);
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/test/{userId}")
-    public String test(@PathVariable Long userId){
-        User user =userService.get(userId);
-        return user.getUserInfo().getPersonalityType().getClass().toString();
-    }
 }

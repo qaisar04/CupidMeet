@@ -13,6 +13,7 @@ public interface UserPreferenceService {
 
     /**
      * Creates a new user preference.
+     *
      * @param userId The ID of the user.
      * @param gender The gender preference of the user.
      */
@@ -20,6 +21,7 @@ public interface UserPreferenceService {
 
     /**
      * Updates an existing user preference.
+     *
      * @param userId The ID of the user.
      * @param gender The gender preference of the user.
      * @param maxAge The maximum age preference of the user.
@@ -29,7 +31,8 @@ public interface UserPreferenceService {
 
     /**
      * Retrieves a user preference by their ID.
-     * @param userId The ID of the user.
+     *
+     * @param userId          The ID of the user.
      * @param excludedUserIds The IDs of users to exclude from the search.
      * @return The user preference with the given ID.
      */

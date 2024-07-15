@@ -30,16 +30,16 @@ public interface UserInfoService {
     /**
      * Adds attachments to the user information for the specified user ID.
      *
-     * @param userId   the ID of the user
-     * @param fileIds  the IDs of the files to add as attachments
+     * @param userId  the ID of the user
+     * @param fileIds the IDs of the files to add as attachments
      */
     void addAttachment(Long userId, Set<String> fileIds);
 
     /**
      * Removes attachments from the user information for the specified user ID.
      *
-     * @param userId   the ID of the user
-     * @param fileIds  the IDs of the files to remove as attachments
+     * @param userId  the ID of the user
+     * @param fileIds the IDs of the files to remove as attachments
      */
     void removeAttachment(Long userId, Set<String> fileIds);
 }

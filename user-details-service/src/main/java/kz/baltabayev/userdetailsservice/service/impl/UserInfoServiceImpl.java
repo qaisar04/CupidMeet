@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.Set;
 
 /**
  * Implementation of the UserInfoService interface providing operations for managing user information.
@@ -74,5 +74,40 @@ public class UserInfoServiceImpl implements UserInfoService {
                 userInfo.name(), userInfo.age(), userInfo.city(), Gender.valueOf(userInfo.gender()),
                 PersonalityType.valueOf(userInfo.personalityType()), userInfo.bio(), userId
         );
+    }
+
+    /**
+     * Adds attachments to the user information for the specified user ID.
+     *
+     * @param userId  The ID of the user
+     * @param fileIds The IDs of the files to add as attachments
+     */
+    @Override
+    @Transactional
+    public void addAttachment(Long userId, Set<String> fileIds) {
+        if (!userInfoRepository.existsByUserId(userId)) {
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
+        }
+        UserInfo userInfo = userInfoRepository.getByUserId(userId).get();
+        userInfo.getFileIds().addAll(fileIds);
+        userInfoRepository.saveAndFlush(userInfo);
+    }
+
+    /**
+     * Removes attachments from the user information for the specified user ID.
+     *
+     * @param userId  The ID of the user
+     * @param fileIds The IDs of the files to remove as attachments
+     */
+    @Override
+    @Transactional
+    public void removeAttachment(Long userId, Set<String> fileIds) {
+        if (!userInfoRepository.existsByUserId(userId)) {
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
+        }
+        UserInfo userInfo = userInfoRepository.getByUserId(userId).get();
+        Set<String> currentFileIds = userInfo.getFileIds();
+        currentFileIds.removeAll(fileIds);
+        userInfoRepository.saveAndFlush(userInfo);
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.polskiy.feedbackservice.exception.ComplaintToThisUserAlreadyExistException;
 import ru.polskiy.feedbackservice.model.entity.Complaint;
-import ru.polskiy.feedbackservice.model.repository.ComplaintRepository;
+import ru.polskiy.feedbackservice.repository.ComplaintRepository;
 import ru.polskiy.feedbackservice.service.ComplaintService;
 
 import java.util.List;

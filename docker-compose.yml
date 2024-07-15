@@ -134,6 +134,7 @@ services:
       - storage-service
       - location-data-service
       - user-details-service
+      - feedback-service
     networks:
       - cupid-network
 

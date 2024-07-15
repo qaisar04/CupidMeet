@@ -2,19 +2,24 @@ package kz.baltabayev.userdetailsservice.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
+import kz.baltabayev.userdetailsservice.exception.RoleAlreadyAssignedException;
+import kz.baltabayev.userdetailsservice.exception.UnauthorizedException;
 import kz.baltabayev.userdetailsservice.model.entity.User;
+import kz.baltabayev.userdetailsservice.model.types.Role;
 import kz.baltabayev.userdetailsservice.model.types.Status;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of the UserService interface providing operations for managing user entities.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -94,7 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User get(Long id) {
-        return getById(id);
+       return getById(id);
     }
 
     /**
@@ -108,6 +113,42 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = getById(id);
         userRepository.delete(user);
+    }
+
+    /**
+     * Blocks the user with the specified ID.
+     *
+     * @param id The ID of the user to block.
+     */
+    @Override
+    public void block(Long id) {
+        checkIfUserExists(id, false);
+        userRepository.updateUserStatus(id, Status.BANNED);
+    }
+
+    /**
+     * Assigns a role to the user with the specified ID.
+     *
+     * @param adminId The ID of the admin assigning the role
+     * @param userId  The ID of the user to assign the role to
+     * @param role    The role to assign
+     * @throws UnauthorizedException        if the user performing the operation is not an admin
+     * @throws EntityNotFoundException      if no user with the given ID is found
+     * @throws RoleAlreadyAssignedException if the user already has the specified role
+     */
+    @Override
+    public void assignRole(Long adminId, Long userId, Role role) {
+        if (!isAdmin(adminId)) {
+            throw new UnauthorizedException("Admin rights are required to assign roles.");
+        }
+
+        User user = getById(userId);
+        if (user.getRole().equals(role)) {
+            throw new RoleAlreadyAssignedException("The user already has the specified role.");
+        }
+
+        user.setRole(role);
+        userRepository.saveAndFlush(user);
     }
 
     /**
@@ -137,5 +178,15 @@ public class UserServiceImpl implements UserService {
         } else if (!shouldNotExist && !exists) {
             throw new EntityNotFoundException(NOT_FOUND_USER_MESSAGE + id);
         }
+    }
+
+    /**
+     * Checks if the user with the specified ID is an admin.
+     *
+     * @param userId The ID of the user to check
+     */
+    private boolean isAdmin(Long userId) {
+        User byId = getById(userId);
+        return byId.getRole().equals(Role.ADMIN);
     }
 }

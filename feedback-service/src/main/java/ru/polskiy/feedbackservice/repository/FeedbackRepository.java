@@ -1,4 +1,4 @@
-package ru.polskiy.feedbackservice.model.repository;
+package ru.polskiy.feedbackservice.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

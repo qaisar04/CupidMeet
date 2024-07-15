@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.polskiy.feedbackservice.dto.FeedbackRequestResponse;
 import ru.polskiy.feedbackservice.exception.*;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
-import ru.polskiy.feedbackservice.model.repository.FeedbackRepository;
+import ru.polskiy.feedbackservice.repository.FeedbackRepository;
 import ru.polskiy.feedbackservice.service.FeedbackService;
 
 import java.util.List;

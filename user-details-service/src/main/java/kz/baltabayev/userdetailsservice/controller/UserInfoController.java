@@ -4,19 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import kz.baltabayev.userdetailsservice.mapper.FileAttachmentMapper;
 import kz.baltabayev.userdetailsservice.mapper.UserInfoMapper;
-import kz.baltabayev.userdetailsservice.model.dto.FileAttachmentRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
-import kz.baltabayev.userdetailsservice.model.entity.FileAttachment;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
-import kz.baltabayev.userdetailsservice.service.FileAttachmentService;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
+import java.util.Set;
 
 /**
  * Controller for handling user information related requests.
@@ -27,9 +23,29 @@ import java.util.UUID;
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
-    private final FileAttachmentMapper fileAttachmentMapper;
-    private final FileAttachmentService fileAttachmentService;
+    private final UserInfoMapper userInfoMapper;
 
+    /**
+     * Endpoint for creating a new user information.
+     *
+     * @param request The request body containing the user information details.
+     * @param userId  The ID of the user for whom the information is being created.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
+    @Operation(summary = "Create user information")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User information created successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    @PostMapping("{userId}")
+    public ResponseEntity<Void> create(
+            @Valid @RequestBody UserInfoRequest request,
+            @PathVariable("userId") Long userId
+    ) {
+        UserInfo userInfo = userInfoMapper.toEntity(request);
+        userInfoService.create(userInfo, userId);
+        return ResponseEntity.ok().build();
+    }
 
     /**
      * Endpoint for updating a user's information.
@@ -54,10 +70,10 @@ public class UserInfoController {
     }
 
     /**
-     * Endpoint for adding an attachment to a user's information.
+     * Endpoint for adding attachments to user information.
      *
-     * @param userId  The ID of the user to whom the attachment is being added.
-     * @param request The request body containing the attachment details.
+     * @param userId  The ID of the user to add attachments to.
+     * @param fileIds Set of file IDs representing attachments to add.
      * @return A ResponseEntity indicating the result of the operation.
      */
     @Operation(summary = "Add attachment to user information")
@@ -68,29 +84,30 @@ public class UserInfoController {
     @PostMapping("{userId}/attachments")
     public ResponseEntity<Void> addAttachment(
             @PathVariable Long userId,
-            @RequestBody FileAttachmentRequest request
+            @RequestBody Set<String> fileIds
     ) {
-        FileAttachment fileAttachment = fileAttachmentMapper.toEntity(request);
-        fileAttachmentService.addAttachment(userId, fileAttachment);
+        userInfoService.addAttachment(userId, fileIds);
         return ResponseEntity.ok().build();
     }
 
     /**
-     * Endpoint for removing an attachment.
+     * Endpoint for removing attachments from user information.
      *
-     * @param attachmentId The ID of the attachment to be removed.
+     * @param userId  The ID of the user to remove attachments from.
+     * @param fileIds Set of file IDs representing attachments to remove.
      * @return A ResponseEntity indicating the result of the operation.
      */
-    @Operation(summary = "Remove attachment")
+    @Operation(summary = "Remove attachment from user information")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Attachment removed successfully"),
             @ApiResponse(responseCode = "404", description = "Attachment not found")
     })
-    @DeleteMapping("attachments/{attachmentId}")
+    @DeleteMapping("{userId}/attachments")
     public ResponseEntity<Void> removeAttachment(
-            @PathVariable UUID attachmentId
+            @PathVariable Long userId,
+            @RequestBody Set<String> fileIds
     ) {
-        fileAttachmentService.removeAttachment(attachmentId);
+        userInfoService.removeAttachment(userId, fileIds);
         return ResponseEntity.ok().build();
     }
 }

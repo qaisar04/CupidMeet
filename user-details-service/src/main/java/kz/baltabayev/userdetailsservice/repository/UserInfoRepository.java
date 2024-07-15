@@ -33,14 +33,14 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, UUID> {
     @Transactional
     @Query(
             "UPDATE UserInfo u SET " +
-                    "u.name = :name," +
-                    "u.age = :age," +
-                    "u.city = :city, " +
-                    "u.gender = :gender," +
-                    "u.personalityType = :personalityType," +
-                    "u.bio = :bio, " +
-                    "u.updatedAt = CURRENT_TIMESTAMP " +
-                    "WHERE u.user.id = :userId"
+            "u.name = :name," +
+            "u.age = :age," +
+            "u.city = :city, " +
+            "u.gender = :gender," +
+            "u.personalityType = :personalityType," +
+            "u.bio = :bio, " +
+            "u.updatedAt = CURRENT_TIMESTAMP " +
+            "WHERE u.user.id = :userId"
     )
     void updateUserInfoByUserId(
             String name, Integer age, String city, Gender gender,

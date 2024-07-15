@@ -23,29 +23,6 @@ import java.util.Set;
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
-    private final UserInfoMapper userInfoMapper;
-
-    /**
-     * Endpoint for creating a new user information.
-     *
-     * @param request The request body containing the user information details.
-     * @param userId  The ID of the user for whom the information is being created.
-     * @return A ResponseEntity indicating the result of the operation.
-     */
-    @Operation(summary = "Create user information")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User information created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
-    @PostMapping("{userId}")
-    public ResponseEntity<Void> create(
-            @Valid @RequestBody UserInfoRequest request,
-            @PathVariable("userId") Long userId
-    ) {
-        UserInfo userInfo = userInfoMapper.toEntity(request);
-        userInfoService.create(userInfo, userId);
-        return ResponseEntity.ok().build();
-    }
 
     /**
      * Endpoint for updating a user's information.

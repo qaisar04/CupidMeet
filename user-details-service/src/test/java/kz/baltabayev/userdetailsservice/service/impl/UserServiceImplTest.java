@@ -50,17 +50,15 @@ class UserServiceImplTest {
             Long userId = 1L;
             String username = "qaisario";
 
-            User user = new User(userId,username);
-            UserPreference userPreference = new UserPreference(null,PreferredGender.FEMALE,null,null,user);
-            UserInfo userInfo =new UserInfo(null,username,20,"Test",Gender.MALE,PersonalityType.ENFP,"test info",null,user);
+            User user = new User(userId, username);
+            UserPreference userPreference = new UserPreference(null, PreferredGender.FEMALE, null, null, user);
+            UserInfo userInfo = new UserInfo(null, username, 20, "Test", Gender.MALE, PersonalityType.ENFP, "test info", null, user);
 
             user.setUserPreference(userPreference);
             user.setUserInfo(userInfo);
 
             when(userRepository.existsById(userId)).thenReturn(false);
-            when(userInfoService.create(userInfo,userId)).thenReturn(userInfo);
-
-
+            when(userInfoService.create(userInfo, userId)).thenReturn(userInfo);
 
             assertDoesNotThrow(() -> userService.create(user));
             verify(userRepository, times(1)).insertUser(userId, username);
@@ -136,7 +134,7 @@ class UserServiceImplTest {
             when(userRepository.existsById(userId)).thenReturn(true);
 
             EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
-                    () -> userService.create(new User(userId,username)));
+                    () -> userService.create(new User(userId, username)));
             assertEquals("User already exists with id: " + userId, exception.getMessage());
 
             verify(userRepository, never()).insertUser(userId, username);

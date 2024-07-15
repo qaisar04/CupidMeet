@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User get(Long id) {
-       return getById(id);
+        return getById(id);
     }
 
     /**

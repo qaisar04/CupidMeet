@@ -37,7 +37,6 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 
 
     public static final String NOT_FOUND_MESSAGE = "Not found userPreference for the user with id: ";
-    public static final String ALREADY_EXISTS_MESSAGE = "UserPreference already exists for user with id: ";
     private static final int MAX_RESULTS = 10;
 
     /**
@@ -70,7 +69,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     @Override
     public List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds) {
         if (!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("User with id:%d doesn't exist".formatted(userId));
+            throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
         }
         User user = userRepository.findById(userId).get();
         UserPreference preference = user.getUserPreference();

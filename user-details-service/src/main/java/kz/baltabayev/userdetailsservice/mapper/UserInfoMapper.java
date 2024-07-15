@@ -35,13 +35,15 @@ public interface UserInfoMapper {
     UserInfoResponse toResponse(UserInfo userInfo);
 
     /**
-     * Converts a String representation of PersonalityType to a PersonalityType enum.
+     * Converts a String representation of a personality type to uppercase.
      *
-     * @param personalityType The String representation of PersonalityType.
-     * @return The corresponding PersonalityType enum.
+     * This method takes a String representing a personality type and converts it to uppercase.
+     *
+     * @param personalityType The String representation of the personality type to convert.
+     * @return The input personality type string converted to uppercase.
      */
     @Named("stringToPersonalityType")
-    default PersonalityType stringToPersonalityType(String personalityType) {
-        return PersonalityType.valueOf(personalityType.toUpperCase());
+    default String stringToPersonalityType(String personalityType) {
+        return personalityType.toUpperCase();
     }
 }

@@ -8,9 +8,11 @@ import kz.baltabayev.userdetailsservice.mapper.UserMapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
+import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -86,5 +88,11 @@ public class UserController {
         User user = userService.get(userId);
         UserResponse response = userMapper.toResponse(user);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/test/{userId}")
+    public String test(@PathVariable Long userId){
+        User user =userService.get(userId);
+        return user.getUserInfo().getPersonalityType().getClass().toString();
     }
 }

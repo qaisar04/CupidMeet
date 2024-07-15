@@ -2,6 +2,7 @@ package kz.baltabayev.userdetailsservice.model.dto;
 
 import jakarta.validation.constraints.*;
 
+import java.util.Locale;
 import java.util.Set;
 
 public record UserInfoRequest(
@@ -23,7 +24,7 @@ public record UserInfoRequest(
         String gender,
 
         @NotNull(message = "PersonalityType cannot be null")
-        @Pattern(regexp = "INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP",
+        @Pattern(regexp = "INTJ|INTP|ENTJ|ENTP|INFJ|INFP|ENFJ|ENFP|ISTJ|ISFJ|ESTJ|ESFJ|ISTP|ISFP|ESTP|",
                 message = "PersonalityType must be a valid personality type")
         String personalityType,
 

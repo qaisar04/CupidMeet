@@ -22,8 +22,6 @@ public interface UserMapper {
      * @param userCreateRequest The {@link UserCreateRequest} object to be converted.
      * @return A {@link User} entity with fields mapped from {@link UserCreateRequest}.
      */
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "username", target = "username")
     @Mapping(source = "preferredGender", target = "userPreference.preferredGender")
     @Mapping(source = "userInfoRequest", target = "userInfo")
     User toEntity(UserCreateRequest userCreateRequest);

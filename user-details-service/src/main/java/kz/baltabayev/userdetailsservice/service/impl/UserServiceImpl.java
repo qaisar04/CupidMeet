@@ -5,8 +5,13 @@ import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.exception.RoleAlreadyAssignedException;
 import kz.baltabayev.userdetailsservice.exception.UnauthorizedException;
 import kz.baltabayev.userdetailsservice.model.entity.User;
+import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
+import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import kz.baltabayev.userdetailsservice.model.types.Role;
 import kz.baltabayev.userdetailsservice.model.types.Status;
+import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
+import kz.baltabayev.userdetailsservice.repository.UserPreferenceRepository;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
@@ -27,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserInfoService userInfoService;
     private final UserPreferenceService userPreferenceService;
+    private final UserInfoRepository userInfoRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
 
     /**
      * Error message for user not found
@@ -51,16 +58,26 @@ public class UserServiceImpl implements UserService {
      * <p>
      * This method is transactional, ensuring atomicity.
      *
-     * @param user The user object containing all necessary information to create the user, including ID, username, additional user information, and preferences.
+     * @param user The user object containing all necessary information to create the user, including ID,
+     *             username, additional user information, and preferences.
      * @throws EntityAlreadyExistsException if a user with the given ID already exists.
      */
     @Override
     @Transactional
     public void create(User user) {
         checkIfUserExists(user.getId(), true);
+
+        UserInfo userInfo = user.getUserInfo();
+        UserPreference preference = user.getUserPreference();
+        Integer age = userInfo.getAge();
+
+        userInfo.setUser(user);
+        UserPreference userPreference = new UserPreference(preference.getPreferredGender(),
+                age + 3, age - 3, user);
+
         userRepository.insertUser(user.getId(), user.getUsername());
-        userInfoService.create(user.getUserInfo(), user.getId());
-        userPreferenceService.create(user.getId(), user.getUserPreference().getPreferredGender().name());
+        userInfoRepository.save(userInfo);
+        userPreferenceRepository.save(userPreference);
     }
 
     /**

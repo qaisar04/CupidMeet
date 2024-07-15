@@ -11,15 +11,6 @@ import java.util.Set;
 public interface UserInfoService {
 
     /**
-     * Creates a new user information entry for the specified user ID.
-     *
-     * @param userInfo the user information to create
-     * @param userId   the ID of the user
-     * @return the created user information
-     */
-    UserInfo create(UserInfo userInfo, Long userId);
-
-    /**
      * Updates the user information for the specified user ID.
      *
      * @param userInfo the information of the user

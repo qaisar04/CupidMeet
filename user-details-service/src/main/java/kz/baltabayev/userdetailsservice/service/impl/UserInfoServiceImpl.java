@@ -37,27 +37,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     public static final String ALREADY_EXISTS_MESSAGE = "UserInfo already exists for user with id: ";
 
     /**
-     * Creates user information for the specified user ID.
-     *
-     * @param userInfo The UserInfo object containing user information to create
-     * @param userId   The ID of the user for whom the information is being created
-     * @return The created UserInfo object
-     * @throws EntityAlreadyExistsException if user information already exists for the given user ID
-     * @throws EntityNotFoundException      if no user with the given ID is found
-     */
-    @Override
-    @Transactional
-    public UserInfo create(UserInfo userInfo, Long userId) {
-        if (userInfoRepository.existsByUserId(userId)) {
-            throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
-        }
-        User user = userRepository.findById(userId).get();
-        user.setUserInfo(userInfo);
-        userInfo.setUser(user);
-        return userInfoRepository.save(userInfo);
-    }
-
-    /**
      * Updates user information for the specified user ID.
      *
      * @param userInfo The UserInfoRequest object containing updated user information

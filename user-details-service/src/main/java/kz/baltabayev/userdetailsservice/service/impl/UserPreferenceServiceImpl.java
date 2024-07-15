@@ -41,25 +41,6 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     private static final int MAX_RESULTS = 10;
 
     /**
-     * Creates a new user preference for the specified user.
-     *
-     * @param userId the ID of the user for whom the preference is created
-     * @param gender the preferred gender as a string
-     * @throws EntityAlreadyExistsException if a user preference already exists for the specified user
-     */
-    @Override
-    public void create(Long userId, String gender) {
-        if (userPreferenceRepository.existsByUserId(userId)) {
-            throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
-        }
-        User user = userRepository.findById(userId).get();
-        PreferredGender preferredGender = PreferredGender.fromString(gender);
-        Integer age = user.getUserInfo().getAge();
-        UserPreference userPreference = new UserPreference(preferredGender, age + 3, age - 3, user);
-        userPreferenceRepository.save(userPreference);
-    }
-
-    /**
      * Updates the user preference for the specified user.
      *
      * @param userId the ID of the user for whom the preference is updated

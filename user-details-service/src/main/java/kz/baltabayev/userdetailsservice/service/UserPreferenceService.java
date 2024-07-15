@@ -12,14 +12,6 @@ import java.util.Set;
 public interface UserPreferenceService {
 
     /**
-     * Creates a new user preference.
-     *
-     * @param userId The ID of the user.
-     * @param gender The gender preference of the user.
-     */
-    void create(Long userId, String gender);
-
-    /**
      * Updates an existing user preference.
      *
      * @param userId The ID of the user.

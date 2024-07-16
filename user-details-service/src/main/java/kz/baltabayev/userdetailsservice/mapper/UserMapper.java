@@ -3,17 +3,20 @@ package kz.baltabayev.userdetailsservice.mapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.Named;
+import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
+import org.mapstruct.*;
+
+import java.time.LocalDateTime;
+
 
 /**
  * Mapper interface for converting User entities to UserResponse DTOs.
  */
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
-        uses = {UserInfoMapper.class, UserPreferenceMapper.class}
+        uses = {UserInfoMapper.class, UserPreferenceMapper.class},
+        imports = {LocalDateTime.class}
 )
 public interface UserMapper {
 
@@ -25,6 +28,10 @@ public interface UserMapper {
      */
     @Mapping(source = "preferredGender", target = "userPreference.preferredGender", qualifiedByName = "stringToPreferredGender")
     @Mapping(source = "userInfoRequest", target = "userInfo")
+    @Mapping(target = "status", constant = "ACTIVE")
+    @Mapping(target = "role", constant = "USER")
+    @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
+    @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
     User toEntity(UserCreateRequest userCreateRequest);
 
     /**
@@ -48,5 +55,27 @@ public interface UserMapper {
     @Named("stringToPreferredGender")
     default String stringToPreferredGender(String preferredGender) {
         return preferredGender.toUpperCase();
+    }
+
+    /**
+     * This method is executed as part of object mapping to perform additional operations
+     * on objects after successfully mapping from {@code UserCreateRequest} to {@code User}.
+     * It calculates the user's age, creates a new {@code UserPreference} object based on
+     * adjusted age values, sets it as the user's preference, assigns the user ID from
+     * {@code userCreateRequest}, and establishes bidirectional linkage with user information.
+     *
+     * @param userCreateRequest The source object being mapped from, of type {@link UserCreateRequest}.
+     * @param user              The target object being mapped to, of type {@link User}, annotated with {@link org.mapstruct.MappingTarget}.
+     */
+    @AfterMapping
+    default void afterMapping(UserCreateRequest userCreateRequest, @MappingTarget User user) {
+        Integer age = user.getUserInfo().getAge();
+
+        UserPreference userPreference = new UserPreference(user.getUserPreference().getPreferredGender(),
+                age + 3, age - 3, user);
+
+        user.setUserPreference(userPreference);
+        user.setId(userCreateRequest.id());
+        user.getUserInfo().setUser(user);
     }
 }

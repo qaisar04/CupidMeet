@@ -20,7 +20,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -33,12 +32,6 @@ class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private UserInfoService userInfoService;
-
-    @Mock
-    private UserPreferenceService userPreferenceService;
 
     @Nested
     @DisplayName("Happy path")
@@ -58,10 +51,9 @@ class UserServiceImplTest {
             user.setUserInfo(userInfo);
 
             when(userRepository.existsById(userId)).thenReturn(false);
-            when(userInfoService.create(userInfo, userId)).thenReturn(userInfo);
 
             assertDoesNotThrow(() -> userService.create(user));
-            verify(userRepository, times(1)).insertUser(userId, username);
+            verify(userRepository, times(1)).save(user);
         }
 
         @Test

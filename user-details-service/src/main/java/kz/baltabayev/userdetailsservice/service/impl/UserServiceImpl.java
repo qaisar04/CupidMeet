@@ -66,18 +66,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void create(User user) {
         checkIfUserExists(user.getId(), true);
-
-        UserInfo userInfo = user.getUserInfo();
-        UserPreference preference = user.getUserPreference();
-        Integer age = userInfo.getAge();
-
-        userInfo.setUser(user);
-        UserPreference userPreference = new UserPreference(preference.getPreferredGender(),
-                age + 3, age - 3, user);
-
-        userRepository.insertUser(user.getId(), user.getUsername());
-        userInfoRepository.save(userInfo);
-        userPreferenceRepository.save(userPreference);
+        userRepository.save(user);
     }
 
     /**

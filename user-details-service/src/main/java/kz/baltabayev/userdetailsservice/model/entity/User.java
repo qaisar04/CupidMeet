@@ -5,6 +5,8 @@ import kz.baltabayev.userdetailsservice.model.types.Role;
 import kz.baltabayev.userdetailsservice.model.types.Status;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 /**
  * Represents a user entity in the system.
  * This entity contains basic user information and references to user preferences and user information.

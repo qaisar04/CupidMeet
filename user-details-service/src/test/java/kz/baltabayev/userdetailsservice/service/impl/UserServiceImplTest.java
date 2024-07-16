@@ -123,13 +123,15 @@ class UserServiceImplTest {
             Long userId = 1L;
             String username = "qaisario";
 
+            User user = new User(userId, username);
+
             when(userRepository.existsById(userId)).thenReturn(true);
 
             EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
                     () -> userService.create(new User(userId, username)));
             assertEquals("User already exists with id: " + userId, exception.getMessage());
 
-            verify(userRepository, never()).insertUser(userId, username);
+            verify(userRepository, never()).save(user);
         }
 
         @Test

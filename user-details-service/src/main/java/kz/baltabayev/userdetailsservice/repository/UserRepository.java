@@ -15,17 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
-     * Inserts a new user into the database.
-     *
-     * @param id       The ID of the user to insert.
-     * @param username The username of the user to insert.
-     */
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO user_detail.users (id, username, created_at, updated_at, status, role) VALUES (:id, :username, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'ACTIVE', 'USER')", nativeQuery = true)
-    void insertUser(Long id, String username);
-
-    /**
      * Updates the status of a user.
      *
      * @param id     The ID of the user whose status is being updated.

@@ -3,6 +3,7 @@ package kz.baltabayev.userdetailsservice.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import kz.baltabayev.userdetailsservice.mapper.UserMapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
@@ -20,21 +21,22 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
     private final UserMapper userMapper;
+    private final UserService userService;
 
     /**
      * Endpoint for creating a new user.
      *
-     * @param request The request body containing the user details.
+     * @param request The request body containing the user creation request and additional user information and preference.
      * @return A ResponseEntity indicating the result of the operation.
      */
     @Operation(summary = "Create a new user")
     @PostMapping
     public ResponseEntity<Void> create(
-            @RequestBody UserCreateRequest request
+            @Valid @RequestBody UserCreateRequest request
     ) {
-        userService.create(request.id(), request.username());
+        User user = userMapper.toEntity(request);
+        userService.create(user);
         return ResponseEntity.ok().build();
     }
 

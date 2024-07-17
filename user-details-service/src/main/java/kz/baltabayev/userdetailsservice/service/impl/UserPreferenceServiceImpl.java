@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
-import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.model.dto.UserMatchResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
@@ -12,8 +11,8 @@ import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
 import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import kz.baltabayev.userdetailsservice.model.types.Status;
 import kz.baltabayev.userdetailsservice.repository.UserPreferenceRepository;
+import kz.baltabayev.userdetailsservice.repository.UserRepository;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
-import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,33 +26,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserPreferenceServiceImpl implements UserPreferenceService {
 
-    private final UserService userService;
-    private final UserPreferenceRepository userPreferenceRepository;
     private final EntityManager entityManager;
+    private final UserRepository userRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
+
 
     public static final String NOT_FOUND_MESSAGE = "Not found userPreference for the user with id: ";
-    public static final String ALREADY_EXISTS_MESSAGE = "UserPreference already exists for user with id: ";
     private static final int MAX_RESULTS = 10;
-
-    /**
-     * Creates a new user preference for the specified user.
-     *
-     * @param userId the ID of the user for whom the preference is created
-     * @param gender the preferred gender as a string
-     * @throws EntityAlreadyExistsException if a user preference already exists for the specified user
-     */
-    @Override
-    public void create(Long userId, String gender) {
-        if (userPreferenceRepository.existsByUserId(userId)) {
-            throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
-        }
-
-        PreferredGender preferredGender = PreferredGender.fromString(gender);
-        User user = userService.get(userId);
-        Integer age = user.getUserInfo().getAge();
-        UserPreference userPreference = new UserPreference(preferredGender, age + 3, age - 3, user);
-        userPreferenceRepository.save(userPreference);
-    }
 
     /**
      * Updates the user preference for the specified user.
@@ -84,7 +63,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
      */
     @Override
     public List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds) {
-        User user = userService.get(userId);
+        User user = getUserById(userId);
         UserPreference preference = user.getUserPreference();
         UserInfo info = user.getUserInfo();
 
@@ -227,5 +206,17 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     private UserPreference getByIdUserId(Long userId) {
         return userPreferenceRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE + userId));
+    }
+
+    /**
+     * Retrieves the {@link User} entity associated with the given ID.
+     *
+     * @param id The ID of the user to retrieve {@link User} for.
+     * @return The {@link User} entity if found.
+     * @throws EntityNotFoundException If no {@link User} entity is found for the given ID.
+     */
+    private User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE + id));
     }
 }

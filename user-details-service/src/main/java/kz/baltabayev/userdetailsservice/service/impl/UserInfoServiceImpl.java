@@ -1,15 +1,12 @@
 package kz.baltabayev.userdetailsservice.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
-import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
-import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.model.types.Gender;
 import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
 import kz.baltabayev.userdetailsservice.service.UserInfoService;
-import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,38 +21,11 @@ import java.util.Set;
 public class UserInfoServiceImpl implements UserInfoService {
 
     private final UserInfoRepository userInfoRepository;
-    private final UserService userService;
 
     /**
      * Error message for user info not found
      */
     public static final String NOT_FOUND_MESSAGE = "Not found userInfo for the user with id: ";
-
-    /**
-     * Error message for user info already exists
-     */
-    public static final String ALREADY_EXISTS_MESSAGE = "UserInfo already exists for user with id: ";
-
-    /**
-     * Creates user information for the specified user ID.
-     *
-     * @param userInfo The UserInfo object containing user information to create
-     * @param userId   The ID of the user for whom the information is being created
-     * @return The created UserInfo object
-     * @throws EntityAlreadyExistsException if user information already exists for the given user ID
-     * @throws EntityNotFoundException      if no user with the given ID is found
-     */
-    @Override
-    @Transactional
-    public UserInfo create(UserInfo userInfo, Long userId) {
-        if (userInfoRepository.existsByUserId(userId)) {
-            throw new EntityAlreadyExistsException(ALREADY_EXISTS_MESSAGE + userId);
-        }
-
-        User user = userService.get(userId);
-        userInfo.setUser(user);
-        return userInfoRepository.save(userInfo);
-    }
 
     /**
      * Updates user information for the specified user ID.
@@ -79,13 +49,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     /**
      * Adds attachments to the user information for the specified user ID.
      *
-     * @param userId   The ID of the user
-     * @param fileIds  The IDs of the files to add as attachments
+     * @param userId  The ID of the user
+     * @param fileIds The IDs of the files to add as attachments
      */
     @Override
     @Transactional
     public void addAttachment(Long userId, Set<String> fileIds) {
-        UserInfo userInfo = userService.get(userId).getUserInfo();
+        UserInfo userInfo = getByUserId(userId);
         userInfo.getFileIds().addAll(fileIds);
         userInfoRepository.saveAndFlush(userInfo);
     }
@@ -93,15 +63,27 @@ public class UserInfoServiceImpl implements UserInfoService {
     /**
      * Removes attachments from the user information for the specified user ID.
      *
-     * @param userId   The ID of the user
-     * @param fileIds  The IDs of the files to remove as attachments
+     * @param userId  The ID of the user
+     * @param fileIds The IDs of the files to remove as attachments
      */
     @Override
     @Transactional
     public void removeAttachment(Long userId, Set<String> fileIds) {
-        UserInfo userInfo = userService.get(userId).getUserInfo();
+        UserInfo userInfo = getByUserId(userId);
         Set<String> currentFileIds = userInfo.getFileIds();
         currentFileIds.removeAll(fileIds);
         userInfoRepository.saveAndFlush(userInfo);
+    }
+
+    /**
+     * Retrieves the {@link UserInfo} entity associated with the given user ID.
+     *
+     * @param id The ID of the user to retrieve {@link UserInfo} for.
+     * @return The {@link UserInfo} entity if found.
+     * @throws EntityNotFoundException If no {@link UserInfo} entity is found for the given ID.
+     */
+    private UserInfo getByUserId(Long id) {
+        return userInfoRepository.getByUserId(id)
+                .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE + id));
     }
 }

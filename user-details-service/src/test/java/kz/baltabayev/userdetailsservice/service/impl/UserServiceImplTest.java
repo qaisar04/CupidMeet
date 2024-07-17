@@ -5,9 +5,12 @@ import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.exception.RoleAlreadyAssignedException;
 import kz.baltabayev.userdetailsservice.exception.UnauthorizedException;
 import kz.baltabayev.userdetailsservice.model.entity.User;
-import kz.baltabayev.userdetailsservice.model.types.Role;
-import kz.baltabayev.userdetailsservice.model.types.Status;
+import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
+import kz.baltabayev.userdetailsservice.model.types.*;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
+import kz.baltabayev.userdetailsservice.service.UserInfoService;
+import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,10 +43,17 @@ class UserServiceImplTest {
             Long userId = 1L;
             String username = "qaisario";
 
+            User user = new User(userId, username);
+            UserPreference userPreference = new UserPreference(null, PreferredGender.FEMALE, null, null, user);
+            UserInfo userInfo = new UserInfo(null, username, 20, "Test", Gender.MALE, PersonalityType.ENFP, "test info", null, user);
+
+            user.setUserPreference(userPreference);
+            user.setUserInfo(userInfo);
+
             when(userRepository.existsById(userId)).thenReturn(false);
 
-            assertDoesNotThrow(() -> userService.create(userId, username));
-            verify(userRepository, times(1)).insertUser(userId, username);
+            assertDoesNotThrow(() -> userService.create(user));
+            verify(userRepository, times(1)).save(user);
         }
 
         @Test
@@ -113,13 +123,15 @@ class UserServiceImplTest {
             Long userId = 1L;
             String username = "qaisario";
 
+            User user = new User(userId, username);
+
             when(userRepository.existsById(userId)).thenReturn(true);
 
             EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
-                    () -> userService.create(userId, username));
+                    () -> userService.create(new User(userId, username)));
             assertEquals("User already exists with id: " + userId, exception.getMessage());
 
-            verify(userRepository, never()).insertUser(userId, username);
+            verify(userRepository, never()).save(user);
         }
 
         @Test

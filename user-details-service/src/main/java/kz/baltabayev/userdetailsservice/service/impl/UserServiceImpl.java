@@ -5,9 +5,16 @@ import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.exception.RoleAlreadyAssignedException;
 import kz.baltabayev.userdetailsservice.exception.UnauthorizedException;
 import kz.baltabayev.userdetailsservice.model.entity.User;
+import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
+import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
+import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import kz.baltabayev.userdetailsservice.model.types.Role;
 import kz.baltabayev.userdetailsservice.model.types.Status;
+import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
+import kz.baltabayev.userdetailsservice.repository.UserPreferenceRepository;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
+import kz.baltabayev.userdetailsservice.service.UserInfoService;
+import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,26 +30,43 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final UserInfoService userInfoService;
+    private final UserPreferenceService userPreferenceService;
+    private final UserInfoRepository userInfoRepository;
+    private final UserPreferenceRepository userPreferenceRepository;
 
-    /** Error message for user not found */
+    /**
+     * Error message for user not found
+     */
     public static final String NOT_FOUND_USER_MESSAGE = "Not found user with id: ";
 
-    /** Error message for user already exists */
+    /**
+     * Error message for user already exists
+     */
     public static final String USER_ALREADY_EXISTS_MESSAGE = "User already exists with id: ";
 
     /**
-     * Creates a new user with the specified ID and username.
+     * Creates a new user with the specified details.
+     * <p>
+     * This method performs the following steps:
+     * <ol>
+     *     <li>Checks if a user with the given ID already exists.</li>
+     *     <li>Inserts a new user record.</li>
+     *     <li>Creates user information.</li>
+     *     <li>Creates user preferences.</li>
+     * </ol>
+     * <p>
+     * This method is transactional, ensuring atomicity.
      *
-     * @param id       The ID of the user to create
-     * @param username The username of the user to create
-     * @throws EntityAlreadyExistsException if a user with the given ID already exists
+     * @param user The user object containing all necessary information to create the user, including ID,
+     *             username, additional user information, and preferences.
+     * @throws EntityAlreadyExistsException if a user with the given ID already exists.
      */
     @Override
     @Transactional
-    public void create(Long id, String username) {
-        log.info("Creating user with ID: {} and username: {}", id, username);
-        checkIfUserExists(id, true);
-        userRepository.insertUser(id, username);
+    public void create(User user) {
+        checkIfUserExists(user.getId(), true);
+        userRepository.save(user);
     }
 
     /**
@@ -148,10 +172,10 @@ public class UserServiceImpl implements UserService {
     /**
      * Checks if a user with the specified ID exists in the database.
      *
-     * @param id            The ID of the user to check
+     * @param id             The ID of the user to check
      * @param shouldNotExist Whether the user should not exist (true) or should exist (false)
      * @throws EntityAlreadyExistsException if a user with the given ID already exists and shouldNotExist is true
-     * @throws EntityNotFoundException if no user with the given ID exists and shouldNotExist is false
+     * @throws EntityNotFoundException      if no user with the given ID exists and shouldNotExist is false
      */
     private void checkIfUserExists(Long id, boolean shouldNotExist) {
         boolean exists = userRepository.existsById(id);

@@ -23,7 +23,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserInfoServiceImpl implements UserInfoService {
 
-    private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
 
     /**

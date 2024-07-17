@@ -3,7 +3,6 @@ package kz.baltabayev.userdetailsservice.mapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoResponse;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
-import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 import org.mapstruct.*;
 
 /**

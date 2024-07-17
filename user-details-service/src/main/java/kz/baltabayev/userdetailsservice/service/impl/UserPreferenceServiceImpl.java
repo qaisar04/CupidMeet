@@ -4,21 +4,16 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
-import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.model.dto.UserMatchResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
 import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import kz.baltabayev.userdetailsservice.model.types.Status;
-import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
 import kz.baltabayev.userdetailsservice.repository.UserPreferenceRepository;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
-import kz.baltabayev.userdetailsservice.service.UserInfoService;
 import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
-import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -68,10 +63,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
      */
     @Override
     public List<UserMatchResponse> findMatchingUsers(Long userId, Set<Long> excludedUserIds) {
-        if (!userRepository.existsById(userId)) {
-            throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
-        }
-        User user = userRepository.findById(userId).get();
+        User user = getUserById(userId);
         UserPreference preference = user.getUserPreference();
         UserInfo info = user.getUserInfo();
 
@@ -214,5 +206,17 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     private UserPreference getByIdUserId(Long userId) {
         return userPreferenceRepository.findByUserId(userId)
                 .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE + userId));
+    }
+
+    /**
+     * Retrieves the {@link User} entity associated with the given ID.
+     *
+     * @param id The ID of the user to retrieve {@link User} for.
+     * @return The {@link User} entity if found.
+     * @throws EntityNotFoundException If no {@link User} entity is found for the given ID.
+     */
+    private User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(NOT_FOUND_MESSAGE + id));
     }
 }

@@ -3,7 +3,6 @@ package kz.baltabayev.userdetailsservice.mapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
-import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
 import org.mapstruct.*;
 
@@ -30,8 +29,6 @@ public interface UserMapper {
     @Mapping(source = "userInfoRequest", target = "userInfo")
     @Mapping(target = "status", constant = "ACTIVE")
     @Mapping(target = "role", constant = "USER")
-    @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
-    @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
     User toEntity(UserCreateRequest userCreateRequest);
 
     /**

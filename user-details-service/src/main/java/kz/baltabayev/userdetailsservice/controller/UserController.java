@@ -8,11 +8,9 @@ import kz.baltabayev.userdetailsservice.mapper.UserMapper;
 import kz.baltabayev.userdetailsservice.model.dto.UserCreateRequest;
 import kz.baltabayev.userdetailsservice.model.dto.UserResponse;
 import kz.baltabayev.userdetailsservice.model.entity.User;
-import kz.baltabayev.userdetailsservice.model.types.PersonalityType;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**

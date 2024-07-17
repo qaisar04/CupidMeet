@@ -1,7 +1,6 @@
 package kz.baltabayev.userdetailsservice.service;
 
 import kz.baltabayev.userdetailsservice.model.dto.UserInfoRequest;
-import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 
 import java.util.Set;
 

@@ -32,11 +32,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     public static final String NOT_FOUND_MESSAGE = "Not found userInfo for the user with id: ";
 
     /**
-     * Error message for user info already exists
-     */
-    public static final String ALREADY_EXISTS_MESSAGE = "UserInfo already exists for user with id: ";
-
-    /**
      * Updates user information for the specified user ID.
      *
      * @param userInfo The UserInfoRequest object containing updated user information

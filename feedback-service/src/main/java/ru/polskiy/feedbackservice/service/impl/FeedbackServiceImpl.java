@@ -36,7 +36,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public void updateFeedback(Long userId, FeedbackRequestResponse feedbackDto) {
         checkIfFeedbackExists(userId, false);
-        feedbackRepository.updateFeedback(feedbackDto.comment(), feedbackDto.grade(), userId);
+        Long id = feedbackRepository.findByUserId(userId).get().getId();
+        feedbackRepository.updateFeedback(feedbackDto.comment(), feedbackDto.grade(), id);
     }
 
     private void checkIfFeedbackExists(Long userId, boolean shouldNotExist) {
@@ -46,6 +47,5 @@ public class FeedbackServiceImpl implements FeedbackService {
         } else if (!shouldNotExist && !exists) {
             throw new EntityNotFoundException(NOT_FOUND_MESSAGE + userId);
         }
-
     }
 }

@@ -5,16 +5,9 @@ import kz.baltabayev.userdetailsservice.exception.EntityAlreadyExistsException;
 import kz.baltabayev.userdetailsservice.exception.RoleAlreadyAssignedException;
 import kz.baltabayev.userdetailsservice.exception.UnauthorizedException;
 import kz.baltabayev.userdetailsservice.model.entity.User;
-import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
-import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
-import kz.baltabayev.userdetailsservice.model.types.PreferredGender;
 import kz.baltabayev.userdetailsservice.model.types.Role;
 import kz.baltabayev.userdetailsservice.model.types.Status;
-import kz.baltabayev.userdetailsservice.repository.UserInfoRepository;
-import kz.baltabayev.userdetailsservice.repository.UserPreferenceRepository;
 import kz.baltabayev.userdetailsservice.repository.UserRepository;
-import kz.baltabayev.userdetailsservice.service.UserInfoService;
-import kz.baltabayev.userdetailsservice.service.UserPreferenceService;
 import kz.baltabayev.userdetailsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final UserInfoService userInfoService;
-    private final UserPreferenceService userPreferenceService;
-    private final UserInfoRepository userInfoRepository;
-    private final UserPreferenceRepository userPreferenceRepository;
 
     /**
      * Error message for user not found

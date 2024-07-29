@@ -10,8 +10,9 @@ import ru.polskiy.feedbackservice.model.type.Grade;
  */
 @Data
 @Entity
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "feedback", schema = "feedback")

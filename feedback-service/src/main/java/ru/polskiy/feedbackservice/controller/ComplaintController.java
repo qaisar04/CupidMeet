@@ -25,8 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ComplaintController {
 
-    private final ComplaintService complaintService;
     private final ComplaintMapper complaintMapper;
+    private final ComplaintService complaintService;
 
     /**
      * Retrieves a list of all complaints.

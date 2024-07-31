@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.polskiy.feedbackservice.model.entity.Feedback;
 import ru.polskiy.feedbackservice.model.type.Grade;
 
+import java.util.Optional;
+
 /**
  * Repository for managing Complaint entities.
  */
@@ -18,7 +20,7 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
      * @param userId The ID of the user for whom feedback is being retrieved.
      * @return The Feedback object associated with the given user ID, or null if not found.
      */
-    Feedback findByUserId(Long userId);
+    Optional<Feedback> findByUserId(Long userId);
 
     /**
      * Checks if a feedback exists for the given userId.

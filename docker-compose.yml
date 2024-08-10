@@ -16,7 +16,6 @@ services:
     container_name: user-details-service
     depends_on:
       - database
-      - storage-service
     ports:
       - "8728:8728"
     environment:
@@ -80,11 +79,10 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/live/qaisar.online/fullchain.pem:/etc/nginx/certs/fullchain.pem
       - /etc/letsencrypt/live/qaisar.online/privkey.pem:/etc/nginx/certs/privkey.pem
     depends_on:
-      - storage-service
       - location-data-service
       - user-details-service
       - feedback-service

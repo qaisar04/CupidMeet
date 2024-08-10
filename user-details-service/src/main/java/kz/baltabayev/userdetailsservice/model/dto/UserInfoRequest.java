@@ -29,9 +29,6 @@ public record UserInfoRequest(
         String personalityType,
 
         @Size(max = 255, message = "Bio must be less than or equal to 255 characters")
-        String bio,
-
-        @NotNull
-        Set<String> fileIds
+        String bio
 ) {
 }

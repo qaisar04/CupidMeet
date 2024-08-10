@@ -67,6 +67,8 @@ public class UserInfo extends BaseEntity {
      * The set of file ids associated with this user information.
      */
     @ElementCollection
+    @CollectionTable(name = "user_info_file_ids", joinColumns = @JoinColumn(name = "user_info_id"))
+    @Column(name = "file_ids")
     private Set<String> fileIds = new HashSet<>();
 
     /**

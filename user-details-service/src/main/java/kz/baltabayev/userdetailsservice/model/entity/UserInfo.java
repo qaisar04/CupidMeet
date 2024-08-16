@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_infos", schema = "user_detail")
+@Table(name = "user_infos")
 @EqualsAndHashCode(callSuper = true, exclude = {"user"})
 @ToString(callSuper = true, exclude = {"user"})
 public class UserInfo extends BaseEntity {

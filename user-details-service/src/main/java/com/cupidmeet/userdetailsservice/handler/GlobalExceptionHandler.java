@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleIllegalArgumentException(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body("Invalid request parameters: " + ex.getMessage());
+                .body(ex.getMessage());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

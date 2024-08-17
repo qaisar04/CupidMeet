@@ -2,13 +2,10 @@ package com.cupidmeet.userdetailsservice.user.service.impl;
 
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserInfoRequest;
-import com.cupidmeet.userdetailsservice.user.domain.entity.User;
 import com.cupidmeet.userdetailsservice.user.domain.entity.UserInfo;
 import com.cupidmeet.userdetailsservice.user.mapper.UserInfoMapper;
 import com.cupidmeet.userdetailsservice.user.repository.UserInfoRepository;
-import com.cupidmeet.userdetailsservice.user.repository.UserRepository;
 import com.cupidmeet.userdetailsservice.user.service.UserInfoService;
-import com.cupidmeet.userdetailsservice.user.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

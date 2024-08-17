@@ -10,11 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>kz.baltabayev</groupId>
+    <groupId>com.cupidmeet</groupId>
     <artifactId>cupid-meet</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>CupidMeet</name>
 
     <properties>
         <java.version>17</java.version>
@@ -136,7 +135,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>storage-service</module>
         <module>user-details-service</module>
         <module>location-data-service</module>
         <module>feedback-service</module>
@@ -194,6 +192,10 @@
                         <image>registry.hub.docker.com/qaaaaisar04/${project.artifactId}</image>
                     </to>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

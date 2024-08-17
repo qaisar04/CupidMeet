@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-create-table-user-evaluation" author="qaisar_baltabayev">
+        <comment>Создание таблицы оценок пользователей</comment>
+        <createTable tableName="user_evaluation">
+            <column name="id" type="uuid" remarks="Уникальный идентификатор для оценки пользователя">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="uuid" remarks="Идентификатор пользователя, который оценивает">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rated_user_id" type="uuid" remarks="Идентификатор оцененного пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="evaluation_at" type="timestamp" defaultValueComputed="CURRENT_TIMESTAMP" remarks="Время и дата, когда была произведена оценка">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reaction_type" type="varchar(64)" remarks="Тип реакции, которую оставил пользователь при оценке">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002-add-fk-user-evaluation" author="qaisar_baltabayev">
+        <comment>Добавление внешних ключей для таблицы оценок пользователей</comment>
+        <addForeignKeyConstraint baseTableName="user_evaluation"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_user_evaluation_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="user_evaluation"
+                                 baseColumnNames="rated_user_id"
+                                 constraintName="fk_user_evaluation_rated_user_id"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="003-create-index-user-evaluation" author="qaisar_baltabayev">
+        <comment>Создание индекса для ускорения поиска по таблице оценок пользователей</comment>
+        <createIndex indexName="idx_user_evaluation_user_id" tableName="user_evaluation">
+            <column name="user_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_user_evaluation_rated_user_id" tableName="user_evaluation">
+            <column name="rated_user_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

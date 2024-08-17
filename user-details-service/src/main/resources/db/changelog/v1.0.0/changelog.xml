@@ -4,8 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
-    <include file="001-create-default-schema.xml" relativeToChangelogFile="true"/>
-    <include file="002-create-table.xml" relativeToChangelogFile="true"/>
-    <include file="003-create-index.xml" relativeToChangelogFile="true"/>
+    <include file="001-create-user-table.xml" relativeToChangelogFile="true"/>
+    <include file="002-create-user-preferences-table.xml" relativeToChangelogFile="true"/>
+    <include file="003-create-user-infos-table.xml" relativeToChangelogFile="true"/>
+    <include file="004-create-user-evaluation-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

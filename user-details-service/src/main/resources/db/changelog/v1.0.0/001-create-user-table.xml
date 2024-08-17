@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-create-table-users" author="qaisar_baltabayev">
+        <comment>Создание таблицы пользователей</comment>
+        <createTable tableName="users">
+            <column name="id" type="uuid" remarks="Уникальный идентификатор пользователя">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_telegram_id" type="bigint" remarks="Уникальный идентификатор пользователя в Telegram">
+                <constraints unique="true"/>
+            </column>
+            <column name="username" type="varchar(64)" remarks="Имя пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(64)" remarks="Статус пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(64)" remarks="Роль пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="Время создания записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="Время последнего обновления записи">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

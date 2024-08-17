@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-create-table-user-info" author="qaisar_baltabayev">
+        <comment>Создание таблицы информации о пользователе</comment>
+        <createTable tableName="user_infos">
+            <column name="id" type="uuid" remarks="Уникальный идентификатор для информации о пользователе">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="uuid" remarks="Уникальный идентификатор пользователя">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)" remarks="Имя пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="age" type="int" remarks="Возраст пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="city" type="varchar(64)" remarks="Город проживания пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="varchar(16)" remarks="Пол пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="personality_type" type="varchar(255)" remarks="Тип личности пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bio" type="varchar(1024)" remarks="Краткая биография пользователя">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="Время создания записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="Время последнего обновления записи">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002-add-foreign-key-user-infos-users" author="qaisar_baltabayev">
+        <addForeignKeyConstraint baseTableName="user_infos"
+                                 baseColumnNames="user_id"
+                                 constraintName="fk_user_infos_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="003-create-table-user-info-fileIds" author="qaisar_baltabayev">
+        <comment>Создание таблицы для хранения идентификаторов файлов, связанных с информацией о пользователе</comment>
+        <createTable tableName="user_info_file_ids">
+            <column name="user_info_id" type="uuid" remarks="ID связанной информации о пользователе">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_ids" type="varchar(255)" remarks="ID файла">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-add-foreign-key-user-info-fileIds" author="qaisar_baltabayev">
+        <addForeignKeyConstraint baseTableName="user_info_file_ids"
+                                 baseColumnNames="user_info_id"
+                                 constraintName="fk_user_info_file_ids_user_infos"
+                                 referencedTableName="user_infos"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

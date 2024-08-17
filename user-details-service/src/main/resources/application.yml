@@ -7,20 +7,19 @@ spring:
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: true
-    default-schema: user_detail
-    liquibase-schema: develop
     change-log: db/changelog/changelog.xml
-    drop-first: true
   jpa:
     hibernate:
       ddl-auto: validate
+    show-sql: true
+
 springdoc:
   api-docs:
     enabled: true
     path: /user-details-service/doc/json
   swagger-ui:
     path: /user-details-service/doc
+
 logging:
   level:
     org.hibernate.SQL: DEBUG

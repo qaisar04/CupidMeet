@@ -46,6 +46,19 @@ public class AdminUserController {
     }
 
     /**
+     * Разблокировать пользователя по его идентификатору.
+     *
+     * @param userId идентификатор пользователя
+     * @return HTTP-ответ с кодом 200 при успешной блокировке
+     */
+    @Operation(operationId = "unblockUser", summary = "Разблокировать пользователя")
+    @PatchMapping("/unblockUser/{userId}")
+    public ResponseEntity<Void> unblock(@PathVariable UUID userId) {
+        userService.block(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
      * Назначить пользователю новую роль.
      *
      * @param adminId идентификатор администратора, выполняющего действие

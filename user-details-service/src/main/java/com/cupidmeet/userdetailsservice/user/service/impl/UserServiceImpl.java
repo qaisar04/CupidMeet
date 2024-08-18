@@ -93,6 +93,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void unblock(UUID id) {
+        if (!userRepository.existsById(id)) {
+            throw new EntityNotFoundException(
+                    String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
+            );
+        }
+        userRepository.updateUserStatus(id, Status.ACTIVE);
+    }
+
+    @Override
     public void assignRole(UUID adminId, UUID userId, Role role) {
         User user = getById(userId);
         User admin = getById(adminId);

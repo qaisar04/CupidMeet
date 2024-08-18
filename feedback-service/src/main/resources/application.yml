@@ -2,16 +2,12 @@ spring:
   application:
     name: feedback-service
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:cupid-meet}
+    url: jdbc:postgresql://${DB_HOST:qaisar.online}:${DB_PORT:5433}/${DB_NAME:cupid-meet}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   liquibase:
-    enabled: true
-    default-schema: feedback
-    liquibase-schema: develop
     change-log: db/changelog/db.changelog-master.xml
-    drop-first: false
   jpa:
     hibernate:
       ddl-auto: validate

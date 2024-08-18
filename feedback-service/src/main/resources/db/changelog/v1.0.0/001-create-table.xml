@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-create-table-complaint" author="polskiy">
+        <createTable tableName="complaint" remarks="Таблица жалоб пользователей">
+            <column name="id" type="uuid" remarks="Уникальный идентификатор жалобы">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="from_user_id" type="uuid" remarks="Идентификатор пользователя, подавшего жалобу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_user_id" type="uuid" remarks="Идентификатор пользователя, на которого подана жалоба">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="varchar(255)" remarks="Комментарий к жалобе">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(255)" remarks="Статус жалобы">
+                <constraints nullable="false"/>
+            </column>
+            <column name="complaint_type" type="varchar(255)" remarks="Тип жалобы">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="Дата и время создания записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="Дата и время последнего обновления записи">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002-create-table-feedback" author="polskiy">
+        <createTable tableName="feedback" remarks="Таблица отзывов пользователей">
+            <column name="id" type="uuid" remarks="Уникальный идентификатор отзыва">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid" remarks="Идентификатор пользователя, оставившего отзыв">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="grade" type="varchar(16)" remarks="Оценка, выставленная пользователем">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="varchar(255)" remarks="Комментарий к отзыву">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="Дата и время создания записи">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="Дата и время последнего обновления записи">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

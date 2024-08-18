@@ -23,6 +23,19 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Install common-message dependency
+        run: |
+          cd common-message
+          mvn clean install    
+
       - name: Login to docker hub
         uses: docker/login-action@v2
         with:

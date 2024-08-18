@@ -1,6 +1,7 @@
 package com.cupidmeet.userdetailsservice.matching.service.impl;
 
 import com.cupidmeet.userdetailsservice.matching.model.entity.UserEvaluation;
+import com.cupidmeet.userdetailsservice.matching.model.types.EvaluationStatus;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionOutcome;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionType;
 import com.cupidmeet.userdetailsservice.matching.repository.UserEvaluationRepository;
@@ -21,7 +22,7 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
 
     @Override
     public List<UUID> findRatedUserIds(UUID userId) {
-        List<UserEvaluation> evaluations = userEvaluationRepository.findByUserId(userId);
+        List<UserEvaluation> evaluations = userEvaluationRepository.findByUserIdAndStatus(userId, EvaluationStatus.ACTIVE);
         return evaluations.stream().map(UserEvaluation::getRatedUserId).toList();
     }
 

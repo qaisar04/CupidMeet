@@ -1,5 +1,6 @@
 package com.cupidmeet.userdetailsservice.matching.model.entity;
 
+import com.cupidmeet.userdetailsservice.matching.model.types.EvaluationStatus;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -52,4 +53,11 @@ public class UserEvaluation {
     @Enumerated(EnumType.STRING)
     @Column(name = "reaction_type")
     private ReactionType reactionType;
+
+    /**
+     * Статус оценки.
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "evaluation_status")
+    private EvaluationStatus status;
 }

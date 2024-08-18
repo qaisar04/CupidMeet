@@ -69,7 +69,7 @@ public interface UserMapper {
         Integer age = user.getUserInfo().getAge();
 
         UserPreference userPreference = new UserPreference(user.getUserPreference().getPreferredGender(),
-                age + 3, age - 3, user);
+                Math.max(age + 3,17), Math.max(age - 3, 14), user);
 
         user.setUserPreference(userPreference);
         user.setId(userCreateRequest.id());

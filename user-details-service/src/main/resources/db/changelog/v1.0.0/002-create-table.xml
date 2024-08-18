@@ -55,7 +55,25 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="003-create-table-user-info" author="qaisar_baltabayev">
+    <changeSet id="003-create-table-compatibility" author="gleb_polskiy">
+        <comment>create table compatibility</comment>
+        <createTable tableName="compatibility">
+            <column name="id" type="uuid" remarks="unique identifier for the compatibility">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_info_id" type="uuid" remarks="unique identifier for the user preferences">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="personality_type" type="varchar(16)" remarks="personality type">
+                <constraints nullable="false"/>
+            </column>
+            <column name="grade" type="integer" remarks="represents grade of compatibility with personality type">
+                <constraints nullable="false" checkConstraint="CHECK (grade &lt;= 10 AND grade &gt;=1)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="004-create-table-user-info" author="qaisar_baltabayev">
         <comment>create table user info</comment>
         <createTable tableName="user_infos">
             <column name="id" type="uuid" remarks="unique identifier for the user info">
@@ -91,7 +109,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="004-create-table-user-info-fileIds" author="qaisar_baltabayev">
+    <changeSet id="005-create-table-user-info-fileIds" author="qaisar_baltabayev">
         <comment>create table for storing file IDs associated with user information</comment>
         <createTable tableName="user_info_file_ids">
             <column name="user_info_id" type="uuid" remarks="ID of the associated user information">
@@ -103,7 +121,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="005-add-foreign-key-user-infos-users" author="qaisar_baltabayev">
+    <changeSet id="006-add-foreign-key-user-infos-users" author="qaisar_baltabayev">
         <comment>add foreign key constraint between user_infos and users</comment>
         <addForeignKeyConstraint baseTableName="user_infos"
                                  baseColumnNames="user_id"
@@ -112,7 +130,7 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="006-add-foreign-key-user-preferences-users" author="qaisar_baltabayev">
+    <changeSet id="007-add-foreign-key-user-preferences-users" author="qaisar_baltabayev">
         <comment>add foreign key constraint between user_preferences and users</comment>
         <addForeignKeyConstraint baseTableName="user_preferences"
                                  baseColumnNames="user_id"
@@ -121,7 +139,7 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="007-add-foreign-key-user-info-fileIds" author="qaisar_baltabayev">
+    <changeSet id="008-add-foreign-key-user-info-fileIds" author="qaisar_baltabayev">
         <comment>Add foreign key constraint between user_info_file_ids and user_infos</comment>
         <addForeignKeyConstraint baseTableName="user_info_file_ids"
                                  baseColumnNames="user_info_id"
@@ -130,4 +148,12 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="009-add-foreign-key-compatibility-user-info" author="gleb_polskiy">
+        <comment>Add foreign key constraint between compatibility and user_infos</comment>
+        <addForeignKeyConstraint baseTableName="compatibility"
+                                 baseColumnNames="user_info_id"
+                                 constraintName="fk_user_info_compatibility_user_infos"
+                                 referencedTableName="user_infos"
+                                 referencedColumnNames="id"/>
+    </changeSet>
 </databaseChangeLog>

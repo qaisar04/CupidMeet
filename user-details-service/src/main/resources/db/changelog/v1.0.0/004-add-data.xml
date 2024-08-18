@@ -1,0 +1,23 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="004-insert-data" author="polsky">
+        <insert tableName="users" schemaName="develop">
+            <column name="id" value="-1"/>
+            <column name="login" value="admin"/>
+            <column name="password" value="admin"/>
+            <column name="role" value="ADMIN"/>
+            <column name="registration_date" valueDate="2024-05-05T00:00:00"/>
+            <column name="update_date" valueDate="2024-05-05T00:00:00"/>
+        </insert>
+
+        <insert tableName="workspace_type" schemaName="develop">
+            <column name="type_name" value="workspace"/>
+        </insert>
+        <insert tableName="workspace_type" schemaName="develop">
+            <column name="type_name" value="Conference room"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

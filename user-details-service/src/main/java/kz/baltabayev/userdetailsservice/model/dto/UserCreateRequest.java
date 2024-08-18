@@ -10,7 +10,7 @@ public record UserCreateRequest(
 
         @NotNull(message = "Username cannot be null")
         @NotBlank
-        @Size(min = 1, max = 100, message = "Username must be between 1 and 100 characters")
+        @Size(min = 2, max = 100, message = "Username must be between 1 and 100 characters")
         String username,
 
         @NotNull(message = "Gender cannot be null")

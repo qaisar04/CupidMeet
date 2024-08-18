@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import kz.baltabayev.userdetailsservice.model.dto.UserMatchResponse;
+import kz.baltabayev.userdetailsservice.model.entity.Compatibility;
 import kz.baltabayev.userdetailsservice.model.entity.User;
 import kz.baltabayev.userdetailsservice.model.entity.UserInfo;
 import kz.baltabayev.userdetailsservice.model.entity.UserPreference;
@@ -29,7 +30,6 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     private final EntityManager entityManager;
     private final UserRepository userRepository;
     private final UserPreferenceRepository userPreferenceRepository;
-
 
     public static final String NOT_FOUND_MESSAGE = "Not found userPreference for the user with id: ";
     private static final int MAX_RESULTS = 10;
@@ -128,6 +128,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         );
 
         TypedQuery<UserInfo> typedQuery = entityManager.createQuery(query);
+
         return typedQuery.setMaxResults(limit).getResultList();
     }
 
@@ -154,8 +155,30 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
             predicates.add(cb.equal(root.get("city"), info.getCity()));
         }
 
+//        Subquery<Integer> maxGradeSubquery = cb.createQuery().subquery(Integer.class);
+//        Root<Compatibility> compatibilityRoot = maxGradeSubquery.from(Compatibility.class);
+//        maxGradeSubquery.select(cb.greatest(compatibilityRoot.get("grade")));
+//
+//        Subquery<String> personalityTypeSubquery = cb.createQuery().subquery(String.class);
+//        Root<Compatibility> compabilityRoot2 = personalityTypeSubquery.from(Compatibility.class);
+//        personalityTypeSubquery.select(compabilityRoot2.get("personalityType"))
+//                .where(cb.equal(compabilityRoot2.get("grade"), maxGradeSubquery));
+
+        Subquery<Integer> maxGradeSubquery = cb.createQuery().subquery(Integer.class);
+        Root<Compatibility> compatibilityRoot = maxGradeSubquery.from(Compatibility.class);
+        maxGradeSubquery.select(cb.max(compatibilityRoot.get("grade")));
+
+        // Подзапрос для получения personalityType с максимальным значением grade
+        Subquery<String> personalityTypeSubquery = cb.createQuery().subquery(String.class);
+        Root<Compatibility> compatibilityRoot2 = personalityTypeSubquery.from(Compatibility.class);
+        personalityTypeSubquery.select(compatibilityRoot2.get("personalityType"))
+                .where(cb.equal(compatibilityRoot2.get("grade"), maxGradeSubquery));
+        //TODO think about this logic
+        //TODO add data of types in liquibase
+
         if (includePersonalityType) {
-            predicates.add(cb.equal(root.get("personalityType"), info.getPersonalityType()));
+//            predicates.add(cb.equal(root.get("personalityType"), info.getPersonalityType()));
+            predicates.add(root.get("personalityType").in(personalityTypeSubquery));
         }
 
         Predicate genderPredicate = getGenderPredicate(cb, root, preference, info);

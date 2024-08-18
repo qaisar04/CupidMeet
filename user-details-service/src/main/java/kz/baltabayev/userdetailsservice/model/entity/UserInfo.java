@@ -19,7 +19,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "user_infos", schema = "user_detail")
-@EqualsAndHashCode(callSuper = true, exclude = {"user"})
+@EqualsAndHashCode(callSuper = true, exclude = {"user","compatibilities"})
 @ToString(callSuper = true, exclude = {"user"})
 public class UserInfo extends BaseEntity {
 
@@ -68,6 +68,9 @@ public class UserInfo extends BaseEntity {
      */
     @ElementCollection
     private Set<String> fileIds = new HashSet<>();
+
+    @OneToMany(mappedBy = "userInfo",cascade = CascadeType.ALL)
+    private Set<Compatibility> compatibilities;
 
     /**
      * The user entity associated with this user information.

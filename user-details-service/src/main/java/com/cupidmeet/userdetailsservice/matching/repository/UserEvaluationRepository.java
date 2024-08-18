@@ -4,6 +4,7 @@ import com.cupidmeet.userdetailsservice.matching.model.entity.UserEvaluation;
 import com.cupidmeet.userdetailsservice.matching.model.types.EvaluationStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.Instant;
 import java.util.List;
@@ -19,5 +20,6 @@ public interface UserEvaluationRepository extends JpaRepository<UserEvaluation, 
     List<UserEvaluation> findByEvaluationAtBeforeAndStatus(Instant evaluationAt, EvaluationStatus status);
 
     @Modifying(flushAutomatically = true)
-    void updateEvaluationStatus(UUID userId, EvaluationStatus status);
+    @Query("UPDATE UserEvaluation ue SET ue.status = :status WHERE ue.id = :id")
+    void updateEvaluationStatus(UUID id, EvaluationStatus status);
 }

@@ -6,6 +6,7 @@ import com.cupidmeet.userdetailsservice.matching.model.types.ReactionOutcome;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionType;
 import com.cupidmeet.userdetailsservice.matching.repository.UserEvaluationRepository;
 import com.cupidmeet.userdetailsservice.matching.service.UserEvaluationService;
+import com.cupidmeet.userdetailsservice.message.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,12 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
     @Transactional
     public ReactionOutcome submitReaction(UUID userId, UUID targetUserId, ReactionType reactionType) {
         Optional<UserEvaluation> existingReaction = userEvaluationRepository.findByUserIdAndRatedUserId(userId, targetUserId);
+
+        if (userId.equals(targetUserId)) {
+            throw new IllegalArgumentException(
+                    Messages.SELF_REACTION_NOT_ALLOWED.getTextPattern()
+            );
+        }
 
         UserEvaluation userEvaluation;
         if (existingReaction.isPresent()) {

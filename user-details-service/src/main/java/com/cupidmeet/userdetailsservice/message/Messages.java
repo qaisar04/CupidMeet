@@ -11,7 +11,9 @@ public enum Messages {
 
     ALREADY_EXISTS_TELEGRAM(2, "%s с идентификатором %s (Telegram ID) уже существует"),
 
-    ALREADY_EXISTS(3, "%s с идентификатором %s уже существует");
+    ALREADY_EXISTS(3, "%s с идентификатором %s уже существует"),
+
+    SELF_REACTION_NOT_ALLOWED(4, "Пользователь не может оценить сам себя");
 
     /**
      * Код ошибки.

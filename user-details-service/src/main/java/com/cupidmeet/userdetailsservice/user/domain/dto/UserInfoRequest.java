@@ -40,21 +40,21 @@ public class UserInfoRequest {
     /**
      * Пол пользователя.
      */
-    @NotBlank(message = "Пол пользователя не может быть пустым")
+    @NotNull(message = "Пол пользователя не может быть пустым")
     @Schema(description = "Пол пользователя")
     private Gender gender;
 
     /**
      * Тип личности пользователя.
      */
-    @NotBlank(message = "Тип личности пользователя не может быть пустым")
+    @NotNull(message = "Тип личности пользователя не может быть пустым")
     @Schema(description = "Тип личности пользователя")
     private PersonalityType personalityType;
 
     /**
      * Краткая биография пользователя.
      */
-    @NotNull(message = "Тип личности пользователя не может быть пустым")
+    @NotBlank(message = "Тип личности пользователя не может быть пустым")
     @Schema(description = "Краткая биография пользователя")
     private String bio;
 

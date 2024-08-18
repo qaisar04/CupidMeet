@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+/**
+ * Контроллер для управления пользователями со стороны администратора.
+ */
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
@@ -16,20 +19,40 @@ public class AdminUserController {
 
     private final UserService userService;
 
-    @Operation(operationId = "delete", summary = "Удалить пользователя")
+    /**
+     * Удалить пользователя по его идентификатору.
+     *
+     * @param userId идентификатор пользователя
+     * @return HTTP-ответ с кодом 200 при успешном удалении
+     */
+    @Operation(operationId = "deleteUser", summary = "Удалить пользователя")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable UUID userId) {
         userService.delete(userId);
         return ResponseEntity.ok().build();
     }
 
-    @Operation(operationId = "block", summary = "Блокировать пользователя")
+    /**
+     * Заблокировать пользователя по его идентификатору.
+     *
+     * @param userId идентификатор пользователя
+     * @return HTTP-ответ с кодом 200 при успешной блокировке
+     */
+    @Operation(operationId = "blockUser", summary = "Блокировать пользователя")
     @PatchMapping("/block/{userId}")
     public ResponseEntity<Void> block(@PathVariable UUID userId) {
         userService.block(userId);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Назначить пользователю новую роль.
+     *
+     * @param adminId идентификатор администратора, выполняющего действие
+     * @param userId идентификатор пользователя
+     * @param role роль, которую нужно назначить
+     * @return HTTP-ответ с кодом 200 при успешном назначении роли
+     */
     @Operation(operationId = "assignRole", summary = "Назначить новую роль пользователю")
     @PatchMapping("/assign-role/{adminId}/{userId}")
     public ResponseEntity<Void> assignRole(

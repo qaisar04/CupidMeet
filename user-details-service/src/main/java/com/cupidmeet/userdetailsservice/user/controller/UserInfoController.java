@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Контроллер для управления информацией о пользователях.
+ */
 @RestController
 @RequestMapping("/api/v1/info")
 @RequiredArgsConstructor
@@ -20,12 +23,14 @@ public class UserInfoController {
 
     private final UserInfoService userInfoService;
 
-    @Operation(summary = "Update user information")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User information updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "404", description = "User information not found")
-    })
+    /**
+     * Обновить информацию о пользователе.
+     *
+     * @param userInfo данные для обновления информации о пользователе
+     * @param userId идентификатор пользователя
+     * @return HTTP-ответ с кодом 200 при успешном обновлении
+     */
+    @Operation(operationId = "updateUserInfo", summary = "Обновить информацию о пользователе")
     @PostMapping("{userId}/update")
     public ResponseEntity<Void> update(
             @Valid @RequestBody UserInfoRequest userInfo,
@@ -35,10 +40,17 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Add attachment to user information")
+    /**
+     * Добавить вложенные файлы к анкете пользователя.
+     *
+     * @param userId идентификатор пользователя
+     * @param fileIds идентификаторы файлов, которые нужно добавить
+     * @return HTTP-ответ с кодом 200 при успешном добавлении
+     */
+    @Operation(operationId = "addAttachment", summary = "Добавить вложенные файлы к анкете пользователя")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Attachment added successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
+            @ApiResponse(responseCode = "200", description = "Вложения успешно добавлены"),
+            @ApiResponse(responseCode = "400", description = "Некорректные входные данные")
     })
     @PostMapping("{userId}/attachments")
     public ResponseEntity<Void> addAttachment(
@@ -49,11 +61,14 @@ public class UserInfoController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Remove attachment from user information")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Attachment removed successfully"),
-            @ApiResponse(responseCode = "404", description = "Attachment not found")
-    })
+    /**
+     * Удалить вложенные файлы с анкеты пользователя.
+     *
+     * @param userId идентификатор пользователя
+     * @param fileIds идентификаторы файлов, которые нужно удалить
+     * @return HTTP-ответ с кодом 200 при успешном удалении
+     */
+    @Operation(operationId = "removeAttachment", summary = "Удалить вложенные файлы с анкеты пользователя")
     @DeleteMapping("{userId}/attachments")
     public ResponseEntity<Void> removeAttachment(
             @PathVariable UUID userId,

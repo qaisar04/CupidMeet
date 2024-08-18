@@ -3,6 +3,7 @@ package com.cupidmeet.userdetailsservice.matching.controller;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionOutcome;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionType;
 import com.cupidmeet.userdetailsservice.matching.service.UserEvaluationService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,28 @@ public class UserEvaluationController {
 
     private final UserEvaluationService userEvaluationService;
 
+    /**
+     * Получить список идентификаторов пользователей, которые были оценены.
+     *
+     * @param userId Идентификатор пользователя.
+     * @return Список идентификаторов оцененных пользователей.
+     */
+    @Operation(operationId = "getRatedUserIds", summary = "Получить список идентификаторов пользователей, которые были оценены")
     @GetMapping("/evaluation/{userId}/rated-users")
     public ResponseEntity<List<UUID>> getRatedUserIds(@PathVariable("userId") UUID userId) {
         List<UUID> ratedUserIds = userEvaluationService.findRatedUserIds(userId);
         return ResponseEntity.ok(ratedUserIds);
     }
 
+    /**
+     * Оценить пользователя.
+     *
+     * @param fromUserId   Идентификатор пользователя, который оценивает.
+     * @param toUserId     Идентификатор пользователя, которого оценивают.
+     * @param reactionType Тип реакции (лайк, дизлайк и т.д.).
+     * @return Результат реакции (например, совпадение).
+     */
+    @Operation(operationId = "submitReaction", summary = "Оценить пользователя")
     @PostMapping("/reaction")
     public ResponseEntity<ReactionOutcome> submitReaction(
             @RequestParam("from") UUID fromUserId,

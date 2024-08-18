@@ -1,15 +1,21 @@
 package com.cupidmeet.userdetailsservice.user.domain.types;
 
+/**
+ * Перечисление, представляющее предпочтение по гендеру для поиска партнера.
+ */
 public enum PreferredGender {
+    /**
+     * Предпочтение на мужчин.
+     */
     MALE,
-    FEMALE,
-    ANY;
 
-    public static PreferredGender fromString(String preferredGender) {
-        try {
-            return PreferredGender.valueOf(preferredGender.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid preferred gender: " + preferredGender);
-        }
-    }
+    /**
+     * Предпочтение на женщин.
+     */
+    FEMALE,
+
+    /**
+     * Нет предпочтения по гендеру (любой).
+     */
+    ANY;
 }

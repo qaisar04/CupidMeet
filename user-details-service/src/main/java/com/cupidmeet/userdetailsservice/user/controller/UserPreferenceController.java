@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Контроллер для управления предпочтениями пользователей.
+ */
 @RestController
 @RequestMapping("/api/v1/preference")
 @RequiredArgsConstructor
@@ -19,7 +22,14 @@ public class UserPreferenceController {
 
     private final UserPreferenceService userPreferenceService;
 
-    @Operation(operationId = "update", summary = "Обновить информацию пользователя")
+    /**
+     * Обновить информацию о предпочтениях пользователя.
+     *
+     * @param userId идентификатор пользователя
+     * @param userPreferenceRequest объект, содержащий новые предпочтения пользователя
+     * @return HTTP-ответ с кодом 200 при успешном обновлении
+     */
+    @Operation(operationId = "updateUserPreference", summary = "Обновить информацию пользователя")
     @PatchMapping("{userId}")
     public ResponseEntity<Void> update(
             @PathVariable("userId") UUID userId,
@@ -29,11 +39,18 @@ public class UserPreferenceController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Получить список подходящих пользователей для указанного пользователя.
+     *
+     * @param userId идентификатор пользователя, для которого ищутся совпадения
+     * @param userIds (опционально) список идентификаторов пользователей для сравнения
+     * @return HTTP-ответ с кодом 200 и списком подходящих пользователей
+     */
     @Operation(operationId = "getMatchingUsers", summary = "Получить подходящих пользователей для определенного пользователя")
-    @GetMapping("{userId}/users")
+    @PostMapping("{userId}/users")
     public ResponseEntity<List<UserMatchResponse>> getMatchingUsers(
             @PathVariable UUID userId,
-            @RequestParam(required = false) Set<UUID> userIds //TODO: убрать из RequestParam
+            @RequestBody(required = false) Set<UUID> userIds
     ) {
         return ResponseEntity.ok(userPreferenceService.findMatchingUsers(userId, userIds));
     }

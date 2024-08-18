@@ -1,27 +1,35 @@
 package com.cupidmeet.userdetailsservice.message;
 
+import com.cupidmeet.commonmessage.message.MessageEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Messages {
+public enum Messages implements MessageEnum {
 
-    NOT_FOUND(1, "%s с %s %s отсутствует"),
+    OK(0, "OK"),
 
-    ALREADY_EXISTS_TELEGRAM(2, "%s с идентификатором %s (Telegram ID) уже существует"),
+    NOT_FOUND(1, "{0} с {1} {2} отсутствует"),
 
-    ALREADY_EXISTS(3, "%s с идентификатором %s уже существует"),
+    ALREADY_EXISTS(2, "{0} с идентификатором {1} уже существует"),
 
-    SELF_REACTION_NOT_ALLOWED(4, "Пользователь не может оценить сам себя");
+    SELF_REACTION_NOT_ALLOWED(3, "В системе запрещено оценивать самого себя"),
 
-    /**
-     * Код ошибки.
-     */
+    VALIDATION_ERROR(4, "Ошибка валидации: поле {0} - {1}"),
+
+    UNAUTHORIZED_ERROR(5, "Для назначения ролей требуются права администратора."),
+
+    ROLE_ALREADY_ASSIGNED(6, "У пользователя уже есть указанная роль.");
+
+    public static final String SOURCE = "user-details-service";
+
     private final int code;
 
-    /**
-     * Формат сообщения.
-     */
     private final String textPattern;
+
+    @Override
+    public String getSource() {
+        return SOURCE;
+    }
 }

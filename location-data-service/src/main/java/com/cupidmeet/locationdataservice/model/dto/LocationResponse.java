@@ -1,6 +1,5 @@
 package com.cupidmeet.locationdataservice.model.dto;
 
-import com.cupidmeet.locationdataservice.model.payload.Address;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

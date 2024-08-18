@@ -21,7 +21,9 @@ public class MapsServiceImpl implements MapsService {
     private String API_KEY;
 
     private RestTemplate restTemplate;
+
     private static final Integer EARTH_RADIUS = 6371;
+    private static final String LOCATION_IQ_URL = "https://us1.locationiq.com/v1/reverse?key=%s&lat=%s&lon=%s&format=json";
 
     @Bean
     public RestTemplate restTemplate() {
@@ -33,22 +35,20 @@ public class MapsServiceImpl implements MapsService {
      */
     public LocationResponse geocode(String latitude, String longitude) {
         if (latitude == null || longitude == null) {
-            log.error("Latitude and longitude must not be null");
-            throw new IllegalArgumentException("Latitude and longitude must not be null");
+            throw new IllegalArgumentException("Широта и долгота не должны быть null");
         }
 
-        String url = String.format("https://us1.locationiq.com/v1/reverse?key=%s&lat=%s&lon=%s&format=json", API_KEY, latitude, longitude);
+        String url = String.format(LOCATION_IQ_URL, API_KEY, latitude, longitude);
         try {
             log.info("Requesting location for lat: {}, lon: {}", latitude, longitude);
             LocationResponse response = restTemplate.getForEntity(url, LocationResponse.class).getBody();
             if (response == null) {
-                log.error("No response from location service");
-                throw new IllegalStateException("No response from location service");
+                throw new IllegalStateException("Нет ответа от службы определения местоположения");
             }
             return response;
         } catch (RestClientException e) {
-            log.error("Error during calling Location IQ API: {}", e.getMessage());
-            throw new LocationServiceException("Error when calling Location IQ API", e);
+            log.error("Ошибка при вызове Location IQ API: {}", e.getMessage());
+            throw new LocationServiceException("Ошибка при вызове Location IQ API", e);
         }
     }
 

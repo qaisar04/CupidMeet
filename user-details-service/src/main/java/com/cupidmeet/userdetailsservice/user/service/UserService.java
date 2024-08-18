@@ -2,7 +2,6 @@ package com.cupidmeet.userdetailsservice.user.service;
 
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
-import com.cupidmeet.userdetailsservice.user.exception.EntityAlreadyExistsException;
 import com.cupidmeet.userdetailsservice.user.domain.types.Role;
 
 import java.util.UUID;
@@ -16,7 +15,6 @@ public interface UserService {
      * Создает нового пользователя с указанными данными.
      *
      * @param request Объект, содержащий всю необходимую информацию для создания пользователя.
-     * @throws EntityAlreadyExistsException если пользователь с данным идентификатором уже существует.
      * @return Ответ с информацией о созданном пользователе.
      */
     UserResponse create(UserCreateRequest request);

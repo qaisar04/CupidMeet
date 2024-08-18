@@ -54,7 +54,7 @@ public class AdminUserController {
     @Operation(operationId = "unblockUser", summary = "Разблокировать пользователя")
     @PatchMapping("/unblockUser/{userId}")
     public ResponseEntity<Void> unblock(@PathVariable UUID userId) {
-        userService.block(userId);
+        userService.unblock(userId);
         return ResponseEntity.ok().build();
     }
 

@@ -1,5 +1,6 @@
 package com.cupidmeet.userdetailsservice.matching.service.impl;
 
+import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
 import com.cupidmeet.userdetailsservice.matching.model.entity.UserEvaluation;
 import com.cupidmeet.userdetailsservice.matching.model.types.EvaluationStatus;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionOutcome;
@@ -23,7 +24,9 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
 
     @Override
     public List<UUID> findRatedUserIds(UUID userId) {
-        List<UserEvaluation> evaluations = userEvaluationRepository.findByUserIdAndStatus(userId, EvaluationStatus.ACTIVE);
+        List<UserEvaluation> evaluations = userEvaluationRepository.findByUserIdAndStatus(
+                userId, EvaluationStatus.ACTIVE
+        );
         return evaluations.stream().map(UserEvaluation::getRatedUserId).toList();
     }
 
@@ -33,9 +36,7 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
         Optional<UserEvaluation> existingReaction = userEvaluationRepository.findByUserIdAndRatedUserId(userId, targetUserId);
 
         if (userId.equals(targetUserId)) {
-            throw new IllegalArgumentException(
-                    Messages.SELF_REACTION_NOT_ALLOWED.getTextPattern()
-            );
+            throw new CommonRuntimeException(Messages.SELF_REACTION_NOT_ALLOWED);
         }
 
         UserEvaluation userEvaluation;

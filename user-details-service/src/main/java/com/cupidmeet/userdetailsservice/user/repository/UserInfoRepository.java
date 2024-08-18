@@ -10,7 +10,5 @@ import java.util.UUID;
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, UUID> {
 
-    boolean existsByUserId(UUID userId);
-
     Optional<UserInfo> getByUserId(UUID userId);
 }

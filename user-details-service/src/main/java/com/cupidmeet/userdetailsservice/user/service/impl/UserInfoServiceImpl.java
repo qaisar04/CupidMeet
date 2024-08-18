@@ -1,12 +1,12 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
+import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserInfoRequest;
 import com.cupidmeet.userdetailsservice.user.domain.entity.UserInfo;
 import com.cupidmeet.userdetailsservice.user.mapper.UserInfoMapper;
 import com.cupidmeet.userdetailsservice.user.repository.UserInfoRepository;
 import com.cupidmeet.userdetailsservice.user.service.UserInfoService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +24,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     @Transactional
     public void update(UserInfoRequest userInfo, UUID userId) {
-        if (!userInfoRepository.existsByUserId(userId)) {
-            throw new EntityNotFoundException(
-                    String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", userId)
-            );
-        }
-
         UserInfo existingInfo = getByUserId(userId);
         userInfoMapper.updateEntityFromDto(userInfo, existingInfo);
         userInfoRepository.save(existingInfo);
@@ -53,8 +47,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     private UserInfo getByUserId(UUID id) {
         return userInfoRepository.getByUserId(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-                ));
+                .orElseThrow(CommonRuntimeException.supplier(
+                        Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
+                );
     }
 }

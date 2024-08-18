@@ -1,5 +1,6 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
+import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserMatchResponse;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserPreferenceRequest;
@@ -12,7 +13,6 @@ import com.cupidmeet.userdetailsservice.user.repository.UserPreferenceRepository
 import com.cupidmeet.userdetailsservice.user.repository.UserRepository;
 import com.cupidmeet.userdetailsservice.user.service.UserPreferenceService;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
@@ -147,15 +147,15 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 
     private UserPreference getByUserId(UUID id) {
         return userPreferenceRepository.findByUserId(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(Messages.NOT_FOUND.getTextPattern(), "Предпочтения пользователя для пользователя", "идентификатором", id)
-                ));
+                .orElseThrow(() -> new CommonRuntimeException(
+                        Messages.NOT_FOUND, "Предпочтения пользователя для пользователя", "идентификатором", id)
+                );
     }
 
     private User getUserById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-                ));
+                .orElseThrow(() -> new CommonRuntimeException(
+                        Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
+                );
     }
 }

@@ -1,24 +1,24 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
+import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
 import com.cupidmeet.userdetailsservice.user.domain.entity.User;
 import com.cupidmeet.userdetailsservice.user.domain.types.Role;
 import com.cupidmeet.userdetailsservice.user.domain.types.Status;
-import com.cupidmeet.userdetailsservice.user.exception.EntityAlreadyExistsException;
-import com.cupidmeet.userdetailsservice.user.exception.RoleAlreadyAssignedException;
-import com.cupidmeet.userdetailsservice.user.exception.UnauthorizedException;
 import com.cupidmeet.userdetailsservice.user.mapper.UserMapper;
 import com.cupidmeet.userdetailsservice.user.repository.UserRepository;
 import com.cupidmeet.userdetailsservice.user.service.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
+
+import static com.cupidmeet.userdetailsservice.message.Messages.ROLE_ALREADY_ASSIGNED;
+import static com.cupidmeet.userdetailsservice.message.Messages.UNAUTHORIZED_ERROR;
 
 @Slf4j
 @Service
@@ -36,9 +36,7 @@ public class UserServiceImpl implements UserService {
 
         boolean exists = userRepository.existsByUserTelegramId(user.getUserTelegramId());
         if (exists) {
-            throw new EntityAlreadyExistsException(
-                    String.format(Messages.ALREADY_EXISTS_TELEGRAM.getTextPattern(), "Пользователь", user.getUserTelegramId())
-            );
+            throw new CommonRuntimeException(Messages.ALREADY_EXISTS, "Пользователь", user.getUserTelegramId() + " (telegram id)");
         }
 
         User created = userRepository.save(user);
@@ -49,9 +47,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deactivate(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException(
-                    String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-            );
+            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
         }
         userRepository.updateUserStatus(id, Status.INACTIVE);
     }
@@ -60,9 +56,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void activate(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException(
-                    String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-            );
+            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
         }
         userRepository.updateUserStatus(id, Status.ACTIVE);
     }
@@ -85,9 +79,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void block(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException(
-                    String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-            );
+            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
         }
         userRepository.updateUserStatus(id, Status.BANNED);
     }
@@ -95,9 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void unblock(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new EntityNotFoundException(
-                    String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-            );
+            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
         }
         userRepository.updateUserStatus(id, Status.ACTIVE);
     }
@@ -108,11 +98,11 @@ public class UserServiceImpl implements UserService {
         User admin = getById(adminId);
 
         if (!admin.getRole().equals(Role.ADMIN)) {
-            throw new UnauthorizedException("Для назначения ролей требуются права администратора.");
+            throw new CommonRuntimeException(UNAUTHORIZED_ERROR);
         }
 
         if (user.getRole().equals(role)) {
-            throw new RoleAlreadyAssignedException("У пользователя уже есть указанная роль.");
+            throw new CommonRuntimeException(ROLE_ALREADY_ASSIGNED);
         }
 
         user.setRole(role);
@@ -121,8 +111,6 @@ public class UserServiceImpl implements UserService {
 
     private User getById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(Messages.NOT_FOUND.getTextPattern(), "Пользователь", "идентификатором", id)
-                ));
+                .orElseThrow(() -> new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id));
     }
 }

@@ -30,7 +30,7 @@ public class UserPreferenceController {
      * @return HTTP-ответ с кодом 200 при успешном обновлении
      */
     @Operation(operationId = "updateUserPreference", summary = "Обновить информацию пользователя")
-    @PatchMapping("{userId}")
+    @PutMapping("{userId}")
     public ResponseEntity<Void> update(
             @PathVariable("userId") UUID userId,
             @RequestBody UserPreferenceRequest userPreferenceRequest

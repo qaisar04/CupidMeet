@@ -31,7 +31,7 @@ public class UserInfoController {
      * @return HTTP-ответ с кодом 200 при успешном обновлении
      */
     @Operation(operationId = "updateUserInfo", summary = "Обновить информацию о пользователе")
-    @PostMapping("{userId}/update")
+    @PutMapping("{userId}/update")
     public ResponseEntity<Void> update(
             @Valid @RequestBody UserInfoRequest userInfo,
             @PathVariable("userId") UUID userId
@@ -48,11 +48,7 @@ public class UserInfoController {
      * @return HTTP-ответ с кодом 200 при успешном добавлении
      */
     @Operation(operationId = "addAttachment", summary = "Добавить вложенные файлы к анкете пользователя")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Вложения успешно добавлены"),
-            @ApiResponse(responseCode = "400", description = "Некорректные входные данные")
-    })
-    @PostMapping("{userId}/attachments")
+    @PatchMapping("{userId}/attachments")
     public ResponseEntity<Void> addAttachment(
             @PathVariable UUID userId,
             @RequestBody Set<String> fileIds

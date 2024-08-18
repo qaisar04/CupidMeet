@@ -11,12 +11,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
 springdoc:
   api-docs:
     enabled: true
     path: /feedback-service/doc/json
   swagger-ui:
     path: /feedback-service/doc
+
 server:
   port: 8504
   forward-headers-strategy: framework

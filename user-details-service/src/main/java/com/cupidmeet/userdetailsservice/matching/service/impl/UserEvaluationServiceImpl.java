@@ -40,6 +40,7 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
             userEvaluation.setUserId(userId);
             userEvaluation.setRatedUserId(targetUserId);
             userEvaluation.setReactionType(reactionType);
+            userEvaluation.setStatus(EvaluationStatus.ACTIVE);
         }
 
         userEvaluationRepository.save(userEvaluation);

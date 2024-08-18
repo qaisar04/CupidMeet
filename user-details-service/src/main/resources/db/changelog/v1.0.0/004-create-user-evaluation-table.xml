@@ -22,6 +22,9 @@
             <column name="reaction_type" type="varchar(64)" remarks="Тип реакции, которую оставил пользователь при оценке">
                 <constraints nullable="false"/>
             </column>
+            <column name="evaluation_status" type="varchar(64)" remarks="Статус оценки">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

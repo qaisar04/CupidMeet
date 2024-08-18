@@ -1,14 +1,17 @@
 spring:
   application:
     name: location-data-service
+
 springdoc:
   api-docs:
     enabled: true
     path: /location-data-service/doc/json
   swagger-ui:
     path: /location-data-service/doc
+
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
+
 server:
   port: 8580
   forward-headers-strategy: framework

@@ -1,9 +1,9 @@
-package kz.baltabayev.locationdataservice.service.impl;
+package com.cupidmeet.locationdataservice.service.impl;
 
-import kz.baltabayev.locationdataservice.exception.LocationServiceException;
-import kz.baltabayev.locationdataservice.model.dto.DistanceResponse;
-import kz.baltabayev.locationdataservice.model.dto.LocationResponse;
-import kz.baltabayev.locationdataservice.service.MapsService;
+import com.cupidmeet.locationdataservice.exception.LocationServiceException;
+import com.cupidmeet.locationdataservice.model.dto.DistanceResponse;
+import com.cupidmeet.locationdataservice.model.dto.LocationResponse;
+import com.cupidmeet.locationdataservice.service.MapsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

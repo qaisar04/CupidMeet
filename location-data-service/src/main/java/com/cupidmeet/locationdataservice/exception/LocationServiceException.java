@@ -1,4 +1,4 @@
-package kz.baltabayev.locationdataservice.exception;
+package com.cupidmeet.locationdataservice.exception;
 
 public class LocationServiceException extends RuntimeException {
 

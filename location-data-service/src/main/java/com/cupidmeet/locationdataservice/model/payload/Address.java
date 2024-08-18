@@ -1,4 +1,4 @@
-package kz.baltabayev.locationdataservice.model.payload;
+package com.cupidmeet.locationdataservice.model.payload;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

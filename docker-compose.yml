@@ -34,7 +34,7 @@ services:
     ports:
       - "8580:8580"
     environment:
-      LOCATIONIQ_API_KEY:
+      LOCATIONIQ_API_KEY: pk.d2903abe53c3326c6c3ec87ca2ead0de
     restart: always
     networks:
       - cupid-network
@@ -71,6 +71,13 @@ services:
       - feedback-service
     networks:
       - cupid-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
 
 volumes:
   minio_data:

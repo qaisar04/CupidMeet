@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -40,5 +37,14 @@ public class MapsController {
     ) {
         DistanceResponse response = mapsService.haversine(lat1, lon1, lat2, lon2);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(operationId = "haversine", summary = "Проверка является ли city городом с популяцией больше 5000")
+    @GetMapping("/{city}")
+    public ResponseEntity<Void> isCityExist(@PathVariable String city){
+        if (mapsService.isCityValid(city)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

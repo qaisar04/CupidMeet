@@ -87,6 +87,38 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                 )).collect(Collectors.toList());
     }
 
+    @Override
+    public List<UserMatchResponse> findMatchingUsersTest(UUID userId) {
+        Set<UUID> excludedUserIds = userEvaluationService.findRatedUserIds(userId);
+
+        if (excludedUserIds == null) {
+            excludedUserIds = new HashSet<>();
+        }
+        excludedUserIds.add(userId);
+
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<UserInfo> query = cb.createQuery(UserInfo.class);
+        Root<UserInfo> root = query.from(UserInfo.class);
+
+        Predicate exclusionPredicate = root.get("user").get("id").in(excludedUserIds).not();
+        query.select(root).where(exclusionPredicate);
+
+        TypedQuery<UserInfo> typedQuery = entityManager.createQuery(query);
+        List<UserInfo> userInfos = typedQuery.getResultList();
+
+        return userInfos.stream()
+                .limit(MAX_RESULTS)
+                .map(userInfo -> new UserMatchResponse(
+                        userInfo.getUser().getId(),
+                        userInfo.getName(),
+                        userInfo.getCity(),
+                        userInfo.getAge(),
+                        userInfo.getPersonalityType(),
+                        userInfo.getBio(),
+                        userInfo.getFileIds()
+                )).collect(Collectors.toList());
+    }
+
     private List<UserInfo> executeQuery(Set<UUID> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType, int limit) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<UserInfo> query = cb.createQuery(UserInfo.class);

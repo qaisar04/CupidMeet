@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +25,13 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
     private final UserEvaluationRepository userEvaluationRepository;
 
     @Override
-    public List<UUID> findRatedUserIds(UUID userId) {
+    public Set<UUID> findRatedUserIds(UUID userId) {
         List<UserEvaluation> evaluations = userEvaluationRepository.findByUserIdAndStatus(
                 userId, EvaluationStatus.ACTIVE
         );
-        return evaluations.stream().map(UserEvaluation::getRatedUserId).toList();
+        return evaluations.stream()
+                .map(UserEvaluation::getRatedUserId)
+                .collect(Collectors.toSet());
     }
 
     @Override

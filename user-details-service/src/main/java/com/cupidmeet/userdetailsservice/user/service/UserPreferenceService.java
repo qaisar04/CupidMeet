@@ -4,7 +4,6 @@ import com.cupidmeet.userdetailsservice.user.domain.dto.UserMatchResponse;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserPreferenceRequest;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -25,8 +24,7 @@ public interface UserPreferenceService {
      * Исключает пользователей с указанными ID.
      *
      * @param userId          ID пользователя, для которого выполняется поиск.
-     * @param excludedUserIds Набор ID пользователей, которые должны быть исключены из результатов поиска.
      * @return Список пользователей, подходящих по предпочтениям.
      */
-    List<UserMatchResponse> findMatchingUsers(UUID userId, Set<UUID> excludedUserIds);
+    List<UserMatchResponse> findMatchingUsers(UUID userId);
 }

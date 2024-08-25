@@ -1,6 +1,7 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
 import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.userdetailsservice.matching.service.UserEvaluationService;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserMatchResponse;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserPreferenceRequest;
@@ -28,6 +29,7 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     private final EntityManager entityManager;
     private final UserRepository userRepository;
     private final UserPreferenceRepository userPreferenceRepository;
+    private final UserEvaluationService userEvaluationService;
 
     private static final int MAX_RESULTS = 10;
 
@@ -43,10 +45,12 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     }
 
     @Override
-    public List<UserMatchResponse> findMatchingUsers(UUID userId, Set<UUID> excludedUserIds) {
+    public List<UserMatchResponse> findMatchingUsers(UUID userId) {
         User user = getUserById(userId);
         UserPreference preference = user.getUserPreference();
         UserInfo info = user.getUserInfo();
+
+        Set<UUID> excludedUserIds = userEvaluationService.findRatedUserIds(userId);
 
         if (excludedUserIds == null) {
             excludedUserIds = new HashSet<>();

@@ -43,15 +43,13 @@ public class UserPreferenceController {
      * Получить список подходящих пользователей для указанного пользователя.
      *
      * @param userId идентификатор пользователя, для которого ищутся совпадения
-     * @param userIds (опционально) список идентификаторов пользователей для сравнения
      * @return HTTP-ответ с кодом 200 и списком подходящих пользователей
      */
     @Operation(operationId = "getMatchingUsers", summary = "Получить подходящих пользователей для определенного пользователя")
-    @PostMapping("{userId}/users")
+    @GetMapping("{userId}/users")
     public ResponseEntity<List<UserMatchResponse>> getMatchingUsers(
-            @PathVariable UUID userId,
-            @RequestBody(required = false) Set<UUID> userIds
+            @PathVariable UUID userId
     ) {
-        return ResponseEntity.ok(userPreferenceService.findMatchingUsers(userId, userIds));
+        return ResponseEntity.ok(userPreferenceService.findMatchingUsers(userId));
     }
 }

@@ -78,6 +78,26 @@ services:
     ports:
       - "6379:6379"
     restart: unless-stopped
+    networks:
+      - cupid-network
+
+  telegram-bot:
+    image: qaaaaisar04/cupidmeet-telegram-bot:v1.11
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - TOKEN=7411579054:AAGJiFtdlJ7PGSw2dFsDjI14EvK94rF0QwY
+      - API_URL=http://user-details-service:8728/api/v1
+      - LOCATION_DATA_API=http://location-data-service:8580/api/v1/maps
+    command: python start.py
+    depends_on:
+      - redis
+      - database
+      - user-details-service
+      - location-data-service
+    networks:
+      - cupid-network
 
 volumes:
   minio_data:

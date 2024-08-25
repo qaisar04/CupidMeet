@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -26,8 +26,8 @@ public class UserEvaluationController {
      */
     @Operation(operationId = "getRatedUserIds", summary = "Получить список идентификаторов пользователей, которые были оценены")
     @GetMapping("/evaluation/{userId}/rated-users")
-    public ResponseEntity<List<UUID>> getRatedUserIds(@PathVariable("userId") UUID userId) {
-        List<UUID> ratedUserIds = userEvaluationService.findRatedUserIds(userId);
+    public ResponseEntity<Set<UUID>> getRatedUserIds(@PathVariable("userId") UUID userId) {
+        Set<UUID> ratedUserIds = userEvaluationService.findRatedUserIds(userId);
         return ResponseEntity.ok(ratedUserIds);
     }
 

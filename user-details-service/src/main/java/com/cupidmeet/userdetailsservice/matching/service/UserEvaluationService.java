@@ -3,7 +3,7 @@ package com.cupidmeet.userdetailsservice.matching.service;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionOutcome;
 import com.cupidmeet.userdetailsservice.matching.model.types.ReactionType;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -17,7 +17,7 @@ public interface UserEvaluationService {
      * @param userId идентификатор пользователя
      * @return список идентификаторов оцененных пользователей
      */
-    List<UUID> findRatedUserIds(UUID userId);
+    Set<UUID> findRatedUserIds(UUID userId);
 
     /**
      * Оценить другого пользователя.

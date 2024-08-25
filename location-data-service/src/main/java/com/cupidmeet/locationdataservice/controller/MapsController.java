@@ -40,8 +40,8 @@ public class MapsController {
     }
 
     @Operation(operationId = "haversine", summary = "Проверка является ли city городом с популяцией больше 5000")
-    @GetMapping("/{city}")
-    public ResponseEntity<Void> isCityExist(@PathVariable String city){
+    @GetMapping("/city")
+    public ResponseEntity<Void> isCityExist(@RequestBody String city){
         if (mapsService.isCityValid(city)){
             return ResponseEntity.ok().build();
         }

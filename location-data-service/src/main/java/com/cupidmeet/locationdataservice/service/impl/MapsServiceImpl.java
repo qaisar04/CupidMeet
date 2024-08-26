@@ -29,9 +29,8 @@ public class MapsServiceImpl implements MapsService {
 
     private static final Integer EARTH_RADIUS = 6371;
     private static final String LOCATION_IQ_URL = "https://us1.locationiq.com/v1/reverse?key=%s&lat=%s&lon=%s&format=json";
-    private static final String GEONAME_URL = """
-            http://api.geonames.org/searchJSON?name_equals=%s&featureCode=PPLA2&featureCode=PPLA&featureCode=PPLC&maxRows=1&lang=ru&cities=cities5000&username=%s
-                        """;
+    private static final String GEONAME_URL =
+            "http://api.geonames.org/searchJSON?name_equals=%s&featureCode=PPLA2&featureCode=PPLA&featureCode=PPLC&maxRows=1&lang=ru&cities=cities5000&username=%s";
 
     @Bean
     public RestTemplate restTemplate() {

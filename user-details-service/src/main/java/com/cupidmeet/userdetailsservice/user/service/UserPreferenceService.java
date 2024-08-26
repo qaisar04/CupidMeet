@@ -27,13 +27,4 @@ public interface UserPreferenceService {
      * @return Список пользователей, подходящих по предпочтениям.
      */
     List<UserMatchResponse> findMatchingUsers(UUID userId);
-
-    /**
-     * Находит подходящих пользователей на основе предпочтений заданного пользователя. (Тестовый)
-     * Исключает пользователей с указанными ID.
-     *
-     * @param userId          ID пользователя, для которого выполняется поиск.
-     * @return Список пользователей, подходящих по предпочтениям.
-     */
-    List<UserMatchResponse> findMatchingUsersTest(UUID userId);
 }

@@ -4,10 +4,13 @@ import com.cupidmeet.locationdataservice.exception.LocationServiceException;
 import com.cupidmeet.locationdataservice.model.dto.DistanceResponse;
 import com.cupidmeet.locationdataservice.model.dto.LocationResponse;
 import com.cupidmeet.locationdataservice.service.MapsService;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -19,11 +22,16 @@ public class MapsServiceImpl implements MapsService {
 
     @Value("${locationiq.api-key}")
     private String API_KEY;
+    @Value("${geonames.username}")
+    private String username;
 
     private RestTemplate restTemplate;
 
     private static final Integer EARTH_RADIUS = 6371;
     private static final String LOCATION_IQ_URL = "https://us1.locationiq.com/v1/reverse?key=%s&lat=%s&lon=%s&format=json";
+    private static final String GEONAME_URL = """
+            http://api.geonames.org/searchJSON?name_equals=%s&featureCode=PPLA2&featureCode=PPLA&featureCode=PPLC&maxRows=1&lang=ru&cities=cities5000&username=%s
+                        """;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -68,5 +76,19 @@ public class MapsServiceImpl implements MapsService {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return new DistanceResponse((double) Math.round(EARTH_RADIUS * c * 10) / 10);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void isCityValid(String city) {
+        String url = String.format(GEONAME_URL, city, username);
+        ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.GET,null,JsonNode.class);
+        JsonNode root = response.getBody();
+        int totalResultsCount = root.path("totalResultsCount").asInt();
+        if(totalResultsCount==0){
+            throw new RuntimeException("No city with name:%s".formatted(city));
+        }
     }
 }

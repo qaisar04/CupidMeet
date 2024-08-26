@@ -11,7 +11,8 @@ springdoc:
 
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
-
+geonames:
+  username:
 server:
   port: 8580
   forward-headers-strategy: framework

@@ -1,11 +1,7 @@
 package com.cupidmeet.userdetailsservice.user.controller;
 
-import com.cupidmeet.userdetailsservice.user.domain.dto.FileAttachmentRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
-import com.cupidmeet.userdetailsservice.user.domain.entity.FileAttachment;
-import com.cupidmeet.userdetailsservice.user.mapper.FileAttachmentMapper;
-import com.cupidmeet.userdetailsservice.user.service.FileAttachmentService;
 import com.cupidmeet.userdetailsservice.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -24,8 +20,6 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-    private final FileAttachmentService fileAttachmentService;
-    private final FileAttachmentMapper fileAttachmentMapper;
 
     /**
      * Создать нового пользователя.
@@ -77,33 +71,5 @@ public class UserController {
     public ResponseEntity<UserResponse> get(@PathVariable UUID userId) {
         UserResponse response = userService.get(userId);
         return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Удалить вложение файла по его идентификатору.
-     *
-     * @param attachmentId идентификатор вложения файла
-     * @return HTTP-ответ с кодом 200 при успешном удалении
-     */
-    @Operation(operationId = "removeAttachment", summary = "Удалить вложение файла")
-    @DeleteMapping("/attachments/{attachmentId}")
-    public ResponseEntity<Void> removeAttachment(@PathVariable UUID attachmentId) {
-        fileAttachmentService.removeAttachment(attachmentId);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * Добавить новое вложение файла для пользователя.
-     *
-     * @param userId идентификатор пользователя
-     * @param request данные для создания вложения файла
-     * @return HTTP-ответ с кодом 200 при успешном добавлении
-     */
-    @Operation(operationId = "addAttachment", summary = "Добавить вложение файла для пользователя")
-    @PostMapping("/{userId}/attachments")
-    public ResponseEntity<Void> addAttachment(@PathVariable UUID userId, @Valid @RequestBody FileAttachmentRequest request) {
-        FileAttachment fileAttachment = fileAttachmentMapper.toEntity(request);
-        fileAttachmentService.addAttachment(userId, fileAttachment);
-        return ResponseEntity.ok().build();
     }
 }

@@ -5,9 +5,6 @@ import com.cupidmeet.userdetailsservice.user.domain.types.Role;
 import com.cupidmeet.userdetailsservice.user.domain.types.Status;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Представляет сущность пользователя в системе.
  */
@@ -53,10 +50,4 @@ public class User extends BaseEntity {
      */
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private UserInfo userInfo;
-
-    /**
-     * Вложенные файлы пользователя.
-     */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private Set<FileAttachment> fileAttachments = new HashSet<>();
 }

@@ -20,7 +20,9 @@ public enum Messages implements MessageEnum {
 
     UNAUTHORIZED_ERROR(5, "Для назначения ролей требуются права администратора."),
 
-    ROLE_ALREADY_ASSIGNED(6, "У пользователя уже есть указанная роль.");
+    ROLE_ALREADY_ASSIGNED(6, "У пользователя уже есть указанная роль."),
+
+    ATTACHMENT_ALREADY_DELETED(7, "Файл вложения с идентификатором {0} уже помечен как удалён.");
 
     public static final String SOURCE = "user-details-service";
 

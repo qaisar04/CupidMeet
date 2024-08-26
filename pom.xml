@@ -115,6 +115,7 @@
         <module>user-details-service</module>
         <module>location-data-service</module>
         <module>feedback-service</module>
+        <module>storage-service</module>
     </modules>
 
     <build>

@@ -39,12 +39,10 @@ public class MapsController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(operationId = "haversine", summary = "Проверка является ли city городом с популяцией больше 5000")
-    @GetMapping("/city")
+    @Operation(operationId = "city exists   ", summary = "Проверка является ли city городом с популяцией больше 5000")
+    @GetMapping("/city/exists")
     public ResponseEntity<Void> isCityExist(@RequestBody String city){
-        if (mapsService.isCityValid(city)){
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+        mapsService.isCityValid(city);
+        return ResponseEntity.ok().build();
     }
 }

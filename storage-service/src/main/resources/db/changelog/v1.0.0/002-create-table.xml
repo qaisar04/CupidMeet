@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="001-create-table-files" author="qaisar_baltabayev">
+        <comment>Create table files</comment>
+        <createTable tableName="files">
+            <column name="id" type="uuid" remarks="Unique identifier for the fileInfo">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="path" type="varchar(128)" remarks="Storage fileInfo path">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(64)" remarks="File descriptive name">
+                <constraints nullable="false"/>
+            </column>
+            <column name="size" type="real" remarks="File size">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="varchar(64)" remarks="File content type">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="Time the fileInfo was created at">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="Time the fileInfo was updated at">
+            </column>
+            <column name="deleted_at" type="timestamp" remarks="Time the fileInfo was deleted at">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="003-create-table-deleted-files" author="qaisar_baltabayev">
+        <comment>create table for deleted files</comment>
+        <createTable tableName="files_to_delete">
+            <column name="id" type="uuid" remarks="Unique identifier for the file to delete">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="file_id" type="uuid"
+                    remarks="unique identifier for the files">
+                <constraints
+                        nullable="false"
+                        foreignKeyName="fk_files_to_deleted_files"
+                        referencedTableName="files"
+                        referencedColumnNames="id"
+                        deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

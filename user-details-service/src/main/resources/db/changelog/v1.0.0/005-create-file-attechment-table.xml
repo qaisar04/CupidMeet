@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="create-table-files-attachment" author="qaisar_baltabayev">
+        <comment>Таблица, которая хранит информацию о вложенных файлах пользователя</comment>
+        <createTable tableName="files_attachment">
+            <column name="id" type="uuid" remarks="Уникальный идентификатор вложения файла">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="file_id" type="uuid" remarks="Уникальный идентификатор файла">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="uuid" remarks="Уникальный идентификатор пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)" remarks="Описание файла">
+                <constraints nullable="false"/>
+            </column>
+            <column name="content_type" type="varchar(64)" remarks="Тип содержимого файла">
+                <constraints nullable="false"/>
+            </column>
+            <column name="path" type="varchar(64)" remarks="Путь к файлу">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" remarks="Время создания вложения файла">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp" remarks="Время обновления вложения файла">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted_at" type="timestamp" remarks="Время удаления вложения файла">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="002-add-foreign-key-files-attachment-users" author="qaisar_baltabayev">
+    <comment>Добавление внешних ключей для таблицы вложенных файлов</comment>
+    <addForeignKeyConstraint baseTableName="files_attachment"
+                             baseColumnNames="user_id"
+                             constraintName="fk_files_attachment_user_id"
+                             referencedTableName="users"
+                             referencedColumnNames="id"
+                             onDelete="CASCADE"/>
+    </changeSet>
+
+</databaseChangeLog>

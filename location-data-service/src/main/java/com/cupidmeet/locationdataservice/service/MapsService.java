@@ -38,5 +38,5 @@ public interface MapsService {
      * @param city имя города, который необходимо проверить.
      * @return {@code true}, если город найден в ответе API, {@code false} в противном случае.
      */
-    boolean isCityValid(String city);
+    void isCityValid(String city);
 }

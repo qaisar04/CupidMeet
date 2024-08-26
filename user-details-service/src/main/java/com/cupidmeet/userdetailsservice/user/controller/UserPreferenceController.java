@@ -52,4 +52,12 @@ public class UserPreferenceController {
     ) {
         return ResponseEntity.ok(userPreferenceService.findMatchingUsers(userId));
     }
+
+    @Operation(operationId = "getMatchingUsersTest", summary = "Получить подходящих пользователей для определенного пользователя (Тестовый)")
+    @GetMapping("test/{userId}/users")
+    public ResponseEntity<List<UserMatchResponse>> getMatchingUsersTest(
+            @PathVariable UUID userId
+    ) {
+        return ResponseEntity.ok(userPreferenceService.findMatchingUsersTest(userId));
+    }
 }

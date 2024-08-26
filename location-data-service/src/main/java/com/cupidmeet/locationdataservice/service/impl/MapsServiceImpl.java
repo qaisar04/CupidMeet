@@ -82,11 +82,13 @@ public class MapsServiceImpl implements MapsService {
      * {@inheritDoc}
      */
     @Override
-    public boolean isCityValid(String city) {
+    public void isCityValid(String city) {
         String url = String.format(GEONAME_URL, city, username);
         ResponseEntity<JsonNode> response = restTemplate.exchange(url, HttpMethod.GET,null,JsonNode.class);
         JsonNode root = response.getBody();
         int totalResultsCount = root.path("totalResultsCount").asInt();
-        return totalResultsCount != 0;
+        if(totalResultsCount==0){
+            throw new RuntimeException("No city with name:%s".formatted(city));
+        }
     }
 }

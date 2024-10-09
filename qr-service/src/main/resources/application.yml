@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: qr-service
+qr:
+  width: 600
+  height: 600
+  charset: UTF-8
+server:
+  port: 7070

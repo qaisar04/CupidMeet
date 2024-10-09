@@ -1,21 +1,28 @@
 package com.cupidmeet.qrservice.service.impl;
 
 import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.qrservice.QrCodeServiceGrpc;
+import com.cupidmeet.qrservice.QrCodeServiceOuterClass;
 import com.cupidmeet.qrservice.message.Messages;
 import com.cupidmeet.qrservice.service.QrService;
+import com.google.protobuf.ByteString;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@RequiredArgsConstructor
 public class QrServiceImpl implements QrService {
 
     @Value("${qr.charset}")
@@ -27,28 +34,21 @@ public class QrServiceImpl implements QrService {
     @Value("${qr.width}")
     private Integer width;
 
+    @GrpcClient("qrCodeService")
+    private final QrCodeServiceGrpc.QrCodeServiceBlockingStub qrCodeServiceBlockingStub;
+
     @Override
     public CompletableFuture<Void> generateQRAsync(HttpServletResponse response, String link) {
         return CompletableFuture.runAsync(() -> {
-            BitMatrix matrix;
             try {
-                matrix = new MultiFormatWriter()
-                        .encode(
-                                new String(link.getBytes(charset), charset),
-                                BarcodeFormat.QR_CODE, width, height
-                        );
+                byte[] imageBytes = generateQrCodeBytes(link);
+                long timestamp = System.currentTimeMillis();
 
-                var bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
                 response.setContentType("image/png");
-                response.setHeader("Content-Disposition", "inline; filename=qr-code.png");
+                response.setHeader("Content-Disposition", "inline; filename=qr-code-" + timestamp + ".png");
 
                 var outputStream = response.getOutputStream();
-
-                var byteArrayOutputStream = new ByteArrayOutputStream();
-
-                ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
-                byteArrayOutputStream.writeTo(outputStream);
-
+                outputStream.write(imageBytes);
                 outputStream.flush();
                 outputStream.close();
             } catch (Exception e) {
@@ -57,5 +57,34 @@ public class QrServiceImpl implements QrService {
         });
     }
 
+    @Override
+    public String generateQRPath(String link) {
+        try {
+            byte[] imageBytes = generateQrCodeBytes(link);
 
+            QrCodeServiceOuterClass.QrCodeRequest request = QrCodeServiceOuterClass.QrCodeRequest.newBuilder()
+                    .setQrCodeImage(ByteString.copyFrom(imageBytes))
+                    .build();
+
+            QrCodeServiceOuterClass.QrCodeResponse response = qrCodeServiceBlockingStub.uploadQrCode(request);
+
+            return response.getImagePath();
+        } catch (Exception e) {
+            throw new CommonRuntimeException(Messages.QR_GENERATION_ERROR, link, e);
+        }
+    }
+
+    private byte[] generateQrCodeBytes(String link) throws Exception {
+        BitMatrix matrix = new MultiFormatWriter()
+                .encode(
+                        new String(link.getBytes(charset), charset),
+                        BarcodeFormat.QR_CODE, width, height
+                );
+
+        var bufferedImage = MatrixToImageWriter.toBufferedImage(matrix);
+        var byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+
+        return byteArrayOutputStream.toByteArray();
+    }
 }

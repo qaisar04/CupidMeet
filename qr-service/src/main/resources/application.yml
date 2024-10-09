@@ -1,9 +1,17 @@
 spring:
   application:
     name: qr-service
+
 qr:
   width: 600
   height: 600
   charset: UTF-8
+
+grpc:
+  client:
+    qrCodeService:
+      address: localhost:9090
+      negotiation-type: plaintext
+
 server:
   port: 7070

@@ -168,6 +168,27 @@ services:
     networks:
       - cupid-network
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.7
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN_USER:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      DB_VENDOR: postgres
+      DB_ADDR: database
+      DB_DATABASE: cupid-meet
+      DB_SCHEMA: keycloak
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '8083:8080'
+    command: start-dev --import-realm
+    depends_on:
+      - database
+    restart: always
+    networks:
+      - cupid-network
+
 volumes:
   minio_data:
   grafana_storage:

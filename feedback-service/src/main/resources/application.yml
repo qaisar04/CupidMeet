@@ -21,7 +21,7 @@ springdoc:
 
 management:
   server:
-    port: 8092
+    port: 8090
   endpoints:
     web:
       base-path: /actuator

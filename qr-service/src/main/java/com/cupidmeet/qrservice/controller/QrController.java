@@ -28,6 +28,7 @@ public class QrController {
     }
 
     @GetMapping("/generate/upload")
+    @Operation(summary = "Генерирует QR-код для предоставленной ссылки и возвращает путь к файлу.")
     public String generateQR(@RequestParam String link) {
         return qrService.generateQRPath(link);
     }

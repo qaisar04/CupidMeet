@@ -180,12 +180,18 @@ services:
       DB_SCHEMA: keycloak
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
     ports:
       - '8083:8080'
+      - '8843:8443'
     command: start-dev --import-realm
     depends_on:
       - database
     restart: always
+    volumes:
+      - /etc/nginx/ssl/qaisar_online.crt:/etc/x509/https/tls.crt
+      - /etc/nginx/ssl/qaisar_online.key:/etc/x509/https/tls.key
     networks:
       - cupid-network
 

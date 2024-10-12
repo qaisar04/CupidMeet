@@ -67,4 +67,22 @@ public class FileInfo extends BaseEntity {
                 .contentType(file.getContentType())
                 .build();
     }
+
+    /**
+     * Создает новый экземпляр класса на основе переданных данных о файле.
+     *
+     * @param data данные файла
+     * @param fileName имя файла
+     * @param contentType тип контента
+     * @param s3Url путь к файлу
+     * @return новый экземпляр класса FileInfo
+     */
+    public static FileInfo from(byte[] data, String fileName, String contentType, String s3Url) {
+        return FileInfo.builder()
+                .path(s3Url)
+                .name(fileName)
+                .size((long) data.length)
+                .contentType(contentType)
+                .build();
+    }
 }

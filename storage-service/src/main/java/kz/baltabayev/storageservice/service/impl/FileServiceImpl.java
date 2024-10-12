@@ -54,8 +54,10 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public String saveFileToS3(byte[] file, S3Bucket bucketName) {
-        String s3Url = String.format(S3_URL_TEMPLATE, bucket.getBucketName(bucketName), UUID.randomUUID());
+        UUID fileName = UUID.randomUUID();
+        String s3Url = String.format(S3_URL_TEMPLATE, bucket.getBucketName(bucketName), fileName);
         WritableResource resource = (WritableResource) resourceLoader.getResource(s3Url);
+        saveFileInfo(FileInfo.from(file, fileName + ".png", "image/png", s3Url));
         return writeResource(file, resource, s3Url);
     }
 

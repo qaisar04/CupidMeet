@@ -100,6 +100,8 @@ services:
       DB_NAME: cupid-meet
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      S3_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      S3_SECRET_KEY: ${MINIO_SECRET_KEY}
     restart: always
     networks:
       - cupid-network

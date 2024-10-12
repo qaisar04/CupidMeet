@@ -3,8 +3,8 @@ services:
     container_name: pg-database
     image: postgres:16.2
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: cupid-meet
     ports:
       - "5433:5432"
@@ -23,8 +23,8 @@ services:
       DB_HOST: database
       DB_PORT: 5432
       DB_NAME: cupid-meet
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     networks:
       - cupid-network
@@ -35,7 +35,7 @@ services:
     ports:
       - "8580:8580"
     environment:
-      LOCATIONIQ_API_KEY: pk.d2903abe53c3326c6c3ec87ca2ead0de
+      LOCATIONIQ_API_KEY: ${LOCATIONIQ_API_KEY}
     restart: always
     networks:
       - cupid-network
@@ -51,8 +51,8 @@ services:
       DB_HOST: database
       DB_PORT: 5432
       DB_NAME: cupid-meet
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     networks:
       - cupid-network
@@ -80,7 +80,7 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
     entrypoint: [ "sh", "-c",
-      "mc alias set cupidmeet http://minio:9000 ${MINIO_ACCESS_KEY:-minioadmin} ${MINIO_SECRET_KEY:-minioadmin} 
+      "mc alias set cupidmeet http://minio:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY} 
       && mc mb cupidmeet/cupid-meet" ]
     networks:
       - cupid-network
@@ -98,8 +98,8 @@ services:
       DB_HOST: database
       DB_PORT: 5432
       DB_NAME: cupid-meet
-      DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     networks:
       - cupid-network
@@ -148,8 +148,8 @@ services:
     volumes:
       - ./data/grafana:/var/lib/grafana
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
     networks:
       - cupid-network
 

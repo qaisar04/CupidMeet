@@ -4,7 +4,7 @@ import kz.baltabayev.storageservice.domain.entity.FileInfo;
 import org.springframework.core.io.Resource;
 
 /**
- * Represents a prepared resource containing both the resource and its associated file information.
+ * Представляет собой подготовленный ресурс, содержащий как сам ресурс, так и информацию о связанном с ним файле.
  */
 public record PreparedResource(
         Resource resource,

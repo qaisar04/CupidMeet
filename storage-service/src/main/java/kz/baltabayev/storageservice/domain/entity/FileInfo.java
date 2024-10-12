@@ -7,38 +7,57 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.UUID;
 
 /**
- * Class represents file stored at external storage. Class describes file path to storage and
- * meta-information (name, size, content-type), as well as timing marks when file was created,
- * updated or deleted, inherited from AuditingEntity class.
+ * Сущность, хранящая информацию о файле.
  */
-@Getter
-@Setter
-@ToString(callSuper = true)
-@NoArgsConstructor
-@AllArgsConstructor()
-@Builder
+@Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
 @Table(name = "files", schema = "storage")
+@EqualsAndHashCode(of = "id", callSuper = false)
 public class FileInfo extends BaseEntity {
 
+    /**
+     * Идентификатор.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    /**
+     * Путь к файлу.
+     */
     private String path;
+
+    /**
+     * Имя файла.
+     */
     private String name;
+
+    /**
+     * Размер файла.
+     */
     private long size;
+
+    /**
+     * Тип контента.
+     */
     private String contentType;
 
+    /**
+     * Сущность, связанная с файлом, которая хранит информацию о времени удаления файла.
+     */
     @OneToOne(mappedBy = "fileInfo", cascade = CascadeType.REMOVE)
     private FileToDelete fileToDelete;
 
     /**
-     * Factory method encapsulates logic of creating new FileInfo instance from file uploaded by user
-     * and provided url to file in S3 storage
+     * Создает новый экземпляр класса на основе переданного файла и пути к файлу.
      *
-     * @param file  Business idea file saved in S3 storage
-     * @param s3Url Path to the file on S3 storage
-     * @return FileInfo instance
+     * @param file файл, на основе которого создается экземпляр класса FileInfo
+     * @param s3Url путь к файлу
+     * @return новый экземпляр класса FileInfo
      */
     public static FileInfo from(MultipartFile file, String s3Url) {
         return FileInfo.builder()

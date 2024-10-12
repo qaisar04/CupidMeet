@@ -4,9 +4,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
- * Configuration class enables Jpa Auditing
+ * Конфигурация аудита.
  */
 @EnableJpaAuditing
 @Configuration
 public class AuditConfig {
+
 }

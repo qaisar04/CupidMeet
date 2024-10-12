@@ -27,7 +27,7 @@ public class QrController {
         return qrService.generateQRAsync(response, link);
     }
 
-    @GetMapping("/generate/path")
+    @GetMapping("/generate/upload")
     public String generateQR(@RequestParam String link) {
         return qrService.generateQRPath(link);
     }

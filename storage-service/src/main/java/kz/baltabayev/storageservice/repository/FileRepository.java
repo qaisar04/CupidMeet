@@ -7,23 +7,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Jpa Repository class provides data manipulation operations with database
+ * Репозиторий для работы с сущностью {@link FileInfo}.
  */
 public interface FileRepository extends JpaRepository<FileInfo, UUID> {
 
     /**
-     * Method saves single FileInfo object into database
+     * Ищет информацию о файле по местоположению файла.
      *
-     * @param fileInfo FileInfo object representing meta-information about stored file
-     * @return FileInfo object with added unique identifier and auditing information
-     */
-    FileInfo save(FileInfo fileInfo);
-
-    /**
-     * Retrieves an optional FileInfo object from the database based on the provided path.
-     *
-     * @param path The path of the file.
-     * @return An Optional containing the FileInfo object if found, or an empty Optional if not found.
+     * @param path Путь к файлу.
+     * @return Информация о файле.
      */
     Optional<FileInfo> findByPath(String path);
 }

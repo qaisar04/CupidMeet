@@ -1,0 +1,14 @@
+syntax = "proto3";
+package com.cupidmeet.qrservice;
+
+message QrCodeRequest {
+  bytes qr_code_image = 1;
+}
+
+message QrCodeResponse {
+  string image_path = 1;
+}
+
+service QrCodeService {
+  rpc UploadQrCode(QrCodeRequest) returns (QrCodeResponse);
+}

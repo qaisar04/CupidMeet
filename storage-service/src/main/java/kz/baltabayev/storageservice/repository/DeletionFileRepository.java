@@ -7,8 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 /**
- * Repository interface for managing deletion files.
+ * Репозиторий для работы с сущностью {@link FileToDelete}.
  */
 @Repository
 public interface DeletionFileRepository extends JpaRepository<FileToDelete, UUID> {
+
 }

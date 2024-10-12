@@ -32,12 +32,16 @@ springdoc:
     path: /storage-service/doc/json
   swagger-ui:
     path: /storage-service/doc
-minio:
-  environment:
-    bucket-name: ${MINIO_BUCKET_NAME:cupid-meet}
+buckets:
+  cupid: ${MINIO_BUCKET_NAME:cupid-meet}
+  qr: ${MINIO_QR_BUCKET_NAME:qr-code}
 contentDisposition: attachment
 server:
   port: 8084
   forward-headers-strategy: framework
 scheduler:
-  cron: 0 0 0 * * MON
+  cleanup:
+    cron: 0 0 0 * * MON
+grpc:
+  server:
+    port: 9090

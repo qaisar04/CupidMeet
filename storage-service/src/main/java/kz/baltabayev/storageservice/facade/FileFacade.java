@@ -1,6 +1,6 @@
 package kz.baltabayev.storageservice.facade;
 
-import kz.baltabayev.storageservice.domain.dto.FileInfoDto;
+import kz.baltabayev.storageservice.domain.dto.FileInfoResponse;
 import kz.baltabayev.storageservice.domain.model.PreparedResource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,45 +9,46 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @author Daniil Hromau
- * <p>
- * Facade is using as converting layer between controller and service to separate the logic of
- * working with dto and entity and mapper's injection
+ * Фасад для работы с файлами.
  */
 @Component
 public interface FileFacade {
 
+    /**
+     * Возвращает подготовленный ресурс на основе переданного пути к файлу.
+     *
+     * @param path Путь к файлу.
+     * @return Объект {@link PreparedResource}, содержащий ресурс и информацию о связанном файле.
+     */
     PreparedResource getPreparedResourceByPath(String path);
 
     /**
-     * Method covers complex logic on saving file in S3 storage, extracting and saving meta
-     * information about file in database and returning it to calling method as DTO
+     * Сохраняет файлы, переданные в виде списка объектов {@link MultipartFile}.
      *
-     * @param files List of business idea files
-     * @return List<FileInfoDto> list dto for returning to calling method
+     * @param files Список файлов, которые необходимо сохранить
+     * @return Список информации о сохраненных файлах в виде объектов {@link FileInfoResponse}
      */
-    List<FileInfoDto> saveFiles(List<MultipartFile> files);
+    List<FileInfoResponse> saveFiles(List<MultipartFile> files);
 
     /**
-     * Deletes a file by its ID.
+     * Удаляет файл по его идентификатору.
      *
-     * @param fileId The ID of the file to delete.
+     * @param fileId Идентификатор файла
      */
     void deleteFileById(UUID fileId);
 
     /**
-     * Deletes files based on the provided file IDs. This method accepts a list of file IDs and
-     * deletes the files corresponding to those IDs.
+     * Удаляет файлы по списку идентификаторов.
      *
-     * @param fileIds A list of UUIDs representing the IDs of the files to be deleted.
+     * @param fileIds Список идентификаторов файлов
      */
     void addFilesToDelete(List<UUID> fileIds);
 
     /**
-     * Saves the given file.
+     * Сохраняет файл.
      *
-     * @param file The file to be saved.
-     * @return Information about the saved file as a {@link FileInfoDto}.
+     * @param file Файл, который необходимо сохранить
+     * @return Информация о сохраненном файле в виде объекта {@link FileInfoResponse}
      */
-    FileInfoDto saveFile(MultipartFile file);
+    FileInfoResponse saveFile(MultipartFile file);
 }

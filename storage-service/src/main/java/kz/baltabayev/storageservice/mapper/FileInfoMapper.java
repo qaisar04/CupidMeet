@@ -1,14 +1,20 @@
 package kz.baltabayev.storageservice.mapper;
 
-import kz.baltabayev.storageservice.domain.dto.FileInfoDto;
+import kz.baltabayev.storageservice.domain.dto.FileInfoResponse;
 import kz.baltabayev.storageservice.domain.entity.FileInfo;
 import org.mapstruct.Mapper;
 
 /**
- * Interface responsible for mapping data from FileInfo object to DTO.
+ * Интерфейс для маппинга сущностей.
  */
 @Mapper(componentModel = "spring")
 public interface FileInfoMapper {
 
-    FileInfoDto toFileInfoDto(FileInfo fileInfo);
+    /**
+     * Преобразует сущность {@link FileInfo} в объект {@link FileInfoResponse}.
+     *
+     * @param fileInfo Сущность {@link FileInfo}
+     * @return Объект {@link FileInfoResponse}
+     */
+    FileInfoResponse toFileInfoDto(FileInfo fileInfo);
 }

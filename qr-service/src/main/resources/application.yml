@@ -7,6 +7,13 @@ qr:
   height: 600
   charset: UTF-8
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /qr-service/doc/json
+  swagger-ui:
+    path: /qr-service/doc
+
 grpc:
   client:
     qrCodeService:

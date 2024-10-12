@@ -21,7 +21,6 @@ spring:
     default-schema: storage
     liquibase-schema: develop
     change-log: db/changelog/changelog.xml
-    drop-first: true
   servlet:
     multipart:
       max-file-size: ${MAX_FILE_SIZE:10MB}
@@ -44,4 +43,4 @@ scheduler:
     cron: 0 0 0 * * MON
 grpc:
   server:
-    port: 9090
+    port: 8801

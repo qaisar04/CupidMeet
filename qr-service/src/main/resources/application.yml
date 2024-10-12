@@ -10,7 +10,7 @@ qr:
 grpc:
   client:
     qrCodeService:
-      address: localhost:9090
+      address: ${STORAGE_SERVICE_GRPC_URL:localhost:8801}
       negotiation-type: plaintext
 
 server:

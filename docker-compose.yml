@@ -153,6 +153,19 @@ services:
     networks:
       - cupid-network
 
+  qr-service:
+    image: qaaaaisar04/qr-service
+    container_name: qr-service
+    depends_on:
+      - storage-service
+    ports:
+      - "7070:7070"
+    environment:
+      STORAGE_SERVICE_GRPC_URL: storage-service:8801
+    restart: always
+    networks:
+      - cupid-network
+
 volumes:
   minio_data:
   grafana_storage:

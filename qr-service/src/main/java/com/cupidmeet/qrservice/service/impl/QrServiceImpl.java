@@ -1,7 +1,7 @@
 package com.cupidmeet.qrservice.service.impl;
 
 import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
-import com.cupidmeet.qrservice.QrCodeServiceGrpc;
+import com.cupidmeet.qrservice.QrCodeServiceGrpc.QrCodeServiceBlockingStub;
 import com.cupidmeet.qrservice.QrCodeServiceOuterClass;
 import com.cupidmeet.qrservice.message.Messages;
 import com.cupidmeet.qrservice.service.QrService;
@@ -34,7 +34,7 @@ public class QrServiceImpl implements QrService {
     private Integer width;
 
     @GrpcClient("qrCodeService")
-    private final QrCodeServiceGrpc.QrCodeServiceBlockingStub qrCodeServiceBlockingStub;
+    private QrCodeServiceBlockingStub blockingStub;
 
     @Override
     public CompletableFuture<Void> generateQRAsync(HttpServletResponse response, String link) {
@@ -65,7 +65,7 @@ public class QrServiceImpl implements QrService {
                     .setQrCodeImage(ByteString.copyFrom(imageBytes))
                     .build();
 
-            QrCodeServiceOuterClass.QrCodeResponse response = qrCodeServiceBlockingStub.uploadQrCode(request);
+            QrCodeServiceOuterClass.QrCodeResponse response = blockingStub.uploadQrCode(request);
 
             return response.getImagePath();
         } catch (Exception e) {

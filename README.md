@@ -62,7 +62,7 @@
 ## Мониторинг и управление
 
 - [Grafana Dashboard](http://103.106.3.186:3000/)
-- [MinIO Console](https://s3.qaisar.online/
+- [MinIO Console](https://s3.qaisar.online/)
 - [Keycloak Console](https://qaisar.online:8843/)
 
 ---

@@ -9,3 +9,31 @@ scrape_configs:
       - targets: [ 'user-details-service:8090' ]
         labels:
           application: 'User Details Service Application'
+
+  - job_name: 'feedback_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'feedback-service:8090' ]
+        labels:
+          application: 'Feedback Service Application'
+
+  - job_name: 'location_data_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'location-data-service:8090' ]
+        labels:
+          application: 'Location Data Service Application'
+
+  - job_name: 'qr_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'qr-service:8090' ]
+        labels:
+          application: 'QR Service Application'
+
+  - job_name: 'storage_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'storage-service:8090' ]
+        labels:
+          application: 'Storage Service Application'

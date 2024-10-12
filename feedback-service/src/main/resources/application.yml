@@ -19,6 +19,15 @@ springdoc:
   swagger-ui:
     path: /feedback-service/doc
 
+management:
+  server:
+    port: 8092
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, info, prometheus, loggers
+
 server:
   port: 8504
   forward-headers-strategy: framework

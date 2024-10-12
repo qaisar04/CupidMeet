@@ -34,6 +34,7 @@ services:
     container_name: location-data-service
     ports:
       - "8580:8580"
+      - "8090:8091"
     environment:
       LOCATIONIQ_API_KEY: ${LOCATIONIQ_API_KEY}
     restart: always
@@ -47,6 +48,7 @@ services:
       - database
     ports:
       - "8504:8504"
+      - "8090:8092"
     environment:
       DB_HOST: database
       DB_PORT: 5432
@@ -93,6 +95,7 @@ services:
        - database
     ports:
       - "8084:8084"
+      - "8090:8093"
     environment:
       S3_ENDPOINT: http://minio:9000
       DB_HOST: database
@@ -162,6 +165,7 @@ services:
       - storage-service
     ports:
       - "7070:7070"
+      - "8090:8094"
     environment:
       STORAGE_SERVICE_GRPC_URL: storage-service:8801
     restart: always

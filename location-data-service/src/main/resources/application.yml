@@ -12,6 +12,15 @@ springdoc:
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
 
+management:
+  server:
+    port: 8091
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, info, prometheus, loggers
+
 server:
   port: 8580
   forward-headers-strategy: framework

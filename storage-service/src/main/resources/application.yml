@@ -25,22 +25,37 @@ spring:
     multipart:
       max-file-size: ${MAX_FILE_SIZE:10MB}
       max-request-size: ${MAX_REQUEST_SIZE:10MB}
+
 springdoc:
   api-docs:
     enabled: true
     path: /storage-service/doc/json
   swagger-ui:
     path: /storage-service/doc
+
 buckets:
   cupid: ${MINIO_BUCKET_NAME:cupid-meet}
   qr: ${MINIO_QR_BUCKET_NAME:qr-code}
+
 contentDisposition: attachment
+
 server:
   port: 8084
   forward-headers-strategy: framework
+
 scheduler:
   cleanup:
     cron: 0 0 0 * * MON
+
 grpc:
   server:
     port: 8801
+
+management:
+  server:
+    port: 8093
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, info, prometheus, loggers

@@ -1,3 +1,9 @@
+server:
+  servlet:
+    context-path: /api/storage-service
+  port: 8084
+  forward-headers-strategy: framework
+
 spring:
   application:
     name: storage-service
@@ -26,22 +32,11 @@ spring:
       max-file-size: ${MAX_FILE_SIZE:10MB}
       max-request-size: ${MAX_REQUEST_SIZE:10MB}
 
-springdoc:
-  api-docs:
-    enabled: true
-    path: /storage-service/doc/json
-  swagger-ui:
-    path: /storage-service/doc
-
 buckets:
   cupid: ${MINIO_BUCKET_NAME:cupid-meet}
   qr: ${MINIO_QR_BUCKET_NAME:qr-code}
 
 contentDisposition: attachment
-
-server:
-  port: 8084
-  forward-headers-strategy: framework
 
 scheduler:
   cleanup:
@@ -59,3 +54,13 @@ management:
       base-path: /actuator
       exposure:
         include: health, info, prometheus, loggers
+
+application:
+  cors:
+    allowed-origins: http://localhost:3000
+
+keycloak:
+  auth-server-url: https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/auth
+  realm: cupid-meet-dev
+  resource: cupid-meet-dev
+  bearer-only: true

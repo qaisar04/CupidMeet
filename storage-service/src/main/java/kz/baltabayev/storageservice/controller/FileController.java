@@ -27,7 +27,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/file")
+@RequestMapping("/v1/file")
 @RequiredArgsConstructor
 public class FileController {
 

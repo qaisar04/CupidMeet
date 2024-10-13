@@ -1,3 +1,9 @@
+server:
+  servlet:
+    context-path: /api/qr-service
+  port: 7070
+  forward-headers-strategy: framework
+
 spring:
   application:
     name: qr-service
@@ -6,13 +12,6 @@ qr:
   width: 600
   height: 600
   charset: UTF-8
-
-springdoc:
-  api-docs:
-    enabled: true
-    path: /qr-service/doc/json
-  swagger-ui:
-    path: /qr-service/doc
 
 management:
   server:
@@ -29,5 +28,12 @@ grpc:
       address: ${STORAGE_SERVICE_GRPC_URL:localhost:8801}
       negotiation-type: plaintext
 
-server:
-  port: 7070
+application:
+  cors:
+    allowed-origins: http://localhost:3000
+
+keycloak:
+  auth-server-url: https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/auth
+  realm: cupid-meet-dev
+  resource: cupid-meet-dev
+  bearer-only: true

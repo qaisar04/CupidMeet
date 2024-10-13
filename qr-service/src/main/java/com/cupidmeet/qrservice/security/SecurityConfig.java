@@ -1,4 +1,4 @@
-package com.cupidmeet.userdetailsservice.security;
+package com.cupidmeet.qrservice.security;
 
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;

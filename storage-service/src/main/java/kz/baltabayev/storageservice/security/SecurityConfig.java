@@ -1,4 +1,4 @@
-package com.cupidmeet.userdetailsservice.security;
+package kz.baltabayev.storageservice.security;
 
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;

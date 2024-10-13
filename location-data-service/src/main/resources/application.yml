@@ -1,13 +1,12 @@
+server:
+  servlet:
+    context-path: /api/location-data-service
+  port: 8580
+  forward-headers-strategy: framework
+
 spring:
   application:
     name: location-data-service
-
-springdoc:
-  api-docs:
-    enabled: true
-    path: /location-data-service/doc/json
-  swagger-ui:
-    path: /location-data-service/doc
 
 locationiq:
   api-key: ${LOCATIONIQ_API_KEY}
@@ -21,6 +20,12 @@ management:
       exposure:
         include: health, info, prometheus, loggers
 
-server:
-  port: 8580
-  forward-headers-strategy: framework
+application:
+  cors:
+    allowed-origins: http://localhost:3000
+
+keycloak:
+  auth-server-url: https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/auth
+  realm: cupid-meet-dev
+  resource: cupid-meet-dev
+  bearer-only: true

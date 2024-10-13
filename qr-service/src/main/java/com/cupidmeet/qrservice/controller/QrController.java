@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
-@RequestMapping("/api/v1/qr")
+@RequestMapping("/v1/qr")
 @RequiredArgsConstructor
 public class QrController {
 

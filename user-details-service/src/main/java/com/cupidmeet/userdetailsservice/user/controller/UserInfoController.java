@@ -1,8 +1,6 @@
 package com.cupidmeet.userdetailsservice.user.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserInfoRequest;
 import com.cupidmeet.userdetailsservice.user.service.UserInfoService;
@@ -17,7 +15,7 @@ import java.util.UUID;
  * Контроллер для управления информацией о пользователях.
  */
 @RestController
-@RequestMapping("/api/v1/info")
+@RequestMapping("/v1/info")
 @RequiredArgsConstructor
 public class UserInfoController {
 

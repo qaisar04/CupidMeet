@@ -13,7 +13,7 @@ import java.util.UUID;
  * Контроллер для управления пользователями со стороны администратора.
  */
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequestMapping("/v1/admin")
 @RequiredArgsConstructor
 public class AdminUserController {
 

@@ -1,3 +1,9 @@
+server:
+  servlet:
+    context-path: /api/user-details-service
+  port: 8728
+  forward-headers-strategy: framework
+
 spring:
   application:
     name: user-details-service
@@ -25,6 +31,8 @@ management:
         include: health, info, prometheus, loggers
 
 application:
+  cors:
+    allowed-origins: http://localhost:3000
   user:
     history:
       cleanup:
@@ -32,17 +40,13 @@ application:
         scheduler:
           enabled: true
 
-springdoc:
-  api-docs:
-    enabled: true
-    path: /user-details-service/doc/json
-  swagger-ui:
-    path: /user-details-service/doc
+keycloak:
+  auth-server-url: https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/auth
+  realm: cupid-meet-dev
+  resource: cupid-meet-dev
+  bearer-only: true
 
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-server:
-  port: 8728
-  forward-headers-strategy: framework

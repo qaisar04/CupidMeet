@@ -19,7 +19,7 @@ import java.util.UUID;
  * Контроллер для управления пользователями.
  */
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/v1/user")
 @RequiredArgsConstructor
 public class UserController {
 

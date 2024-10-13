@@ -9,14 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
  * Контроллер для управления предпочтениями пользователей.
  */
 @RestController
-@RequestMapping("/api/v1/preference")
+@RequestMapping("/v1/preference")
 @RequiredArgsConstructor
 public class UserPreferenceController {
 

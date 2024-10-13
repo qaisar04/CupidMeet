@@ -11,7 +11,7 @@
 - Оценка пользователей и управление реакциями.
 - Административные действия: блокировка, разблокировка, назначение ролей.
 
-[Перейти к API документации User Details Service](https://qaisar.online/user-details-service/doc)
+[Перейти к API документации User Details Service](https://qaisar.online/api/user-details-service/swagger-ui.html)
 
 ---
 
@@ -22,7 +22,7 @@
 - Загрузка файлов и управление вложениями.
 - Удаление файлов пользователей.
 
-[Перейти к API документации Storage Service](https://qaisar.online/storage-service/doc)
+[Перейти к API документации Storage Service](https://qaisar.online/api/storage-service/swagger-ui.html)
 
 ---
 
@@ -33,7 +33,7 @@
 - Поиск пользователей по их географическому местоположению.
 - Обработка и хранение данных о местоположении.
 
-[Перейти к API документации Location Data Service](https://qaisar.online/location-data-service/doc)
+[Перейти к API документации Location Data Service](https://qaisar.online/api/location-data-service/swagger-ui.html)
 
 ---
 
@@ -44,7 +44,7 @@
 - Создание отзывов и оценок.
 - Получение фидбэка и его анализ.
 
-[Перейти к API документации Feedback Service](https://qaisar.online/feedback-service/doc)
+[Перейти к API документации Feedback Service](https://qaisar.online/api/feedback-service/swagger-ui.html)
 
 ---
 
@@ -55,7 +55,7 @@
 - Генерация QR-кодов для различных ресурсов.
 - Генерация QR-кода и сохранение его в виде файла, возвращая путь к этому файлу.
 
-[Перейти к API документации QR Service](https://qaisar.online/qr-service/doc)
+[Перейти к API документации QR Service](https://qaisar.online/api/qr-service/swagger-ui.html)
 
 ---
 

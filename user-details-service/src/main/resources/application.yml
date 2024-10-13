@@ -14,6 +14,11 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://${KEYCLOAK_HOST:qaisar:online:8843}/realms/cupid-meet-dev/protocol/openid-connect/certs
 
 application:
   user:

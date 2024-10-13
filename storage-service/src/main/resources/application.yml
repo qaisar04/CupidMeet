@@ -16,6 +16,11 @@ spring:
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://${KEYCLOAK_HOST:qaisar:online:8843}/realms/cupid-meet-dev/protocol/openid-connect/certs
   liquibase:
     enabled: true
     default-schema: storage

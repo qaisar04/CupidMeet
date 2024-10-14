@@ -5,6 +5,11 @@ server:
   forward-headers-strategy: framework
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/certs}
   application:
     name: qr-service
 
@@ -30,10 +35,10 @@ grpc:
 
 application:
   cors:
-    allowed-origins: http://localhost:3000
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
 
 keycloak:
-  auth-server-url: https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/auth
-  realm: cupid-meet-dev
-  resource: cupid-meet-dev
+  auth-server-url: ${KEYCLOAK_SERVER_URL:https://qaisar.online:8843/auth}
+  realm: ${KEYCLOAK_REALM:cupid-meet-dev}
+  resource: ${KEYCLOAK_CLIENT:cupid-meet-dev}
   bearer-only: true

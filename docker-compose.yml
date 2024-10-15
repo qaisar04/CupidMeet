@@ -134,7 +134,7 @@ services:
     ports:
       - '9090:9090'
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./data/grafana:/var/lib/grafana
     command: '--config.file=/etc/prometheus/prometheus.yml'
     depends_on:
@@ -196,6 +196,8 @@ services:
     volumes:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/x509/https/tls.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/x509/https/tls.key
+      - ./config/keycloak/themes/custom:/opt/keycloak/themes
+      - ./config/keycloak/import:/opt/keycloak/data/import
     networks:
       - cupid-network
 

@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+
+scrape_configs:
+  - job_name: 'user_details_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'user-details-service:8090' ]
+        labels:
+          application: 'User Details Service Application'
+
+  - job_name: 'feedback_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'feedback-service:8092' ]
+        labels:
+          application: 'Feedback Service Application'
+
+  - job_name: 'location_data_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'location-data-service:8091' ]
+        labels:
+          application: 'Location Data Service Application'
+
+  - job_name: 'qr_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'qr-service:8094' ]
+        labels:
+          application: 'QR Service Application'
+
+  - job_name: 'storage_service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'storage-service:8093' ]
+        labels:
+          application: 'Storage Service Application'

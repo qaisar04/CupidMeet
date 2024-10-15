@@ -196,8 +196,7 @@ services:
     volumes:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/x509/https/tls.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/x509/https/tls.key
-      - ./config/keycloak/themes/custom:/opt/keycloak/themes
-      - ./config/keycloak/import:/opt/keycloak/data/import
+      - ./config/keycloak/realms:/opt/keycloak/data/import
     networks:
       - cupid-network
 

@@ -38,8 +38,20 @@ class SecurityConfig {
      */
     private static final String ACTUATOR_ENDPOINTS = "/actuator/**";
 
+    /**
+     * Роль пользователя приложения.
+     */
+    @Value("${application.authRoles}")
+    private String editorAuthRole;
+
+    @Value("${application.authRolesViewer}")
+    private String viewerAuthRole;
+
     @Value("${application.cors.allowed-origins}")
     private List<String> allowedOrigins;
+
+    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+    private String jwkSetUri;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
@@ -62,9 +74,19 @@ class SecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(SWAGGER_ENDPOINTS).permitAll()
-                        .requestMatchers(ACTUATOR_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers(SWAGGER_ENDPOINTS).permitAll()
+                                .requestMatchers(ACTUATOR_ENDPOINTS).permitAll()
+//                        .requestMatchers(HttpMethod.GET).hasAnyAuthority(viewerAuthRole, editorAuthRole)
+//                        .requestMatchers(HttpMethod.POST).hasAuthority(editorAuthRole)
+//                        .requestMatchers(HttpMethod.PUT).hasAuthority(editorAuthRole)
+//                        .requestMatchers(HttpMethod.PATCH).hasAuthority(editorAuthRole)
+//                        .requestMatchers(HttpMethod.DELETE).hasAuthority(editorAuthRole)
+                                .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(
+                        httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer.jwt(
+                                jwtConfigurer -> jwtConfigurer.jwkSetUri(jwkSetUri)
+                        )
                 )
                 .cors(cors -> cors.configurationSource(request -> getCorsConfiguration()))
                 .build();

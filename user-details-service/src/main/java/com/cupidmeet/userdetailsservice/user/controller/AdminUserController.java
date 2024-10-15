@@ -52,7 +52,7 @@ public class AdminUserController {
      * @return HTTP-ответ с кодом 200 при успешной блокировке
      */
     @Operation(operationId = "unblockUser", summary = "Разблокировать пользователя")
-    @PatchMapping("/unblockUser/{userId}")
+    @PatchMapping("/unblock/{userId}")
     public ResponseEntity<Void> unblock(@PathVariable UUID userId) {
         userService.unblock(userId);
         return ResponseEntity.ok().build();

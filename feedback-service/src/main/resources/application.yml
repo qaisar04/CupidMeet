@@ -17,6 +17,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/certs}
 
 management:
   server:

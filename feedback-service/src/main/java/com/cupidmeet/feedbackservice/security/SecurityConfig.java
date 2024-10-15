@@ -41,6 +41,9 @@ class SecurityConfig {
     @Value("${application.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
+    @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
+    private String jwkSetUri;
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider = new KeycloakAuthenticationProvider();
@@ -65,6 +68,11 @@ class SecurityConfig {
                         .requestMatchers(SWAGGER_ENDPOINTS).permitAll()
                         .requestMatchers(ACTUATOR_ENDPOINTS).permitAll()
                         .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(
+                        httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer.jwt(
+                                jwtConfigurer -> jwtConfigurer.jwkSetUri(jwkSetUri)
+                        )
                 )
                 .cors(cors -> cors.configurationSource(request -> getCorsConfiguration()))
                 .build();

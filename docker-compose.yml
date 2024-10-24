@@ -116,6 +116,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./frontend/dist:/usr/share/nginx/html
       - /etc/nginx/ssl/qaisar_online.crt:/etc/nginx/ssl/qaisar_online.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/nginx/ssl/qaisar_online.key
       - /etc/nginx/ssl/qaisar_online.ca-bundle:/etc/nginx/ssl/qaisar_online.ca-bundle
@@ -197,16 +198,6 @@ services:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/x509/https/tls.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/x509/https/tls.key
       - ./config/keycloak/realms:/opt/keycloak/data/import
-    networks:
-      - cupid-network
-
-  frontend:
-    image: nginx:alpine
-    container_name: frontend
-    ports:
-      - "7070:80"
-    volumes:
-      - ./frontend/dist:/usr/share/nginx/html
     networks:
       - cupid-network
 

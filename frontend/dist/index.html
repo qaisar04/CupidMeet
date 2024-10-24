@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Студенческое тестирование</title>
+</head>
+<body>
+    <div class="container" id="auth-container">
+        <h2>Авторизация</h2>
+        <form id="authForm">
+            <label for="name">ФИО:</label>
+            <input type="text" id="name" required>
+            <label for="group">Группа:</label>
+            <input type="text" id="group" required>
+            <button type="submit">Начать тест</button>
+        </form>
+        
+    </div>
+
+    <div class="container" id="test-container" style="display: none;">
+        <h2>Тест</h2>
+        <div id="test"></div>
+        <button id="finish-test">Завершить тест</button>
+
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>

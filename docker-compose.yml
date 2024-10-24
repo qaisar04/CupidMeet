@@ -200,6 +200,16 @@ services:
     networks:
       - cupid-network
 
+  frontend:
+    image: nginx:alpine
+    container_name: frontend
+    ports:
+      - "7070:80"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+    networks:
+      - cupid-network
+
 volumes:
   minio_data:
   grafana_storage:

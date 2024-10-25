@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feedback-config-server-deployment
+  labels:
+    app: feedback-config-server
+spec:
+  selector:
+    matchLabels:
+      app: feedback-config-server
+  template:
+    metadata:
+      labels:
+        app: feedback-config-server
+    spec:
+      containers:
+        - name: feedback-service
+          image: qaaaaisar04/feedback-service
+          ports:
+            - containerPort: 8728
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: git
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: feedback-config-server-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 8888
+      name: http
+  selector:
+    app: feedback-config-server
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: feedback-config-server-ingress
+spec:
+  rules:
+    - host: config.feedback
+      http:
+        paths:
+          - path: /
+            pathType: prefix
+            backend:
+              service:
+                name: feedback-config-server-svc
+                port:
+                  name: http

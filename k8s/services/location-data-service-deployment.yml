@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location-data-config-server-deployment
+  labels:
+    app: location-data-config-server
+spec:
+  selector:
+    matchLabels:
+      app: location-data-config-server
+  template:
+    metadata:
+      labels:
+        app: location-data-config-server
+    spec:
+      containers:
+        - name: location-data-service
+          image: qaaaaisar04/location-data-service
+          ports:
+            - containerPort: 8728
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: git
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: location-data-config-server-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 8888
+      name: http
+  selector:
+    app: location-data-config-server
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: location-data-config-server-ingress
+spec:
+  rules:
+    - host: config.location.data
+      http:
+        paths:
+          - path: /
+            pathType: prefix
+            backend:
+              service:
+                name: location-data-config-server-svc
+                port:
+                  name: http

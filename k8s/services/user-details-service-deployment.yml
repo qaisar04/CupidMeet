@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-details-config-server-deployment
+  labels:
+    app: user-details-config-server
+spec:
+  selector:
+    matchLabels:
+      app: user-details-config-server
+  template:
+    metadata:
+      labels:
+        app: user-details-config-server
+    spec:
+      containers:
+        - name: user-details-service
+          image: qaaaaisar04/user-details-service
+          ports:
+            - containerPort: 8728
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: git
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-details-config-server-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 8888
+      name: http
+  selector:
+    app: user-details-config-server
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: user-details-config-server-ingress
+spec:
+  rules:
+    - host: config.user.details
+      http:
+        paths:
+          - path: /
+            pathType: prefix
+            backend:
+              service:
+                name: user-details-config-server-svc
+                port:
+                  name: http

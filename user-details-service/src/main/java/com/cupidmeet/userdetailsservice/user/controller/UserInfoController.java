@@ -1,14 +1,17 @@
 package com.cupidmeet.userdetailsservice.user.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserInfoRequest;
 import com.cupidmeet.userdetailsservice.user.service.UserInfoService;
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -35,40 +38,6 @@ public class UserInfoController {
             @PathVariable("userId") UUID userId
     ) {
         userInfoService.update(userInfo, userId);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * Добавить вложенные файлы к анкете пользователя.
-     *
-     * @param userId идентификатор пользователя
-     * @param fileIds идентификаторы файлов, которые нужно добавить
-     * @return HTTP-ответ с кодом 200 при успешном добавлении
-     */
-    @Operation(operationId = "addAttachment", summary = "Добавить вложенные файлы к анкете пользователя")
-    @PatchMapping("{userId}/attachments")
-    public ResponseEntity<Void> addAttachment(
-            @PathVariable UUID userId,
-            @RequestBody Set<String> fileIds
-    ) {
-        userInfoService.addAttachment(userId, fileIds);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
-     * Удалить вложенные файлы с анкеты пользователя.
-     *
-     * @param userId идентификатор пользователя
-     * @param fileIds идентификаторы файлов, которые нужно удалить
-     * @return HTTP-ответ с кодом 200 при успешном удалении
-     */
-    @Operation(operationId = "removeAttachment", summary = "Удалить вложенные файлы с анкеты пользователя")
-    @DeleteMapping("{userId}/attachments")
-    public ResponseEntity<Void> removeAttachment(
-            @PathVariable UUID userId,
-            @RequestBody Set<String> fileIds
-    ) {
-        userInfoService.removeAttachment(userId, fileIds);
         return ResponseEntity.ok().build();
     }
 }

@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -51,10 +50,4 @@ public class UserMatchResponse {
      */
     @Schema(description = "Краткая биография пользователя")
     private String bio;
-
-    /**
-     * Набор идентификаторов файлов, связанных с пользователем.
-     */
-    @Schema(description = "Набор идентификаторов файлов, связанных с пользователем")
-    private Set<String> files;
 }

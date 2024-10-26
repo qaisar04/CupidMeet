@@ -1,12 +1,21 @@
 package com.cupidmeet.userdetailsservice.user.domain.entity;
 
-import jakarta.persistence.*;
 import com.cupidmeet.userdetailsservice.user.domain.types.Gender;
 import com.cupidmeet.userdetailsservice.user.domain.types.PersonalityType;
-import lombok.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * Сущность, представляющая информацию о пользователе.
@@ -52,14 +61,6 @@ public class UserInfo extends BaseEntity {
      * Краткая биография пользователя.
      */
     private String bio;
-
-    /**
-     * Набор идентификаторов файлов, связанных с пользователем.
-     */
-    @ElementCollection
-    @CollectionTable(name = "user_info_file_ids", joinColumns = @JoinColumn(name = "user_info_id"))
-    @Column(name = "file_ids")
-    private Set<String> fileIds = new HashSet<>();
 
     /**
      * Связанный с этим объектом пользователь.

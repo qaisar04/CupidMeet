@@ -15,12 +15,20 @@ import com.cupidmeet.userdetailsservice.user.repository.UserRepository;
 import com.cupidmeet.userdetailsservice.user.service.UserPreferenceService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -82,9 +90,8 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                         userInfo.getCity(),
                         userInfo.getAge(),
                         userInfo.getPersonalityType(),
-                        userInfo.getBio(),
-                        userInfo.getFileIds()
-                )).collect(Collectors.toList());
+                        userInfo.getBio()
+                )).toList();
     }
 
     @Override
@@ -114,9 +121,8 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
                         userInfo.getCity(),
                         userInfo.getAge(),
                         userInfo.getPersonalityType(),
-                        userInfo.getBio(),
-                        userInfo.getFileIds()
-                )).collect(Collectors.toList());
+                        userInfo.getBio()
+                )).toList();
     }
 
     private List<UserInfo> executeQuery(Set<UUID> excludedUserIds, UserPreference preference, UserInfo info, boolean includeCity, boolean includePersonalityType, int limit) {

@@ -13,10 +13,10 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    boolean existsByUserTelegramId(Long userTelegramId);
-
     @Modifying
     @Transactional
     @Query("UPDATE User u SET u.status = :status, u.updatedAt = CURRENT_TIMESTAMP WHERE u.id = :id")
     void updateUserStatus(UUID id, Status status);
+
+    boolean existsByUsername(String username);
 }

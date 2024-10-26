@@ -21,11 +21,6 @@ import java.util.Set;
 public class User extends BaseEntity {
 
     /**
-     * Уникальный идентификатор пользователя.
-     */
-    private Long userTelegramId;
-
-    /**
      * Имя пользователя.
      */
     private String username;

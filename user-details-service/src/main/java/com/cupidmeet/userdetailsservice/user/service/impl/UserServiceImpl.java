@@ -34,11 +34,11 @@ public class UserServiceImpl implements UserService {
         log.info("Создание пользователя");
         User user = converter.toEntity(request);
 
-        boolean exists = userRepository.existsByUserTelegramId(user.getUserTelegramId());
-        if (exists) {
-            throw new CommonRuntimeException(Messages.ALREADY_EXISTS, "Пользователь", user.getUserTelegramId() + " (telegram id)");
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new CommonRuntimeException(
+                    Messages.ALREADY_EXISTS, "Пользователь", user.getUsername() + "username"
+            );
         }
-
         User created = userRepository.save(user);
         return get(created.getId());
     }
@@ -47,7 +47,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deactivate(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
+            throw new CommonRuntimeException(
+                    Messages.NOT_FOUND, "Пользователь", "идентификатором", id
+            );
         }
         userRepository.updateUserStatus(id, Status.INACTIVE);
     }
@@ -56,7 +58,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void activate(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
+            throw new CommonRuntimeException(
+                    Messages.NOT_FOUND, "Пользователь", "идентификатором", id
+            );
         }
         userRepository.updateUserStatus(id, Status.ACTIVE);
     }
@@ -79,7 +83,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void block(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
+            throw new CommonRuntimeException(
+                    Messages.NOT_FOUND, "Пользователь", "идентификатором", id
+            );
         }
         userRepository.updateUserStatus(id, Status.BANNED);
     }
@@ -87,7 +93,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void unblock(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id);
+            throw new CommonRuntimeException(
+                    Messages.NOT_FOUND, "Пользователь", "идентификатором", id
+            );
         }
         userRepository.updateUserStatus(id, Status.ACTIVE);
     }
@@ -111,6 +119,8 @@ public class UserServiceImpl implements UserService {
 
     private User getById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new CommonRuntimeException(Messages.NOT_FOUND, "Пользователь", "идентификатором", id));
+                .orElseThrow(() -> new CommonRuntimeException(
+                        Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
+                );
     }
 }

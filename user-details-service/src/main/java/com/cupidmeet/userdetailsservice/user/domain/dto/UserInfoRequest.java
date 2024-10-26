@@ -7,8 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.util.Set;
-
 /**
  * Подробная информация о пользователе.
  */
@@ -57,11 +55,4 @@ public class UserInfoRequest {
     @NotBlank(message = "Тип личности пользователя не может быть пустым")
     @Schema(description = "Краткая биография пользователя")
     private String bio;
-
-    /**
-     * Вложенные файлы пользователя.
-     */
-    @NotNull(message = "Вложенные файлы пользователя не могут быть пустым")
-    @Schema(description = "Вложенные файлы пользователя")
-    private Set<String> fileIds;
 }

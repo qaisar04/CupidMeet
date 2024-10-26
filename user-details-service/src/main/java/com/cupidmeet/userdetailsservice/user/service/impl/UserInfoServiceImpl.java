@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -27,22 +26,6 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfo existingInfo = getByUserId(userId);
         userInfoMapper.updateEntityFromDto(userInfo, existingInfo);
         userInfoRepository.save(existingInfo);
-    }
-
-    @Override
-    @Transactional
-    public void addAttachment(UUID userId, Set<String> fileIds) {
-        UserInfo userInfo = getByUserId(userId);
-        userInfo.getFileIds().addAll(fileIds);
-        userInfoRepository.saveAndFlush(userInfo);
-    }
-
-    @Override
-    @Transactional
-    public void removeAttachment(UUID userId, Set<String> fileIds) {
-        UserInfo userInfo = getByUserId(userId);
-        userInfo.getFileIds().removeAll(fileIds);
-        userInfoRepository.saveAndFlush(userInfo);
     }
 
     private UserInfo getByUserId(UUID id) {

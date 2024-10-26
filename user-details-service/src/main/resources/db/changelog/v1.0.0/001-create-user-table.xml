@@ -10,9 +10,6 @@
             <column name="id" type="uuid" remarks="Уникальный идентификатор пользователя">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="user_telegram_id" type="bigint" remarks="Уникальный идентификатор пользователя в Telegram">
-                <constraints unique="true"/>
-            </column>
             <column name="username" type="varchar(64)" remarks="Имя пользователя">
                 <constraints nullable="false"/>
             </column>

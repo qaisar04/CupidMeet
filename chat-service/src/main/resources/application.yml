@@ -1,0 +1,49 @@
+server:
+  servlet:
+    context-path: /api/chat-service
+  port: 8060
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: chat-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:qaisar.online}:${DB_PORT:5433}/${DB_NAME:cupid-meet}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:lbHnXkEFI6mayAv}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 5
+  liquibase:
+    change-log: db/changelog/changelog.xml
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/certs}
+
+management:
+  server:
+    port: 8090
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, info, prometheus, loggers
+
+application:
+  authRoles: cupid.meet@chat-service_write
+  authRolesViewer: cupid.meet@chat-service_read
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+
+keycloak:
+  auth-server-url: ${KEYCLOAK_SERVER_URL:https://qaisar.online:8843/auth}
+  realm: ${KEYCLOAK_REALM:cupid-meet-dev}
+  resource: ${KEYCLOAK_CLIENT:cupid-meet-dev}
+  bearer-only: true

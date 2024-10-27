@@ -132,6 +132,7 @@
                 <artifactId>httpclient5</artifactId>
                 <version>${httpclient5.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -141,6 +142,7 @@
         <module>feedback-service</module>
         <module>storage-service</module>
         <module>qr-service</module>
+        <module>notification-service</module>
     </modules>
 
     <build>

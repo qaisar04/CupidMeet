@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -105,5 +107,17 @@ public class UserController {
         FileAttachment fileAttachment = fileAttachmentMapper.toEntity(request);
         fileAttachmentService.addAttachment(userId, fileAttachment);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Получить информацию о пользователях по их идентификаторам.
+     *
+     * @param userIds идентификаторы пользователей
+     * @return информация о пользователях
+     */
+    @Operation(operationId = "getUsers", summary = "Получить информацию о пользователях")
+    @PostMapping("/batch")
+    public ResponseEntity<Map<UUID, UserResponse>> get(Collection<UUID> userIds) {
+        return ResponseEntity.ok(userService.get(userIds));
     }
 }

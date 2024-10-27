@@ -15,7 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.cupidmeet.userdetailsservice.message.Messages.ROLE_ALREADY_ASSIGNED;
 import static com.cupidmeet.userdetailsservice.message.Messages.UNAUTHORIZED_ERROR;
@@ -71,6 +74,13 @@ public class UserServiceImpl implements UserService {
         log.info("Запрос на получение информации о пользователя");
         User user = getById(id);
         return converter.toResponse(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Map<UUID, UserResponse> get(Collection<UUID> ids) {
+        return userRepository.findAllByIdIn(ids).stream()
+                .collect(Collectors.toMap(User::getId, converter::toResponse));
     }
 
     @Override

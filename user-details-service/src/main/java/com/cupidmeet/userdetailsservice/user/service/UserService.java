@@ -4,6 +4,8 @@ import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
 import com.cupidmeet.userdetailsservice.user.domain.types.Role;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -40,6 +42,14 @@ public interface UserService {
      * @return Пользователь с указанным идентификатором.
      */
     UserResponse get(UUID id);
+
+    /**
+     * Возвращает список пользователей по их идентификаторам.
+     *
+     * @param ids Идентификаторы пользователей.
+     * @return Список пользователей с указанными идентификаторами.
+     */
+    Map<UUID, UserResponse> get(Collection<UUID> ids);
 
     /**
      * Удаляет пользователя с указанным идентификатором.

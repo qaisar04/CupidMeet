@@ -1,6 +1,7 @@
 package com.cupidmeet.chatservice.domain.entity;
 
 import com.cupidmeet.chatservice.domain.enumeration.ParticipantRole;
+import com.cupidmeet.chatservice.domain.enumeration.ParticipantStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,12 @@ public class ChatParticipant {
      * Идентификатор пользователя отправителя.
      */
     private UUID userId;
+
+    /**
+     * Статус участника.
+     */
+    @Enumerated(EnumType.STRING)
+    private ParticipantStatus status;
 
     /**
      * Роль участника чата.

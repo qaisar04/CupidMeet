@@ -8,6 +8,9 @@ import com.cupidmeet.chatservice.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
@@ -19,5 +22,10 @@ public class MessageServiceImpl implements MessageService {
     public Message saveMessage(CreateMessageRequest messageRequest) {
         Message message = messageMapper.toEntity(messageRequest);
         return messageRepository.save(message);
+    }
+
+    @Override
+    public List<Message> getChatMessages(UUID chatId) {
+        return messageRepository.findAllByChatId(chatId);
     }
 }

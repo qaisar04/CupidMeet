@@ -7,6 +7,7 @@ import com.cupidmeet.chatservice.domain.entity.Chat;
 import com.cupidmeet.chatservice.domain.entity.ChatParticipant;
 import com.cupidmeet.chatservice.domain.enumeration.ChatType;
 import com.cupidmeet.chatservice.domain.enumeration.ParticipantRole;
+import com.cupidmeet.chatservice.domain.enumeration.ParticipantStatus;
 import com.cupidmeet.chatservice.mapper.ChatMapper;
 import com.cupidmeet.chatservice.repository.ChatRepository;
 import com.cupidmeet.chatservice.service.ChatService;
@@ -86,6 +87,7 @@ public class ChatServiceImpl implements ChatService {
                             .chat(chat)
                             .userId(participantId)
                             .role(ParticipantRole.MEMBER)
+                            .status(ParticipantStatus.ONLINE)
                             .build();
 
                     if (participantId.equals(currentUserId)) {

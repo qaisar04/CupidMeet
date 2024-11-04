@@ -1,8 +1,8 @@
-package io.ylab.event.listener.extension.factory;
+package com.cupidmeet.event.listener.extension.factory;
 
-import io.ylab.event.listener.extension.CustomEventListenerProvider;
-import io.ylab.event.listener.extension.config.KafkaProducerCreator;
-import io.ylab.event.listener.extension.model.dto.AuditEvent;
+import com.cupidmeet.event.listener.extension.CustomEventListenerProvider;
+import com.cupidmeet.event.listener.extension.config.KafkaProducerCreator;
+import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.keycloak.Config;

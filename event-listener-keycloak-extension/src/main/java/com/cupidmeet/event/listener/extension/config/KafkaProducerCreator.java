@@ -1,7 +1,7 @@
-package io.ylab.event.listener.extension.config;
+package com.cupidmeet.event.listener.extension.config;
 
-import io.ylab.event.listener.extension.model.dto.AuditEvent;
-import io.ylab.event.listener.extension.utils.PropertiesUtil;
+import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
+import com.cupidmeet.event.listener.extension.utils.PropertiesUtil;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 

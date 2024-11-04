@@ -1,8 +1,8 @@
-package io.ylab.event.listener.extension.utils;
+package com.cupidmeet.event.listener.extension.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.ylab.event.listener.extension.model.dto.AuditEvent;
+import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
 import org.apache.kafka.common.serialization.Serializer;
 
 /**

@@ -1,4 +1,4 @@
-package io.ylab.event.listener.extension.exception;
+package com.cupidmeet.event.listener.extension.exception;
 
 /**
  * This class represents a custom exception that is thrown when there is an error loading properties.

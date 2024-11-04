@@ -1,4 +1,4 @@
-package io.ylab.event.listener.extension.model.type;
+package com.cupidmeet.event.listener.extension.model.type;
 
 /**
  * The Status enum represents the possible statuses of an event in the system.

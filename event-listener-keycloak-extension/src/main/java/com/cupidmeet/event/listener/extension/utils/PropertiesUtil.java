@@ -1,6 +1,6 @@
-package io.ylab.event.listener.extension.utils;
+package com.cupidmeet.event.listener.extension.utils;
 
-import io.ylab.event.listener.extension.exception.PropertiesLoadingException;
+import com.cupidmeet.event.listener.extension.exception.PropertiesLoadingException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

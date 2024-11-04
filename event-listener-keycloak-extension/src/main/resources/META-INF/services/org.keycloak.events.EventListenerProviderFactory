@@ -1,1 +1,1 @@
-io.ylab.event.listener.extension.factory.CustomEventListenerProviderFactory
+com.cupidmeet.event.listener.extension.factory.CustomEventListenerProviderFactory

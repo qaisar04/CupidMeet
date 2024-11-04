@@ -1,8 +1,8 @@
-package io.ylab.event.listener.extension;
+package com.cupidmeet.event.listener.extension;
 
-import io.ylab.event.listener.extension.model.dto.AuditEvent;
-import io.ylab.event.listener.extension.model.type.Status;
-import io.ylab.event.listener.extension.utils.PropertiesUtil;
+import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
+import com.cupidmeet.event.listener.extension.model.type.Status;
+import com.cupidmeet.event.listener.extension.utils.PropertiesUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -47,7 +47,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
         log.info("Caught event with userId: {}", event.getUserId());
 
         AuditEvent auditEvent = AuditEvent.builder()
-                .userUUID(event.getUserId())
+                .userId(event.getUserId())
                 .action(event.getType().name())
                 .startedAt(
                         LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTime()), ZoneId.systemDefault())
@@ -73,7 +73,7 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     public void onEvent(AdminEvent adminEvent, boolean b) {
         log.info("Caught admin event with adminId: {}", adminEvent.getId());
         AuditEvent event = AuditEvent.builder()
-                .userUUID(adminEvent.getId())
+                .userId(adminEvent.getId())
                 .action(adminEvent.getOperationType().name())
                 .startedAt(
                         LocalDateTime.ofInstant(Instant.ofEpochMilli(adminEvent.getTime()),

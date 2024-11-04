@@ -193,6 +193,7 @@ services:
     command: start-dev --import-realm
     depends_on:
       - database
+      - kafka
     restart: always
     volumes:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/x509/https/tls.crt
@@ -200,7 +201,6 @@ services:
       - ./config/keycloak/realms:/opt/keycloak/data/import
       - './event-listener-keycloak-extension/target/event-listener-keycloak-extension-assembly.jar:/opt/keycloak/providers/event-listener-keycloak-extension.jar'
     networks:
-      - kafka
       - cupid-network
 
   zookeeper:
@@ -209,6 +209,8 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - cupid-network
 
   kafka:
     image: confluentinc/cp-kafka:7.6.1
@@ -225,6 +227,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     restart: always
+    networks:
+      - cupid-network
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
@@ -235,6 +239,8 @@ services:
       JVM_OPTS: -Xms32M -Xmx64M
     depends_on:
       - kafka
+    networks:
+      - cupid-network
 
 volumes:
   minio_data:

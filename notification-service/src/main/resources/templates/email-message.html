@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .email-container {
+            font-family: "Georgia", serif;
+            max-width: 600px;
+            background-color: #fff0f5;
+            border: 1px solid #ff99cc;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #ff69b4;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .content {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+        a {
+            color: #ff69b4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <title>Email Notification</title>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">Cupid Meet</div>
+    <div class="content">
+        <p>Dear <span th:text="${receiverName}"></span>,</p>
+        <p>Someone special has taken a moment to appreciate you! You’ve made a lovely impression on
+            <a th:href="${senderUrl}">
+                <span th:text="${senderName}"></span>
+            </a>.
+        </p>
+        <p>They left a heartfelt message: <em>“<span th:text="${message}">a message</span>”</em></p>
+        <p>Could this be the start of something magical? Follow your heart and see where it leads you...</p>
+    </div>
+    <div class="footer">With warmth and best wishes,<br>Your Cupid Meet Team</div>
+</div>
+</body>
+</html>

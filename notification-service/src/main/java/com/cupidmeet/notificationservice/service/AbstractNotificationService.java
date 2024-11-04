@@ -11,13 +11,13 @@ import org.thymeleaf.context.Context;
 import java.util.Map;
 
 /**
- * AbstractNotificationService is an abstract base class for notification services
- * that handle generating and sending emails based on notification data of a specified type.
+ * AbstractNotificationService - абстрактный класс для сервисов, которые создают и отправляют
+ * email-уведомления.
  * <p>
- * This class uses a template engine for email body generation and provides a generic
- * workflow for processing notifications, delegating specifics to subclasses.
+ * Этот класс использует шаблонизатор для создания email и определяет общий процесс обработки
+ * уведомлений, оставляя реализацию деталей подклассам.
  *
- * @param <T> the type of notification data to be processed
+ * @param <T> тип данных для уведомлений
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -27,10 +27,9 @@ public abstract class AbstractNotificationService<T> {
     private final TemplateEngine templateEngine;
 
     /**
-     * Processes a notification by generating and sending an email with content and details
-     * derived from the given notification data.
+     * Обрабатывает уведомление: создает и отправляет email, используя данные уведомления.
      *
-     * @param notification the notification data used to populate the email content and details
+     * @param notification данные уведомления для заполнения содержимого и темы email
      */
     public void processNotification(T notification) {
         String emailAddress = getEmailAddress(notification);
@@ -41,71 +40,66 @@ public abstract class AbstractNotificationService<T> {
     }
 
     /**
-     * Returns the name of the FreeMarker template to use for generating email content.
-     * Each subclass should specify the template name relevant to the specific notification type.
+     * Имя шаблона для создания email.
      *
-     * @return the name of the FreeMarker template
+     * @return имя шаблона
      */
     protected abstract String getTemplateName();
 
     /**
-     * Returns the subject line of the email based on the notification data.
+     * Тема email на основе данных notification.
      *
-     * @param notification the notification data
-     * @return the subject of the email
+     * @param notification данные уведомления
+     * @return тема email
      */
     protected abstract String getSubject(T notification);
 
     /**
-     * Returns the email address of the recipient based on the notification data.
+     * Получает Email-адрес на основе данных notification.
      *
-     * @param notification the notification data
-     * @return the recipient's email address
+     * @param notification данные уведомления
+     * @return email-адрес получателя
      */
     protected abstract String getEmailAddress(T notification);
 
     /**
-     * Returns the model data to be used in the FreeMarker template for generating the email body.
+     * Получает данные для шаблона email на основе данных notification.
      *
-     * @param notification the notification data
-     * @return a map of model data for the template
+     * @param notification данные уведомления
+     * @return модель данных для шаблона
      */
     protected abstract Map<String, Object> getTemplateModel(T notification);
 
     /**
-     * Sends an email with the specified recipient address, subject, and HTML content.
+     * Отправляет email на указанный адрес с темой и содержимым.
      *
-     * @param to      the recipient's email address
-     * @param subject the subject of the email
-     * @param body    the body content of the email in HTML format
+     * @param to      email получателя
+     * @param subject тема email
+     * @param body    содержимое email в формате HTML
      */
     private void sendEmail(String to, String subject, String body) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(body, true);
-
             mailSender.send(message);
-            log.info("Sent email to {}", to);
+            log.info("Email отправлен на адрес {}", to);
         } catch (jakarta.mail.MessagingException e) {
-            throw new RuntimeException("Failed to send email to " + to, e);
+            throw new RuntimeException("Ошибка при отправке email на " + to, e);
         }
     }
 
     /**
-     * Generates the email content using the FreeMarker template specified by {@link #getTemplateName()}
-     * and populates it with data from {@link #getTemplateModel(Object)}.
+     * Создает содержимое email на основе шаблона и данных notification.
      *
-     * @param notification the notification data used to populate the email content
-     * @return the generated email content in HTML format
+     * @param notification данные уведомления для email
+     * @return содержимое email в HTML формате
      */
     private String generateEmailContent(T notification) {
         Context context = new Context();
         context.setVariables(getTemplateModel(notification));
-
         return templateEngine.process(getTemplateName(), context);
     }
 }

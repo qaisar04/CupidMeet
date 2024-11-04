@@ -10,6 +10,14 @@ import org.thymeleaf.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.cupidmeet.notificationservice.constants.MessageService.MAIL_HTML;
+import static com.cupidmeet.notificationservice.constants.MessageService.MAIL_MESSAGE;
+import static com.cupidmeet.notificationservice.constants.MessageService.MAIL_RECEIVER;
+import static com.cupidmeet.notificationservice.constants.MessageService.MAIL_SENDER;
+import static com.cupidmeet.notificationservice.constants.MessageService.MAIL_SENDER_URL;
+import static com.cupidmeet.notificationservice.constants.MessageService.MAIL_SUBJECT_MESSAGE;
+import static com.cupidmeet.notificationservice.constants.MessageService.TOPIC_NAME;
+
 @Service
 public class MessageServiceImpl extends AbstractNotificationService<Message> {
 
@@ -19,18 +27,17 @@ public class MessageServiceImpl extends AbstractNotificationService<Message> {
 
     @Override
     protected String getTemplateName() {
-        return "email-message.html";
+        return MAIL_HTML;
     }
 
-    @KafkaListener(topics = "notification-topic")
+    @KafkaListener(topics = TOPIC_NAME)
     public void sendMessage(Message message) {
-        System.out.println(message);
        this.processNotification(message);
     }
 
     @Override
     protected String getSubject(Message notification) {
-        return "You have received a new message from user: %s".formatted(notification.getSenderName());
+        return MAIL_SUBJECT_MESSAGE.formatted(notification.getSenderName());
     }
 
     @Override
@@ -42,10 +49,10 @@ public class MessageServiceImpl extends AbstractNotificationService<Message> {
     protected Map<String, Object> getTemplateModel(Message notification) {
         Map<String, Object> model = new HashMap<>();
 
-        model.put("message", notification.getMessage());
-        model.put("receiverName", notification.getReceiverName().toString());
-        model.put("senderName", notification.getSenderName().toString());
-        model.put("senderUrl", notification.getSenderProfileUrl().toString());
+        model.put(MAIL_MESSAGE, notification.getMessage());
+        model.put(MAIL_RECEIVER, notification.getReceiverName().toString());
+        model.put(MAIL_SENDER, notification.getSenderName().toString());
+        model.put(MAIL_SENDER_URL, notification.getSenderProfileUrl().toString());
 
         return model;
     }

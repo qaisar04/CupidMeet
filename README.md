@@ -64,6 +64,7 @@
 - [Grafana Dashboard](http://103.106.3.186:3000/)
 - [MinIO Console](https://s3.qaisar.online/)
 - [Keycloak Console](https://qaisar.online:8843/)
+- [Kafdrop Console](http://qaisar.online:9002/)
 
 ---
 

@@ -34,6 +34,7 @@
         <javax.annotation.version>1.3.2</javax.annotation.version>
         <keycloak.version>25.0.3</keycloak.version>
         <httpclient5.version>5.0</httpclient5.version>
+        <querydsl.version>5.1.0</querydsl.version>
     </properties>
 
     <dependencies>
@@ -132,7 +133,16 @@
                 <artifactId>httpclient5</artifactId>
                 <version>${httpclient5.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-apt</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.querydsl</groupId>
+                <artifactId>querydsl-jpa</artifactId>
+                <version>${querydsl.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -143,6 +153,7 @@
         <module>storage-service</module>
         <module>qr-service</module>
         <module>notification-service</module>
+        <module>chat-service</module>
     </modules>
 
     <build>

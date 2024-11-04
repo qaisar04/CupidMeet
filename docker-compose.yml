@@ -233,9 +233,9 @@ services:
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
     ports:
-      - "9000:9000"
+      - "9002:9000"
     environment:
-      KAFKA_BROKERCONNECT: kafka:9092
+      KAFKA_BROKERCONNECT: kafka:29092
       JVM_OPTS: -Xms32M -Xmx64M
     depends_on:
       - kafka

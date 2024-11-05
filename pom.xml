@@ -152,6 +152,7 @@
         <module>feedback-service</module>
         <module>storage-service</module>
         <module>qr-service</module>
+        <module>notification-service</module>
         <module>chat-service</module>
     </modules>
 

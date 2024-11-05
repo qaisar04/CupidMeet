@@ -1,0 +1,56 @@
+server:
+  servlet:
+    context-path: /api/notification-service
+  port: 8729
+  forward-headers-strategy: framework
+
+spring:
+  application:
+    name: notification-service
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:https://qaisar.online:8843/realms/cupid-meet-dev/protocol/openid-connect/certs}
+
+  kafka:
+    consumer:
+      bootstrap-servers:
+      auto-offset-reset: earliest
+      key-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        schema:
+          registry:
+            url:
+        specific:
+          avro:
+            reader: "true"
+      group-id: notification-group
+management:
+  server:
+    port: 8090
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, info, prometheus, loggers
+application:
+  cors:
+    allowed-origins: http://localhost:3000
+keycloak:
+  auth-server-url: ${KEYCLOAK_SERVER_URL:https://qaisar.online:8843/auth}
+  realm: ${KEYCLOAK_REALM:cupid-meet-dev}
+  resource: ${KEYCLOAK_CLIENT:cupid-meet-dev}
+  bearer-only: true

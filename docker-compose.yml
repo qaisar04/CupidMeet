@@ -120,6 +120,7 @@ services:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/nginx/ssl/qaisar_online.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/nginx/ssl/qaisar_online.key
       - /etc/nginx/ssl/qaisar_online.ca-bundle:/etc/nginx/ssl/qaisar_online.ca-bundle
+      - ./sites-enabled:/etc/nginx/sites-enabled
     depends_on:
       - minio
       - location-data-service

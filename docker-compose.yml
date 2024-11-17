@@ -120,6 +120,10 @@ services:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/nginx/ssl/qaisar_online.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/nginx/ssl/qaisar_online.key
       - /etc/nginx/ssl/qaisar_online.ca-bundle:/etc/nginx/ssl/qaisar_online.ca-bundle
+      - /etc/letsencrypt/live/s3.qaisar.online/fullchain.pem:/etc/nginx/ssl/s3_qaisar_online.crt
+      - /etc/letsencrypt/live/s3.qaisar.online/privkey.pem:/etc/nginx/ssl/s3_qaisar_online.key
+      - /etc/letsencrypt/live/monitor.qaisar.online/fullchain.pem:/etc/nginx/ssl/monitor_qaisar_online.crt
+      - /etc/letsencrypt/live/monitor.qaisar.online/privkey.pem:/etc/nginx/ssl/monitor_qaisar_online.key
       - ./sites-enabled:/etc/nginx/sites-enabled
     depends_on:
       - minio

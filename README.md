@@ -61,10 +61,10 @@
 
 ## Мониторинг и управление
 
-- [Grafana Dashboard](http://103.106.3.186:3000/)
+- [Grafana Dashboard](https://monitor.qaisar.online/)
 - [MinIO Console](https://s3.qaisar.online/)
-- [Keycloak Console](https://qaisar.online:8843/)
-- [Kafdrop Console](http://qaisar.online:9002/)
+- [Keycloak Console](https://security.qaisar.online/)
+- [Kafdrop Console](https://kafdrop.qaisar.online/)
 
 ---
 

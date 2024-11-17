@@ -124,6 +124,8 @@ services:
       - /etc/letsencrypt/live/s3.qaisar.online/privkey.pem:/etc/nginx/ssl/s3_qaisar_online.key
       - /etc/letsencrypt/live/monitor.qaisar.online/fullchain.pem:/etc/nginx/ssl/monitor_qaisar_online.crt
       - /etc/letsencrypt/live/monitor.qaisar.online/privkey.pem:/etc/nginx/ssl/monitor_qaisar_online.key
+      - /etc/letsencrypt/live/kafdrop.qaisar.online/fullchain.pem:/etc/nginx/ssl/kafdrop_qaisar_online.crt
+      - /etc/letsencrypt/live/kafdrop.qaisar.online/privkey.pem:/etc/nginx/ssl/kafdrop_qaisar_online.key
       - ./sites-enabled:/etc/nginx/sites-enabled
     depends_on:
       - minio

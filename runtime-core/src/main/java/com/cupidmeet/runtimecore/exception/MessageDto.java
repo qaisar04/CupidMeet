@@ -1,6 +1,6 @@
-package com.cupidmeet.commonmessage.exception;
+package com.cupidmeet.runtimecore.exception;
 
-import com.cupidmeet.commonmessage.message.MessageEnum;
+import com.cupidmeet.runtimecore.message.MessageEnum;
 import lombok.Getter;
 
 import java.io.Serializable;

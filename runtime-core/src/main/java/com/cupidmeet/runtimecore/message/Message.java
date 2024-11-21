@@ -1,6 +1,6 @@
-package com.cupidmeet.commonmessage.message;
+package com.cupidmeet.runtimecore.message;
 
-import com.cupidmeet.commonmessage.exception.MessageDto;
+import com.cupidmeet.runtimecore.exception.MessageDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

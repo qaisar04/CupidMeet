@@ -1,6 +1,6 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         User user = converter.toEntity(request);
 
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     Messages.ALREADY_EXISTS, "Пользователь", user.getUsername() + "username"
             );
         }
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deactivate(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     Messages.NOT_FOUND, "Пользователь", "идентификатором", id
             );
         }
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void activate(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     Messages.NOT_FOUND, "Пользователь", "идентификатором", id
             );
         }
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void block(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     Messages.NOT_FOUND, "Пользователь", "идентификатором", id
             );
         }
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void unblock(UUID id) {
         if (!userRepository.existsById(id)) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     Messages.NOT_FOUND, "Пользователь", "идентификатором", id
             );
         }
@@ -116,11 +116,11 @@ public class UserServiceImpl implements UserService {
         User admin = getById(adminId);
 
         if (!admin.getRole().equals(Role.ADMIN)) {
-            throw new CommonRuntimeException(UNAUTHORIZED_ERROR);
+            throw new CustomRuntimeException(UNAUTHORIZED_ERROR);
         }
 
         if (user.getRole().equals(role)) {
-            throw new CommonRuntimeException(ROLE_ALREADY_ASSIGNED);
+            throw new CustomRuntimeException(ROLE_ALREADY_ASSIGNED);
         }
 
         user.setRole(role);
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 
     private User getById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new CommonRuntimeException(
+                .orElseThrow(() -> new CustomRuntimeException(
                         Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
                 );
     }

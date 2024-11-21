@@ -1,6 +1,6 @@
 package kz.baltabayev.storageservice.messages;
 
-import com.cupidmeet.commonmessage.message.MessageEnum;
+import com.cupidmeet.runtimecore.message.MessageEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

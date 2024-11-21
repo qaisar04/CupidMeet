@@ -1,10 +1,10 @@
-package com.cupidmeet.commonmessage.commonresponse;
+package com.cupidmeet.runtimecore.response;
 
-import com.cupidmeet.commonmessage.exception.CommonException;
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
-import com.cupidmeet.commonmessage.message.Message;
-import com.cupidmeet.commonmessage.message.MessageEnum;
-import com.cupidmeet.commonmessage.message.MessageLevel;
+import com.cupidmeet.runtimecore.exception.CustomException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
+import com.cupidmeet.runtimecore.message.Message;
+import com.cupidmeet.runtimecore.message.MessageEnum;
+import com.cupidmeet.runtimecore.message.MessageLevel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,12 +41,12 @@ public class CommonResponse {
         this.messages = messagesIn;
     }
 
-    public CommonResponse(final CommonException commonException) {
-        messages.addAll(commonException.getMessages());
+    public CommonResponse(final CustomException customException) {
+        messages.addAll(customException.getMessages());
     }
 
-    public CommonResponse(final CommonRuntimeException commonRuntimeException) {
-        messages.addAll(commonRuntimeException.getMessages());
+    public CommonResponse(final CustomRuntimeException customRuntimeException) {
+        messages.addAll(customRuntimeException.getMessages());
     }
 
     public CommonResponse(final MessageEnum messageEnum, final Object... params) {

@@ -1,7 +1,7 @@
-package com.cupidmeet.commonmessage.message;
+package com.cupidmeet.runtimecore.message;
 
-import com.cupidmeet.commonmessage.exception.CommonException;
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -73,9 +73,9 @@ public class MessageCollector {
     /**
      * Бросить CommonException при наличии ошибки.
      */
-    public void throwCommonExceptionIfHasError() throws CommonException {
+    public void throwCommonExceptionIfHasError() throws CustomException {
         if (hasError()) {
-            throw new CommonException(messages);
+            throw new CustomException(messages);
         }
     }
 
@@ -84,7 +84,7 @@ public class MessageCollector {
      */
     public void throwCommonRuntimeExceptionIfHasError() {
         if (hasError()) {
-            throw new CommonRuntimeException(messages);
+            throw new CustomRuntimeException(messages);
         }
     }
 

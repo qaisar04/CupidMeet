@@ -1,10 +1,10 @@
-package com.cupidmeet.commonmessage.advisors;
+package com.cupidmeet.runtimecore.handler;
 
-import com.cupidmeet.commonmessage.commonresponse.CommonResponse;
-import com.cupidmeet.commonmessage.exception.CommonException;
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
-import com.cupidmeet.commonmessage.message.Message;
-import com.cupidmeet.commonmessage.message.MessageLevel;
+import com.cupidmeet.runtimecore.response.CommonResponse;
+import com.cupidmeet.runtimecore.exception.CustomException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
+import com.cupidmeet.runtimecore.message.Message;
+import com.cupidmeet.runtimecore.message.MessageLevel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,13 +22,13 @@ import java.util.List;
 @ControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = CommonException.class)
-    protected ResponseEntity<CommonResponse> handleException(final CommonException exception, final WebRequest request) {
+    @ExceptionHandler(value = CustomException.class)
+    protected ResponseEntity<CommonResponse> handleException(final CustomException exception, final WebRequest request) {
         return new ResponseEntity<>(new CommonResponse(exception), new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(value = CommonRuntimeException.class)
-    protected ResponseEntity<CommonResponse> handleException(final CommonRuntimeException exception, final WebRequest request) {
+    @ExceptionHandler(value = CustomRuntimeException.class)
+    protected ResponseEntity<CommonResponse> handleException(final CustomRuntimeException exception, final WebRequest request) {
         return new ResponseEntity<>(new CommonResponse(exception), new HttpHeaders(), HttpStatus.CONFLICT);
     }
 

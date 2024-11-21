@@ -1,6 +1,6 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.userdetailsservice.matching.service.UserEvaluationService;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserMatchResponse;
@@ -189,14 +189,14 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 
     private UserPreference getByUserId(UUID id) {
         return userPreferenceRepository.findByUserId(id)
-                .orElseThrow(() -> new CommonRuntimeException(
+                .orElseThrow(() -> new CustomRuntimeException(
                         Messages.NOT_FOUND, "Предпочтения пользователя для пользователя", "идентификатором", id)
                 );
     }
 
     private User getUserById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new CommonRuntimeException(
+                .orElseThrow(() -> new CustomRuntimeException(
                         Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
                 );
     }

@@ -69,7 +69,7 @@
         </dependency>
         <dependency>
             <groupId>com.cupidmeet</groupId>
-            <artifactId>common-message</artifactId>
+            <artifactId>runtime-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

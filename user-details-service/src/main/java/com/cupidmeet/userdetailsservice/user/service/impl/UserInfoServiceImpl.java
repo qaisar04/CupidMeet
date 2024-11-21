@@ -1,6 +1,6 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserInfoRequest;
 import com.cupidmeet.userdetailsservice.user.domain.entity.UserInfo;
@@ -30,7 +30,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     private UserInfo getByUserId(UUID id) {
         return userInfoRepository.getByUserId(id)
-                .orElseThrow(CommonRuntimeException.supplier(
+                .orElseThrow(CustomRuntimeException.supplier(
                         Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
                 );
     }

@@ -4,7 +4,7 @@ import com.cupidmeet.chatservice.domain.entity.ChatParticipant;
 import com.cupidmeet.chatservice.domain.enumeration.ParticipantStatus;
 import com.cupidmeet.chatservice.repository.ChatParticipantRepository;
 import com.cupidmeet.chatservice.service.ChatParticipantService;
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class ChatParticipantServiceImpl implements ChatParticipantService {
 
     private ChatParticipant get(UUID participantId) {
         return chatParticipantRepository.findById(participantId).orElseThrow(
-                () -> new CommonRuntimeException(NOT_FOUND)
+                () -> new CustomRuntimeException(NOT_FOUND)
         );
     }
 }

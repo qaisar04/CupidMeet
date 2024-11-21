@@ -1,4 +1,4 @@
-package com.cupidmeet.commonmessage.message;
+package com.cupidmeet.runtimecore.message;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

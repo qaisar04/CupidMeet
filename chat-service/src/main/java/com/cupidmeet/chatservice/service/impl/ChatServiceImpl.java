@@ -12,7 +12,7 @@ import com.cupidmeet.chatservice.mapper.ChatMapper;
 import com.cupidmeet.chatservice.repository.ChatRepository;
 import com.cupidmeet.chatservice.service.ChatService;
 import com.cupidmeet.chatservice.service.UserService;
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -40,11 +40,11 @@ public class ChatServiceImpl implements ChatService {
         Chat chat = converter.toEntity(request);
 
         if (chat == null || chat.getChatType() == null) {
-            throw new CommonRuntimeException(CHAT_TYPE_IS_NULL);
+            throw new CustomRuntimeException(CHAT_TYPE_IS_NULL);
         }
 
         if (chat.getParticipants() == null || chat.getParticipants().isEmpty()) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     CHAT_NOT_ALLOWED, "необходимо указать хотя бы одного участника"
             );
         }
@@ -52,13 +52,13 @@ public class ChatServiceImpl implements ChatService {
         // Проверка перед созданием чата
         if (chat.getChatType().equals(ChatType.PRIVATE)) {
             if (chat.getParticipants().size() >= 2) {
-                throw new CommonRuntimeException(
+                throw new CustomRuntimeException(
                         CHAT_NOT_ALLOWED, "в приватном чате должно быть не больше двух участников"
                 );
             }
         } else {
             if (chat.getParticipants().size() < 2) {
-                throw new CommonRuntimeException(
+                throw new CustomRuntimeException(
                         CHAT_NOT_ALLOWED, "в приватном чате должно быть не больше двух участников"
                 );
             }
@@ -70,15 +70,15 @@ public class ChatServiceImpl implements ChatService {
 
         ResponseEntity<Map<UUID, UserResponse>> participantMap = userDetailsClient.get(participantIds);
         if (participantMap.getStatusCode() != HttpStatus.OK) {
-            throw new CommonRuntimeException(CHAT_NOT_ALLOWED, "Ошибка при получении информации о участниках");
+            throw new CustomRuntimeException(CHAT_NOT_ALLOWED, "Ошибка при получении информации о участниках");
         }
 
         if (participantMap.getBody() == null || participantMap.getBody().size() != participantIds.size()) {
-            throw new CommonRuntimeException(CHAT_NOT_ALLOWED, "не удалось получить информацию о всех участниках");
+            throw new CustomRuntimeException(CHAT_NOT_ALLOWED, "не удалось получить информацию о всех участниках");
         }
 
         UUID currentUserId = userService.getCurrentId().orElseThrow(() ->
-                new CommonRuntimeException(CHAT_NOT_ALLOWED, "не удалось получить информацию о текущем пользователе")
+                new CustomRuntimeException(CHAT_NOT_ALLOWED, "не удалось получить информацию о текущем пользователе")
         );
 
         Set<ChatParticipant> chatParticipants = request.getParticipants().stream()
@@ -116,6 +116,6 @@ public class ChatServiceImpl implements ChatService {
 
     private Chat get(UUID chatId) {
         return chatRepository.findById(chatId)
-                .orElseThrow(() -> new CommonRuntimeException(NOT_FOUND, "Чат", "идентификатором", chatId));
+                .orElseThrow(() -> new CustomRuntimeException(NOT_FOUND, "Чат", "идентификатором", chatId));
     }
 }

@@ -1,6 +1,6 @@
 package kz.baltabayev.storageservice.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import kz.baltabayev.storageservice.config.BucketProperties;
 import kz.baltabayev.storageservice.domain.entity.FileInfo;
 import kz.baltabayev.storageservice.domain.entity.FileToDelete;
@@ -71,7 +71,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public FileInfo getFileInfoByPath(String path) {
         return fileRepository.findByPath(path).orElseThrow(() ->
-                new CommonRuntimeException(Messages.FILE_NOT_FOUND, path));
+                new CustomRuntimeException(Messages.FILE_NOT_FOUND, path));
     }
 
     @Override
@@ -106,7 +106,7 @@ public class FileServiceImpl implements FileService {
                 return s3Url;
             }
         } catch (IOException e) {
-            throw new CommonRuntimeException(Messages.WRITING_TO_STORAGE_FAILS);
+            throw new CustomRuntimeException(Messages.WRITING_TO_STORAGE_FAILS);
         }
     }
 
@@ -117,13 +117,13 @@ public class FileServiceImpl implements FileService {
                 return s3Url;
             }
         } catch (IOException e) {
-            throw new CommonRuntimeException(Messages.WRITING_TO_STORAGE_FAILS);
+            throw new CustomRuntimeException(Messages.WRITING_TO_STORAGE_FAILS);
         }
     }
 
     private void validateResource(Resource resource, String path) {
         if (!resource.exists() && !resource.isReadable()) {
-            throw new CommonRuntimeException(Messages.FILE_NOT_FOUND, path);
+            throw new CustomRuntimeException(Messages.FILE_NOT_FOUND, path);
         }
     }
 
@@ -142,7 +142,7 @@ public class FileServiceImpl implements FileService {
                 log.error("Файл с идентификатором {} не был удален.", fileInfo.getId());
             }
         } catch (IOException e) {
-            throw new CommonRuntimeException(Messages.WRITING_TO_STORAGE_FAILS);
+            throw new CustomRuntimeException(Messages.WRITING_TO_STORAGE_FAILS);
         }
     }
 

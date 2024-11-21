@@ -1,6 +1,6 @@
 package com.cupidmeet.feedbackservice.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.feedbackservice.domain.dto.FeedbackCreateRequest;
 import com.cupidmeet.feedbackservice.domain.dto.FeedbackResponse;
 import com.cupidmeet.feedbackservice.domain.dto.FeedbackUpdateRequest;
@@ -34,7 +34,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         boolean exists = feedbackRepository.existsByUserId(feedback.getUserId());
         if (exists) {
-            throw new CommonRuntimeException(DUPLICATE_FEEDBACK_SUBMISSION);
+            throw new CustomRuntimeException(DUPLICATE_FEEDBACK_SUBMISSION);
         }
 
         feedbackRepository.save(feedback);
@@ -56,7 +56,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     public FeedbackResponse update(UUID id, FeedbackUpdateRequest request) {
         Optional<Feedback> optionalFeedback = feedbackRepository.findById(id);
         if (optionalFeedback.isEmpty()) {
-            throw new CommonRuntimeException(NOT_FOUND, "Отзыв", "идентификатором", id);
+            throw new CustomRuntimeException(NOT_FOUND, "Отзыв", "идентификатором", id);
         }
 
         Feedback existingFeedback = optionalFeedback.get();
@@ -69,7 +69,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private FeedbackResponse get(UUID id) {
         Optional<Feedback> optionalFeedback = feedbackRepository.findById(id);
         if (optionalFeedback.isEmpty()) {
-            throw new CommonRuntimeException(NOT_FOUND, "Отзыв", "идентификатором", id);
+            throw new CustomRuntimeException(NOT_FOUND, "Отзыв", "идентификатором", id);
         }
 
         return feedbackMapper.toResponse(optionalFeedback.get());

@@ -1,6 +1,6 @@
 package com.cupidmeet.qrservice.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.qrservice.QrCodeServiceGrpc.QrCodeServiceBlockingStub;
 import com.cupidmeet.qrservice.QrCodeServiceOuterClass;
 import com.cupidmeet.qrservice.message.Messages;
@@ -51,7 +51,7 @@ public class QrServiceImpl implements QrService {
                 outputStream.flush();
                 outputStream.close();
             } catch (Exception e) {
-                throw new CommonRuntimeException(Messages.QR_GENERATION_ERROR, link, e);
+                throw new CustomRuntimeException(Messages.QR_GENERATION_ERROR, link, e);
             }
         });
     }
@@ -69,7 +69,7 @@ public class QrServiceImpl implements QrService {
 
             return response.getImagePath();
         } catch (Exception e) {
-            throw new CommonRuntimeException(Messages.QR_GENERATION_ERROR, link, e);
+            throw new CustomRuntimeException(Messages.QR_GENERATION_ERROR, link, e);
         }
     }
 

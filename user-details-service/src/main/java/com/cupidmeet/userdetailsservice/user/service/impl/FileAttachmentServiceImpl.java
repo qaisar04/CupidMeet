@@ -1,6 +1,6 @@
 package com.cupidmeet.userdetailsservice.user.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
 import com.cupidmeet.userdetailsservice.user.domain.entity.FileAttachment;
 import com.cupidmeet.userdetailsservice.user.domain.entity.User;
@@ -37,7 +37,7 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
         FileAttachment attachment = getById(attachmentId);
 
         if (attachment.getDeletedAt() != null) {
-            throw new CommonRuntimeException(
+            throw new CustomRuntimeException(
                     Messages.ATTACHMENT_ALREADY_DELETED, attachmentId
             );
         }
@@ -48,14 +48,14 @@ public class FileAttachmentServiceImpl implements FileAttachmentService {
 
     private FileAttachment getById(UUID attachmentId) {
         return fileAttachmentRepository.findById(attachmentId)
-                .orElseThrow(() -> new CommonRuntimeException(
+                .orElseThrow(() -> new CustomRuntimeException(
                         Messages.NOT_FOUND, "Файл вложения", "идентификатором", attachmentId)
                 );
     }
 
     private User getUserById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new CommonRuntimeException(
+                .orElseThrow(() -> new CustomRuntimeException(
                         Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
                 );
     }

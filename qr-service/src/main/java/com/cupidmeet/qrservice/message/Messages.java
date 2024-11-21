@@ -1,6 +1,6 @@
 package com.cupidmeet.qrservice.message;
 
-import com.cupidmeet.commonmessage.message.MessageEnum;
+import com.cupidmeet.runtimecore.message.MessageEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package com.cupidmeet.feedbackservice.service.impl;
 
-import com.cupidmeet.commonmessage.exception.CommonRuntimeException;
+import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.feedbackservice.domain.dto.ComplaintCreateRequest;
 import com.cupidmeet.feedbackservice.domain.dto.ComplaintResponse;
 import com.cupidmeet.feedbackservice.domain.entity.Complaint;
@@ -30,11 +30,11 @@ public class ComplaintServiceImpl implements ComplaintService {
     public void create(ComplaintCreateRequest request) {
         Complaint complaint = complaintMapper.toEntity(request);
         if (complaintRepository.existsByFromUserIdAndToUserId(complaint.getFromUserId(), complaint.getToUserId())) {
-            throw new CommonRuntimeException(COMPLAINT_ALREADY_EXIST, complaint.getFromUserId(), complaint.getToUserId());
+            throw new CustomRuntimeException(COMPLAINT_ALREADY_EXIST, complaint.getFromUserId(), complaint.getToUserId());
         }
 
         if (Objects.equals(complaint.getFromUserId(), complaint.getToUserId())) {
-            throw new CommonRuntimeException(COMPLAINT_SELF_NOT_ALLOWED);
+            throw new CustomRuntimeException(COMPLAINT_SELF_NOT_ALLOWED);
         }
 
         complaintRepository.save(complaint);
@@ -50,7 +50,7 @@ public class ComplaintServiceImpl implements ComplaintService {
     public ComplaintResponse get(UUID id) {
         Optional<Complaint> optionalComplaint = complaintRepository.findById(id);
         if (optionalComplaint.isEmpty()) {
-            throw new CommonRuntimeException(NOT_FOUND, "Жалоба", "идентификатором", id);
+            throw new CustomRuntimeException(NOT_FOUND, "Жалоба", "идентификатором", id);
         }
 
         return complaintMapper.toResponse(optionalComplaint.get());

@@ -1,8 +1,8 @@
-package com.cupidmeet.commonmessage.exception;
+package com.cupidmeet.runtimecore.exception;
 
-import com.cupidmeet.commonmessage.message.Message;
-import com.cupidmeet.commonmessage.message.MessageEnum;
-import com.cupidmeet.commonmessage.message.MessageLevel;
+import com.cupidmeet.runtimecore.message.Message;
+import com.cupidmeet.runtimecore.message.MessageEnum;
+import com.cupidmeet.runtimecore.message.MessageLevel;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -11,13 +11,13 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * Обощенное исключение с сообщениями.
+ * RuntimeException, содержащий список сообщений от бэка.
  */
 @Getter
-public class CommonException extends Exception {
+public class CustomRuntimeException extends RuntimeException {
 
     /**
-     * Список сообщений.
+     * Список детализированных сообщений.
      */
     private final List<Message> messages = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class CommonException extends Exception {
      *
      * @param message сообщение
      */
-    public CommonException(final Message message) {
+    public CustomRuntimeException(final Message message) {
         super(message.getText());
         messages.add(message);
     }
@@ -36,7 +36,7 @@ public class CommonException extends Exception {
      *
      * @param messagesIn сообщения
      */
-    public CommonException(final List<Message> messagesIn) {
+    public CustomRuntimeException(final List<Message> messagesIn) {
         super(messagesIn.stream().map(Message::getText).collect(Collectors.joining("; ")));
         this.messages.addAll(messagesIn);
     }
@@ -47,7 +47,7 @@ public class CommonException extends Exception {
      * @param value  константа сообщения
      * @param params параметры
      */
-    public CommonException(final MessageEnum value, final Object... params) {
+    public CustomRuntimeException(final MessageEnum value, final Object... params) {
         super(new Message(value, MessageLevel.ERROR, params).getText());
         Message message = new Message(value, MessageLevel.ERROR, params);
         messages.add(message);
@@ -59,7 +59,7 @@ public class CommonException extends Exception {
      * @param exception исключение
      * @param message   сообщение
      */
-    public CommonException(final Throwable exception, final Message message) {
+    public CustomRuntimeException(final Throwable exception, final Message message) {
         super(exception);
         messages.add(message);
     }
@@ -70,7 +70,7 @@ public class CommonException extends Exception {
      * @param exception  исключение
      * @param messagesIn сообщения
      */
-    public CommonException(final Throwable exception, final List<Message> messagesIn) {
+    public CustomRuntimeException(final Throwable exception, final List<Message> messagesIn) {
         super(exception);
         this.messages.addAll(messagesIn);
     }
@@ -80,78 +80,78 @@ public class CommonException extends Exception {
      *
      * @param exception исключение
      * @param value     константа сообщения
-     * @param params    параметры
+     * @param params    праметры
      */
-    public CommonException(final Throwable exception, final MessageEnum value, final Object... params) {
+    public CustomRuntimeException(final Throwable exception, final MessageEnum value, final Object... params) {
         super(exception);
         messages.add(new Message(value, MessageLevel.ERROR, params));
     }
 
     /**
-     * Получить порождающий интерфейс.
+     * Генерация порождающего интерфейса.
      *
      * @param message сообщение
      * @return порождающий интерфейс
      */
-    public static Supplier<CommonException> supplier(final Message message) {
-        return () -> new CommonException(message);
+    public static Supplier<CustomRuntimeException> supplier(final Message message) {
+        return () -> new CustomRuntimeException(message);
     }
 
     /**
-     * Получить порождающий интерфейс.
+     * Генерация порождающего интерфейса.
      *
      * @param messages сообщения
      * @return порождающий интерфейс
      */
-    public static Supplier<CommonException> supplier(final List<Message> messages) {
-        return () -> new CommonException(messages);
+    public static Supplier<CustomRuntimeException> supplier(final List<Message> messages) {
+        return () -> new CustomRuntimeException(messages);
     }
 
     /**
-     * Получить порождающий интерфейс.
+     * Генерация порождающего интерфейса.
      *
      * @param value  константа сообщения
      * @param params параметры
      * @return порождающий интерфейс
      */
-    public static Supplier<CommonException> supplier(final MessageEnum value, final Object... params) {
-        return () -> new CommonException(value, params);
+    public static Supplier<CustomRuntimeException> supplier(final MessageEnum value, final Object... params) {
+        return () -> new CustomRuntimeException(value, params);
     }
 
     /**
-     * Получить порождающий интерфейс.
+     * Генерация порождающего интерфейса.
      *
      * @param exception эксепшн
      * @param message   сообщение
      * @return порождающий интерфейс
      */
-    public static Supplier<CommonException> supplier(final Throwable exception, final Message message) {
-        return () -> new CommonException(exception, message);
+    public static Supplier<CustomRuntimeException> supplier(final Throwable exception, final Message message) {
+        return () -> new CustomRuntimeException(exception, message);
     }
 
     /**
-     * Получить порождающий интерфейс.
+     * Генерация порождающего интерфейса.
      *
-     * @param exception исключение
+     * @param exception эксепшн
      * @param messages  сообщения
      * @return порождающий интерфейс
      */
-    public static Supplier<CommonException> supplier(final Throwable exception, final List<Message> messages) {
-        return () -> new CommonException(exception, messages);
+    public static Supplier<CustomRuntimeException> supplier(final Throwable exception, final List<Message> messages) {
+        return () -> new CustomRuntimeException(exception, messages);
     }
 
     /**
-     * Получить порождающий интерфейс.
+     * Генерация порождающего интерфейса.
      *
-     * @param exception исключение
+     * @param exception эксепшн
      * @param value     константа сообщения
      * @param params    параметры
      * @return порождающий интерфейс
      */
-    public static Supplier<CommonException> supplier(final Throwable exception,
-                                                     final MessageEnum value,
-                                                     final Object... params) {
-        return () -> new CommonException(exception, value, params);
+    public static Supplier<CustomRuntimeException> supplier(final Throwable exception,
+                                                            final MessageEnum value,
+                                                            final Object... params) {
+        return () -> new CustomRuntimeException(exception, value, params);
     }
 
     /**

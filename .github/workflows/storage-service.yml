@@ -31,10 +31,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Install common-message dependency
+      - name: Install runtime-core dependency
         run: |
-          cd common-message
-          mvn clean install    
+          cd runtime-core
+          mvn clean install     
 
       - name: Login to docker hub
         uses: docker/login-action@v2

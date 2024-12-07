@@ -209,7 +209,7 @@ services:
       - /etc/nginx/ssl/qaisar_online.crt:/etc/x509/https/tls.crt
       - /etc/nginx/ssl/qaisar_online.key:/etc/x509/https/tls.key
       - ./config/keycloak/realms:/opt/keycloak/data/import
-      - './event-listener-keycloak-extension/target/event-listener-keycloak-extension-assembly.jar:/opt/keycloak/providers/event-listener-keycloak-extension.jar'
+      - './event-listener-keycloak-extension/target/event-listener-keycloak-extension.jar:/opt/keycloak/providers/event-listener-keycloak-extension.jar'
     networks:
       - cupid-network
 

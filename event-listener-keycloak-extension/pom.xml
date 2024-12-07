@@ -30,7 +30,6 @@
         <jackson-databind.version>2.17.0</jackson-databind.version>
         <kafka-clients.version>3.7.0</kafka-clients.version>
         <jboss-jaxrs-api_2.1_spec.version>2.0.2.Final</jboss-jaxrs-api_2.1_spec.version>
-        <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
         <avro.version>1.10.2</avro.version>
         <kafka-avro-serializer.version>7.7.2</kafka-avro-serializer.version>
     </properties>
@@ -120,23 +119,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/assembly.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.avro</groupId>

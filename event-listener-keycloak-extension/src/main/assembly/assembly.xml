@@ -10,6 +10,7 @@
             <useProjectArtifact>true</useProjectArtifact>
             <includes>
                 <include>org.apache.kafka:kafka-clients</include>
+                <include>io.confluent:kafka-avro-serializer</include>
                 <include>cupid.meet:event-listener-keycloak-extension</include>
             </includes>
             <unpack>true</unpack>

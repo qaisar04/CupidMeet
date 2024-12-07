@@ -2,7 +2,7 @@ package com.cupidmeet.event.listener.extension.factory;
 
 import com.cupidmeet.event.listener.extension.CustomEventListenerProvider;
 import com.cupidmeet.event.listener.extension.config.KafkaProducerCreator;
-import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
+import cupid.meet.event.listener.extension.v0.AuditEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.keycloak.Config;
@@ -12,21 +12,24 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
 
 /**
- * CustomEventListenerProviderFactory is a factory class for creating instances of
- * CustomEventListenerProvider. It implements the EventListenerProviderFactory interface from
- * Keycloak. It uses a Kafka producer for sending events.
+ * Фабрика для создания экземпляров CustomEventListenerProvider.
+ *
+ * @author Kaisar Baltabayev.
  */
 @Slf4j
 public class CustomEventListenerProviderFactory implements EventListenerProviderFactory {
 
+    // Идентификатор провайдера слушателя событий
     private static final String LISTENER_ID = "event-listener-extension";
+
+    // Kafka-продюсер для отправки событий
     private Producer<String, AuditEvent> producer;
 
     /**
-     * Creates a new instance of CustomEventListenerProvider using the Kafka producer.
+     * Создает новый экземпляр CustomEventListenerProvider, используя Kafka-продюсер.
      *
-     * @param session the Keycloak session
-     * @return a new instance of CustomEventListenerProvider
+     * @param session текущая сессия Keycloak
+     * @return новый экземпляр CustomEventListenerProvider
      */
     @Override
     public EventListenerProvider create(KeycloakSession session) {
@@ -34,9 +37,10 @@ public class CustomEventListenerProviderFactory implements EventListenerProvider
     }
 
     /**
-     * Initializes the Kafka producer.
+     * Инициализирует Kafka-продюсер.
+     * Вызывается при старте фабрики.
      *
-     * @param scope the configuration scope
+     * @param scope объект конфигурации Keycloak
      */
     @Override
     public void init(Config.Scope scope) {
@@ -46,16 +50,17 @@ public class CustomEventListenerProviderFactory implements EventListenerProvider
     }
 
     /**
-     * Post-initialization method. Currently, does nothing.
+     * Метод для выполнения действий после инициализации.
+     * В текущей реализации ничего не выполняет.
      *
-     * @param keycloakSessionFactory the Keycloak session factory
+     * @param keycloakSessionFactory фабрика сессий Keycloak
      */
     @Override
     public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
     }
 
     /**
-     * Closes the Kafka producer when the factory is closed.
+     * Закрывает Kafka-продюсер при завершении работы фабрики.
      */
     @Override
     public void close() {
@@ -64,9 +69,9 @@ public class CustomEventListenerProviderFactory implements EventListenerProvider
     }
 
     /**
-     * Returns the ID of the listener.
+     * Возвращает уникальный идентификатор провайдера слушателя событий.
      *
-     * @return the ID of the listener
+     * @return идентификатор провайдера
      */
     @Override
     public String getId() {

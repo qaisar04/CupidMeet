@@ -1,33 +1,35 @@
 package com.cupidmeet.event.listener.extension.config;
 
-import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
 import com.cupidmeet.event.listener.extension.utils.PropertiesUtil;
+import cupid.meet.event.listener.extension.v0.AuditEvent;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 
 import java.util.Properties;
 
 /**
- * KafkaProducerCreator is a configuration class for setting up a Kafka producer.
- * It uses properties defined in a properties file to configure the Kafka producer.
+ * Класс KafkaProducerCreator отвечает за создание конфигурации для Kafka-продюсера.
+ * Использует параметры, указанные в конфигурационном файле, для настройки подключения к Kafka и сериализации данных.
  */
 public class KafkaProducerCreator {
 
-    private static final String KAFKA_SERVER = "kafka.server";
+    private static final String KAFKA_BOOTSTRAP_SERVER = "bootstrap.servers";
+    private static final String SCHEMA_REGISTRY_URL = "schema.registry.url";
     private static final String KAFKA_SERIALIZATION_KEY = "kafka.serializer.key";
     private static final String KAFKA_SERIALIZATION_VALUE = "kafka.serializer.value";
 
     /**
-     * Creates a Kafka producer with properties defined in a properties file.
-     * The properties file should contain the Kafka server address, key serializer, and value serializer.
+     * Создает и настраивает продюсер Kafka для отправки сообщений.
+     * Читает параметры подключения и сериализации из конфигурационного файла.
      *
-     * @return a Kafka producer configured with the properties defined in the properties file
+     * @return объект Kafka-продюсера, настроенный для отправки сообщений
      */
     public static Producer<String, AuditEvent> createProducer() {
         Properties props = new Properties();
-        props.put("bootstrap.servers", PropertiesUtil.get(KAFKA_SERVER));
+        props.put("bootstrap.servers", PropertiesUtil.get(KAFKA_BOOTSTRAP_SERVER));
         props.put("key.serializer", PropertiesUtil.get(KAFKA_SERIALIZATION_KEY));
         props.put("value.serializer", PropertiesUtil.get(KAFKA_SERIALIZATION_VALUE));
+        props.put("schema.registry.url", PropertiesUtil.get(SCHEMA_REGISTRY_URL));
         return new KafkaProducer<>(props);
     }
 }

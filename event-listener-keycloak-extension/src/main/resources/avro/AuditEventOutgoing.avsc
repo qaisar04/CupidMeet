@@ -1,0 +1,75 @@
+{
+  "type": "record",
+  "name": "AuditEvent",
+  "doc": "Передача данных о действиях пользователя",
+  "namespace": "cupid.meet.event.listener.extension.v0",
+  "fields": [
+    {
+      "name": "timestamp",
+      "type": "string",
+      "doc": "Дата и время передачи данных"
+    },
+    {
+      "name": "payload",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "Payload",
+          "fields": [
+            {
+              "name": "userId",
+              "type": "string",
+              "doc": "Идентификатор пользователя"
+            },
+            {
+              "name": "ipAddress",
+              "type": "string",
+              "doc": "IP адрес"
+            },
+            {
+              "name": "action",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "Тип действия",
+              "default": null
+            },
+            {
+              "name": "status",
+              "type": {
+                "type": "enum",
+                "name": "Status",
+                "symbols": [
+                  "SUCCESS",
+                  "FAIL"
+                ]
+              },
+              "doc": "Статус"
+            },
+            {
+              "name": "startTime",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "Дата и время начала выполнения действия",
+              "default": null
+            },
+            {
+              "name": "endTime",
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "Дата и время окончания выполнения действия",
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    }
+  ]
+}

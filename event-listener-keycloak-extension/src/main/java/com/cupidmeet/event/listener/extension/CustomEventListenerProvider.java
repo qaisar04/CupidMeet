@@ -1,112 +1,123 @@
 package com.cupidmeet.event.listener.extension;
 
-import com.cupidmeet.event.listener.extension.model.dto.AuditEvent;
-import com.cupidmeet.event.listener.extension.model.type.Status;
 import com.cupidmeet.event.listener.extension.utils.PropertiesUtil;
+import cupid.meet.event.listener.extension.v0.AuditEvent;
+import cupid.meet.event.listener.extension.v0.Payload;
+import cupid.meet.event.listener.extension.v0.Status;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.admin.AdminEvent;
+import org.keycloak.events.admin.AuthDetails;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
- * CustomEventListenerProvider is a class that implements the EventListenerProvider interface from Keycloak.
- * It listens for events and sends them to a Kafka topic as AuditEvent objects.
- * It uses a Kafka producer for sending the events.
+ * Реализация EventListenerProvider для отправки событий Keycloak в Kafka.
+ * Поддерживает пользовательские и административные события.
  */
 @Slf4j
 public class CustomEventListenerProvider implements EventListenerProvider {
 
     private final Producer<String, AuditEvent> producer;
+
     private static final String KAFKA_TOPIC = "kafka.audit.topic.name";
+    public static final DateTimeFormatter ZONED_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").withZone(
+            ZoneId.systemDefault()
+    );
 
     /**
-     * Constructor for the CustomEventListenerProvider.
-     * Initializes the Kafka producer.
+     * Конструктор. Инициализирует Kafka-продюсер.
      *
-     * @param producer the Kafka producer
+     * @param producer Kafka-продюсер для отправки сообщений
      */
     public CustomEventListenerProvider(Producer<String, AuditEvent> producer) {
         this.producer = producer;
-        log.info("CustomEventListenerProvider created");
+        log.info("Инициализирован CustomEventListenerProvider");
     }
 
     /**
-     * Handles an event and sends it to the Kafka topic as an AuditEvent object.
+     * Обрабатывает пользовательские события Keycloak и отправляет их в Kafka.
      *
-     * @param event the event to be handled
+     * @param event событие Keycloak
      */
     @Override
     public void onEvent(Event event) {
-        log.info("Caught event with userId: {}", event.getUserId());
+        log.info("Получено событие пользователя с userId: {}", event.getUserId());
 
-        AuditEvent auditEvent = AuditEvent.builder()
-                .userId(event.getUserId())
-                .action(event.getType().name())
-                .startedAt(
-                        LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTime()), ZoneId.systemDefault())
-                )
-                .finishedAt(LocalDateTime.now())
+        LocalDateTime startedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTime()), ZoneId.systemDefault());
+        Payload payload = Payload.newBuilder()
+                .setUserId(event.getUserId())
+                .setIpAddress(event.getIpAddress())
+                .setAction(event.getType().name())
+                .setStartTime(startedAt.toString())
+                .setEndTime(LocalDateTime.now().toString())
+                .setStatus(event.getError() == null ? Status.SUCCESS : Status.FAIL)
                 .build();
 
-        auditEvent.setStatus(
-                event.getError() == null
-                        ? Status.SUCCESS : Status.FAIL
-        );
+        AuditEvent auditEvent = AuditEvent.newBuilder()
+                .setTimestamp(ZonedDateTime.now().format(ZONED_DATE_TIME_FORMATTER))
+                .setPayload(payload)
+                .build();
 
         sendMessageToKafka(auditEvent);
     }
 
     /**
-     * Handles an admin event and sends it to the Kafka topic as an AuditEvent object.
+     * Обрабатывает административные события Keycloak и отправляет их в Kafka.
      *
-     * @param adminEvent the admin event to be handled
-     * @param b          a boolean value
+     * @param event событие администратора
+     * @param includeRepresentation дополнительный параметр (не используется)
      */
     @Override
-    public void onEvent(AdminEvent adminEvent, boolean b) {
-        log.info("Caught admin event with adminId: {}", adminEvent.getId());
-        AuditEvent event = AuditEvent.builder()
-                .userId(adminEvent.getId())
-                .action(adminEvent.getOperationType().name())
-                .startedAt(
-                        LocalDateTime.ofInstant(Instant.ofEpochMilli(adminEvent.getTime()),
-                                ZoneId.systemDefault())
-                )
-                .finishedAt(LocalDateTime.now())
-                .build();
-        event.setStatus(
-                adminEvent.getError() == null
-                        ? Status.SUCCESS : Status.FAIL
-        );
+    public void onEvent(AdminEvent event, boolean includeRepresentation) {
+        log.info("Получено административное событие с adminId: {}", event.getId());
 
-        sendMessageToKafka(event);
+        AuthDetails authDetails = event.getAuthDetails();
+
+        LocalDateTime startedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTime()), ZoneId.systemDefault());
+
+        Payload payload = Payload.newBuilder()
+                .setUserId(authDetails.getUserId())
+                .setAction(event.getOperationType().name())
+                .setStartTime(startedAt.toString())
+                .setEndTime(LocalDateTime.now().toString())
+                .setStatus(event.getError() == null ? Status.SUCCESS : Status.FAIL)
+                .build();
+
+        AuditEvent message = AuditEvent.newBuilder()
+                .setTimestamp(ZonedDateTime.now().format(ZONED_DATE_TIME_FORMATTER))
+                .setPayload(payload)
+                .build();
+
+        sendMessageToKafka(message);
     }
 
     /**
-     * Closes the EventListenerProvider. Currently, does nothing.
+     * Закрывает провайдер событий.
      */
     @Override
     public void close() {
+        log.info("Закрытие CustomEventListenerProvider");
     }
 
     /**
-     * Sends an AuditEvent object to the Kafka topic.
+     * Отправляет объект AuditEvent в Kafka.
      *
-     * @param auditEvent the AuditEvent object to be sent
+     * @param auditEvent объект события для отправки
      */
     private void sendMessageToKafka(AuditEvent auditEvent) {
-        ProducerRecord<String, AuditEvent> auditEventProducerRecord = new ProducerRecord<>(
+        ProducerRecord<String, AuditEvent> record = new ProducerRecord<>(
                 PropertiesUtil.get(KAFKA_TOPIC), UUID.randomUUID().toString(), auditEvent);
-        log.debug("Created ProducerRecord: {}", auditEventProducerRecord);
-        producer.send(auditEventProducerRecord);
-        log.debug("Send message to Kafka (record: {}, auditEvent: {})", auditEventProducerRecord,
-                auditEvent);
+        log.debug("Создан ProducerRecord: {}", record);
+        producer.send(record);
+        log.debug("Сообщение отправлено в Kafka: record={}, auditEvent={}", record, auditEvent);
     }
 }

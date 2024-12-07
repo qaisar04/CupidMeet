@@ -14,6 +14,13 @@
     <groupId>cupid.meet</groupId>
     <artifactId>event-listener-keycloak-extension</artifactId>
 
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
+
     <properties>
         <keycloak.version>24.0.3</keycloak.version>
         <lombok.version>1.18.30</lombok.version>
@@ -24,6 +31,8 @@
         <kafka-clients.version>3.7.0</kafka-clients.version>
         <jboss-jaxrs-api_2.1_spec.version>2.0.2.Final</jboss-jaxrs-api_2.1_spec.version>
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
+        <avro.version>1.10.2</avro.version>
+        <kafka-avro-serializer.version>7.7.2</kafka-avro-serializer.version>
     </properties>
 
     <dependencies>
@@ -98,6 +107,11 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${kafka-avro-serializer.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -121,6 +135,22 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

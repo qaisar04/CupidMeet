@@ -9,11 +9,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 /**
- * PropertiesUtil is a utility class for handling properties. It loads properties from the
- * 'application-listener.properties' file and provides a method to get the value of a property. It
- * also checks for the property in the system environment variables. If the property is not found in
- * the environment variables, it returns the value from the properties file. If the property is not
- * found in either the environment variables or the properties file, it returns null.
+ * Утилита для работы с конфигурационными параметрами.
  */
 @Slf4j
 public class PropertiesUtil {
@@ -28,32 +24,28 @@ public class PropertiesUtil {
     }
 
     /**
-     * Loads the properties from the 'application-listener.properties' file. If an error occurs during
-     * loading, it throws a RuntimeException.
+     * Загружает параметры из файла.
      */
     private static void loadProperties() {
-        log.debug("starting method loadProperties");
+        log.debug("Начало загрузки параметров из файла.");
         try (InputStream inputStream = PropertiesUtil.class.getClassLoader()
                 .getResourceAsStream("application-listener.properties")) {
             PROPERTIES.load(inputStream);
         } catch (IOException e) {
-            log.error(e.getLocalizedMessage());
-            throw new PropertiesLoadingException(e.getLocalizedMessage());
+            log.error("Ошибка при загрузке файла параметров: {}", e.getLocalizedMessage());
+            throw new PropertiesLoadingException("Не удалось загрузить параметры: " + e.getLocalizedMessage());
         }
-        log.debug("ending method loadProperties");
+        log.debug("Параметры успешно загружены.");
     }
 
     /**
-     * Returns the value of a property. First, it checks for the property in the system environment
-     * variables. If the property is not found in the environment variables, it returns the value from
-     * the properties file. If the property is not found in either the environment variables or the
-     * properties file, it returns null.
+     * Возвращает значение параметра по ключу.
      *
-     * @param key the key of the property
-     * @return the value of the property, or null if the property is not found
+     * @param key ключ параметра
+     * @return значение параметра или null, если ключ не найден
      */
     public static String get(String key) {
-        log.debug("starting method get / class PropertiesUtil");
+        log.debug("Получение значения параметра по ключу: {}", key);
         return Optional.ofNullable(System.getenv(key.toUpperCase().replace('.', '_')))
                 .orElse(PROPERTIES.getProperty(key));
     }

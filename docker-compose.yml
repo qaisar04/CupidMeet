@@ -240,6 +240,19 @@ services:
     networks:
       - cupid-network
 
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.6.1
+    container_name: schema-registry
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: PLAINTEXT://kafka:29092
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+    depends_on:
+      - kafka
+    networks:
+      - cupid-network
+
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
     ports:

@@ -138,36 +138,36 @@ services:
     networks:
       - cupid-network
 
-  prometheus:
-    image: prom/prometheus:v2.50.1
-    container_name: prometheus
-    restart: unless-stopped
-    ports:
-      - '9090:9090'
-    volumes:
-      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ./data/grafana:/var/lib/grafana
-    command: '--config.file=/etc/prometheus/prometheus.yml'
-    depends_on:
-      - user-details-service
-    networks:
-      - cupid-network
-
-  grafana:
-    image: grafana/grafana:10.2.4
-    container_name: grafana
-    restart: always
-    ports:
-      - '3000:3000'
-    links:
-      - prometheus:prometheus
-    volumes:
-      - grafana_storage:/var/lib/grafana
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-    networks:
-      - cupid-network
+#  prometheus:
+#    image: prom/prometheus:v2.50.1
+#    container_name: prometheus
+#    restart: unless-stopped
+#    ports:
+#      - '9090:9090'
+#    volumes:
+#      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - ./data/grafana:/var/lib/grafana
+#    command: '--config.file=/etc/prometheus/prometheus.yml'
+#    depends_on:
+#      - user-details-service
+#    networks:
+#      - cupid-network
+#
+#  grafana:
+#    image: grafana/grafana:10.2.4
+#    container_name: grafana
+#    restart: always
+#    ports:
+#      - '3000:3000'
+#    links:
+#      - prometheus:prometheus
+#    volumes:
+#      - grafana_storage:/var/lib/grafana
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+#      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+#    networks:
+#      - cupid-network
 
   qr-service:
     image: qaaaaisar04/qr-service

@@ -24,8 +24,12 @@
             },
             {
               "name": "ipAddress",
-              "type": "string",
-              "doc": "IP адрес"
+              "type": [
+                "null",
+                "string"
+              ],
+              "doc": "IP адрес",
+              "default": null
             },
             {
               "name": "action",

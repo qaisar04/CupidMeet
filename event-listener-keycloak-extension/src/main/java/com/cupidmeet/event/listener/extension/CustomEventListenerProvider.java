@@ -52,15 +52,20 @@ public class CustomEventListenerProvider implements EventListenerProvider {
     public void onEvent(Event event) {
         log.info("Получено событие пользователя с userId: {}", event.getUserId());
 
-        LocalDateTime startedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTime()), ZoneId.systemDefault());
+        Instant startTime = Instant.ofEpochMilli(event.getTime());
+        Instant endTime = Instant.now();
+
         Payload payload = Payload.newBuilder()
                 .setUserId(event.getUserId())
-                .setIpAddress(event.getIpAddress())
                 .setAction(event.getType().name())
-                .setStartTime(startedAt.toString())
-                .setEndTime(LocalDateTime.now().toString())
+                .setStartTime(formatTimestamp(startTime))
+                .setEndTime(formatTimestamp(endTime))
                 .setStatus(event.getError() == null ? Status.SUCCESS : Status.FAIL)
                 .build();
+
+        if (event.getIpAddress() != null) {
+            payload.setIpAddress(event.getIpAddress());
+        }
 
         AuditEvent auditEvent = AuditEvent.newBuilder()
                 .setTimestamp(ZonedDateTime.now().format(ZONED_DATE_TIME_FORMATTER))
@@ -82,15 +87,21 @@ public class CustomEventListenerProvider implements EventListenerProvider {
 
         AuthDetails authDetails = event.getAuthDetails();
 
-        LocalDateTime startedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(event.getTime()), ZoneId.systemDefault());
+        Instant startTime = Instant.ofEpochMilli(event.getTime());
+        Instant endTime = Instant.now();
 
         Payload payload = Payload.newBuilder()
                 .setUserId(authDetails.getUserId())
                 .setAction(event.getOperationType().name())
-                .setStartTime(startedAt.toString())
+                .setStartTime(formatTimestamp(startTime))
+                .setEndTime(formatTimestamp(endTime))
                 .setEndTime(LocalDateTime.now().toString())
                 .setStatus(event.getError() == null ? Status.SUCCESS : Status.FAIL)
                 .build();
+
+        if (authDetails.getIpAddress() != null) {
+            payload.setIpAddress(authDetails.getIpAddress());
+        }
 
         AuditEvent message = AuditEvent.newBuilder()
                 .setTimestamp(ZonedDateTime.now().format(ZONED_DATE_TIME_FORMATTER))
@@ -119,5 +130,12 @@ public class CustomEventListenerProvider implements EventListenerProvider {
         log.debug("Создан ProducerRecord: {}", record);
         producer.send(record);
         log.debug("Сообщение отправлено в Kafka: record={}, auditEvent={}", record, auditEvent);
+    }
+
+    /**
+     * Форматирует LocalDateTime в ISO-формат с миллисекундами и временной зоной.
+     */
+    private static String formatTimestamp(Instant instant) {
+        return DateTimeFormatter.ISO_INSTANT.format(instant);
     }
 }

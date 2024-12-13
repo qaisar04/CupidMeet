@@ -22,7 +22,9 @@ public enum Messages implements MessageEnum {
 
     ROLE_ALREADY_ASSIGNED(6, "У пользователя уже есть указанная роль."),
 
-    ATTACHMENT_ALREADY_DELETED(7, "Файл вложения с идентификатором {0} уже помечен как удалён.");
+    ATTACHMENT_ALREADY_DELETED(7, "Файл вложения с идентификатором {0} уже помечен как удалён."),
+
+    DOMAIN_USERNAME_NOT_FOUND(8, "Не найдено доменное имя пользователя");
 
     public static final String SOURCE = "user-details-service";
 

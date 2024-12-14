@@ -67,7 +67,8 @@ class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers(SWAGGER_ENDPOINTS).permitAll()
                                 .requestMatchers(ACTUATOR_ENDPOINTS).permitAll()
-                                .anyRequest().authenticated()
+                        .requestMatchers("/ws/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(
                         httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer.jwt(

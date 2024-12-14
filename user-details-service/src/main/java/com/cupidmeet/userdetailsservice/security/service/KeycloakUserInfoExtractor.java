@@ -13,6 +13,11 @@ public final class KeycloakUserInfoExtractor {
     private KeycloakUserInfoExtractor() {
     }
 
+    /**
+     * Получить токен доступа Keycloak из SecurityContext.
+     *
+     * @return токен доступа Keycloak.
+     */
     public static Optional<AccessToken> getKeycloakAccessToken(Authentication authentication) {
         return Optional.ofNullable(authentication)
                 .map(Authentication::getPrincipal)

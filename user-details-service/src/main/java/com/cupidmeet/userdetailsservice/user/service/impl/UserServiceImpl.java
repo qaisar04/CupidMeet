@@ -2,6 +2,7 @@ package com.cupidmeet.userdetailsservice.user.service.impl;
 
 import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import com.cupidmeet.userdetailsservice.message.Messages;
+import com.cupidmeet.userdetailsservice.security.service.SecurityUserService;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
 import com.cupidmeet.userdetailsservice.user.domain.entity.User;
@@ -30,14 +31,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper converter;
+    private final SecurityUserService securityUserService;
 
     @Override
     @Transactional
     public UserResponse create(UserCreateRequest request) {
         log.info("Создание пользователя");
         User user = converter.toEntity(request);
+        user.setUsername(securityUserService.getDomainUsername());
 
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new CustomRuntimeException(
                     Messages.ALREADY_EXISTS, "Пользователь", user.getUsername() + "username"
             );

@@ -36,7 +36,7 @@ public class UserController {
      * @return информация о созданном пользователе
      */
     @Operation(operationId = "createUser", summary = "Создать пользователя")
-    @PostMapping
+    @PostMapping("/profile")
     public ResponseEntity<UserResponse> create(@Valid @RequestBody UserCreateRequest request) {
         UserResponse response = userService.create(request);
         return ResponseEntity.ok(response);

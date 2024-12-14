@@ -14,12 +14,12 @@ import java.util.UUID;
 public interface MessageRepository extends JpaRepository<Message, UUID> {
 
     /**
-     * Получить список сообщений для определенного чата.
+     * Получить список сообщений для определенного чата с сортировкой по времени.
      *
      * @param chat чат
      * @return список сообщений
      */
-    Page<Message> findByChat(Chat chat, Pageable pageable);
+    Page<Message> findByChatOrderByTimestampDesc(Chat chat, Pageable pageable);
 
     /**
      * Подсчет сообщений по идентификатору чата, идентификатору пользователя и статусу.

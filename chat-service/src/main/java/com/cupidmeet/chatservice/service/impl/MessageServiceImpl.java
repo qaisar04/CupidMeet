@@ -56,7 +56,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Page<MessageResponse> getMessages(UUID chatId, Pageable pageable) {
         Chat chat = getChatById(chatId);
-        return messageRepository.findByChat(chat, pageable)
+        return messageRepository.findByChatOrderByTimestampDesc(chat, pageable)
                 .map(messageMapper::toResponse);
     }
 

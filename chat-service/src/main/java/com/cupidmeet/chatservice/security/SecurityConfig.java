@@ -38,15 +38,6 @@ class SecurityConfig {
      */
     private static final String ACTUATOR_ENDPOINTS = "/actuator/**";
 
-    /**
-     * Роль пользователя приложения.
-     */
-    @Value("${application.authRoles}")
-    private String editorAuthRole;
-
-    @Value("${application.authRolesViewer}")
-    private String viewerAuthRole;
-
     @Value("${application.cors.allowed-origins}")
     private List<String> allowedOrigins;
 
@@ -76,12 +67,7 @@ class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers(SWAGGER_ENDPOINTS).permitAll()
                                 .requestMatchers(ACTUATOR_ENDPOINTS).permitAll()
-//                        .requestMatchers(HttpMethod.GET).hasAnyAuthority(viewerAuthRole, editorAuthRole)
-//                        .requestMatchers(HttpMethod.POST).hasAuthority(editorAuthRole)
-//                        .requestMatchers(HttpMethod.PUT).hasAuthority(editorAuthRole)
-//                        .requestMatchers(HttpMethod.PATCH).hasAuthority(editorAuthRole)
-//                        .requestMatchers(HttpMethod.DELETE).hasAuthority(editorAuthRole)
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(
                         httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer.jwt(

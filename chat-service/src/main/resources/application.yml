@@ -8,9 +8,9 @@ spring:
   application:
     name: chat-service
   datasource:
-    url: jdbc:postgresql://${DB_HOST:qaisar.online}:${DB_PORT:5433}/${DB_NAME:cupid-meet}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:postgres}
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:lbHnXkEFI6mayAv}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 5
@@ -21,6 +21,9 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
   security:
     oauth2:
       resourceserver:
@@ -39,6 +42,8 @@ management:
 application:
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  user-details-service:
+    url: ${USER_DETAILS_SERVICE_URL:http://localhost:8728}
 
 keycloak:
   auth-server-url: ${KEYCLOAK_SERVER_URL:https://qaisar.online:8843/auth}

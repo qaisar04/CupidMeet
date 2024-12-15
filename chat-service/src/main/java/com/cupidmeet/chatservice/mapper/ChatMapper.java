@@ -31,14 +31,34 @@ public interface ChatMapper {
      * @param chat сущность чата
      * @return ответ с информацией о чате
      */
+    @Mapping(target = "participants", source = "participants", qualifiedByName = "mapToIds")
     ChatResponse toResponse(Chat chat);
 
+    /**
+     * Преобразование идентификаторов участников чата в сущности участников.
+     *
+     * @param participantIds идентификаторы участников
+     * @return сущности участников
+     */
     @Named("mapParticipantIds")
     default Set<ChatParticipant> map(Set<UUID> participantIds) {
         return participantIds.stream()
                 .map(id -> ChatParticipant.builder()
                         .userId(id)
                         .build())
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Преобразование участников чата в их идентификаторы.
+     *
+     * @param participants сущности участников
+     * @return идентификаторы участников
+     */
+    @Named("mapToIds")
+    default Set<UUID> mapToIds(Set<ChatParticipant> participants) {
+        return participants.stream()
+                .map(ChatParticipant::getUserId)
                 .collect(Collectors.toSet());
     }
 }

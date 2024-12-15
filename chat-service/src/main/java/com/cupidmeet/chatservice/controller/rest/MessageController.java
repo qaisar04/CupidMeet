@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController("/v1/messages")
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/v1/messages")
 public class MessageController {
 
     private final MessageService messageService;

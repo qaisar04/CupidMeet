@@ -1,10 +1,11 @@
 package com.cupidmeet.chatservice.service.impl;
 
-import com.cupidmeet.chatservice.domain.dto.ChatParticipantAddRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatParticipantResponse;
 import com.cupidmeet.chatservice.domain.entity.Chat;
 import com.cupidmeet.chatservice.domain.entity.ChatParticipant;
 import com.cupidmeet.chatservice.domain.enumeration.ParticipantRole;
+import com.cupidmeet.chatservice.domain.enumeration.ParticipantStatus;
 import com.cupidmeet.chatservice.mapper.ChatParticipantMapper;
 import com.cupidmeet.chatservice.repository.ChatParticipantRepository;
 import com.cupidmeet.chatservice.repository.ChatRepository;
@@ -12,12 +13,12 @@ import com.cupidmeet.chatservice.service.ChatParticipantService;
 import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.UUID;
 
-import static com.cupidmeet.chatservice.message.Messages.CHAT_NOT_ALLOWED;
-import static com.cupidmeet.chatservice.message.Messages.NOT_FOUND;
+import static com.cupidmeet.chatservice.message.Messages.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,19 +36,27 @@ public class ChatParticipantServiceImpl implements ChatParticipantService {
     }
 
     @Override
-    public ChatParticipantResponse addParticipant(UUID chatId, ChatParticipantAddRequest request) {
-        Chat chat = getChatById(chatId);
-        if (chat.getParticipants().stream().anyMatch(p -> p.getUserId().equals(request.getUserId()))) {
-            throw new CustomRuntimeException(CHAT_NOT_ALLOWED, "Пользователь уже является участником чата");
+    public void addParticipants(UUID chatId, ChatAddParticipantsRequest request) {
+        if (CollectionUtils.isEmpty(request.getUserIds())) {
+            throw new CustomRuntimeException(VALIDATION_ERROR, "userIds", "не может быть пустым");
         }
 
-        ChatParticipant participant = ChatParticipant.builder()
-                .chat(chat)
-                .userId(request.getUserId())
-                .build();
+        Chat chat = getChatById(chatId);
 
-        chatParticipantRepository.save(participant);
-        return chatParticipantMapper.toResponse(participant);
+        request.getUserIds().forEach(userId -> {
+            if (chat.getParticipants().stream().anyMatch(p -> p.getUserId().equals(userId))) {
+                throw new CustomRuntimeException(CHAT_NOT_ALLOWED, "Пользователь уже является участником чата");
+            }
+            ChatParticipant participant = ChatParticipant.builder()
+                    .chat(chat)
+                    .userId(userId)
+                    .role(ParticipantRole.MEMBER)
+                    .status(ParticipantStatus.OFFLINE)
+                    .build();
+            chat.getParticipants().add(participant);
+        });
+
+        chatRepository.save(chat);
     }
 
     @Override

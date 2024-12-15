@@ -1,11 +1,15 @@
 package com.cupidmeet.chatservice.controller.rest;
 
-import com.cupidmeet.chatservice.domain.dto.ChatParticipantAddRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatParticipantResponse;
 import com.cupidmeet.chatservice.domain.enumeration.ParticipantRole;
 import com.cupidmeet.chatservice.service.ChatParticipantService;
+import com.cupidmeet.chatservice.service.UserService;
+import com.cupidmeet.chatservice.websocket.event.ParticipantAddedEvent;
+import com.cupidmeet.chatservice.websocket.event.ParticipantRemovedEvent;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +21,8 @@ import java.util.UUID;
 public class ChatParticipantController {
 
     private final ChatParticipantService chatParticipantService;
+    private final SimpMessagingTemplate messagingTemplate;
+    private final UserService userService;
 
     /**
      * Получение списка участников чата.
@@ -31,16 +37,20 @@ public class ChatParticipantController {
     }
 
     /**
-     * Добавление участника в чат.
+     * Добавление участников в чат.
      *
      * @param chatId идентификатор чата
-     * @param request запрос на добавление участника
-     * @return данные добавленного участника
+     * @param request запрос на добавление участников
      */
     @PostMapping("/{chatId}")
-    @Operation(summary = "Добавить участника в чат", description = "Добавляет нового участника в указанный чат")
-    public ChatParticipantResponse addParticipant(@PathVariable UUID chatId, @RequestBody ChatParticipantAddRequest request) {
-        return chatParticipantService.addParticipant(chatId, request);
+    @Operation(summary = "Добавить участников в чат", description = "Добавляет новых участников в указанный чат")
+    public void addParticipants(@PathVariable UUID chatId, @RequestBody ChatAddParticipantsRequest request) {
+        chatParticipantService.addParticipants(chatId, request);
+        UUID initiatorId = userService.getCurrentId().get();
+        request.getUserIds().forEach(userId ->
+                messagingTemplate.convertAndSend("/topic/chat/" + chatId,
+                        new ParticipantAddedEvent(chatId, userId, initiatorId))
+        );
     }
 
     /**
@@ -65,7 +75,12 @@ public class ChatParticipantController {
     @DeleteMapping("/{chatId}/{userId}")
     @Operation(summary = "Удалить участника из чата", description = "Удаляет участника из указанного чата")
     public void removeParticipant(@PathVariable UUID chatId, @PathVariable UUID userId) {
+        UUID initiatorId = userService.getCurrentId().orElseThrow(
+                () -> new IllegalStateException("Произошла ошибка при получении идентификатора пользователя")
+        );
         chatParticipantService.removeParticipant(chatId, userId);
+        messagingTemplate.convertAndSend("/topic/chat/" + chatId,
+                new ParticipantRemovedEvent(chatId, userId, initiatorId));
     }
 
     /**

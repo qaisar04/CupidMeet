@@ -24,7 +24,6 @@ public class ChatController {
 
     private final ChatService chatService;
     private final SimpMessagingTemplate messagingTemplate;
-    private final UserService userService;
 
     /**
      * Создание нового чата.
@@ -84,37 +83,5 @@ public class ChatController {
                 messagingTemplate.convertAndSend("/queue/user/" + participant,
                         new ChatDeletedEvent(chatId))
         );
-    }
-
-    /**
-     * Добавление участников в чат.
-     *
-     * @param chatId идентификатор чата
-     * @param request запрос на добавление участников
-     */
-    @PostMapping("/{chatId}/participants")
-    @Operation(summary = "Добавить участников в чат", description = "Добавляет новых участников в указанный чат")
-    public void addParticipants(@PathVariable UUID chatId, @RequestBody ChatAddParticipantsRequest request) {
-        chatService.addParticipants(chatId, request);
-        UUID initiatorId = userService.getCurrentId().get();
-        request.getUserIds().forEach(userId ->
-                messagingTemplate.convertAndSend("/topic/chat/" + chatId,
-                        new ParticipantAddedEvent(chatId, userId, initiatorId))
-        );
-    }
-
-    /**
-     * Удаление участника из чата.
-     *
-     * @param chatId идентификатор чата
-     * @param userId идентификатор участника
-     */
-    @DeleteMapping("/{chatId}/participants/{userId}")
-    @Operation(summary = "Удалить участника из чата", description = "Удаляет участника из указанного чата")
-    public void removeParticipant(@PathVariable UUID chatId, @PathVariable UUID userId) {
-        UUID initiatorId = userService.getCurrentId().get();
-        chatService.removeParticipant(chatId, userId);
-        messagingTemplate.convertAndSend("/topic/chat/" + chatId,
-                new ParticipantRemovedEvent(chatId, userId, initiatorId));
     }
 }

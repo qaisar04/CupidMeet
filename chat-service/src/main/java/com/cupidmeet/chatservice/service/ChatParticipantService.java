@@ -1,6 +1,6 @@
 package com.cupidmeet.chatservice.service;
 
-import com.cupidmeet.chatservice.domain.dto.ChatParticipantAddRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatParticipantResponse;
 import com.cupidmeet.chatservice.domain.enumeration.ParticipantRole;
 
@@ -18,13 +18,12 @@ public interface ChatParticipantService {
     List<ChatParticipantResponse> getParticipants(UUID chatId);
 
     /**
-     * Добавление участника в чат.
+     * Добавление участников в чат.
      *
-     * @param chatId идентификатор чата
-     * @param request данные участника
-     * @return данные добавленного участника
+     * @param chatId  идентификатор чата
+     * @param request запрос на добавление участников
      */
-    ChatParticipantResponse addParticipant(UUID chatId, ChatParticipantAddRequest request);
+    void addParticipants(UUID chatId, ChatAddParticipantsRequest request);
 
     /**
      * Обновление роли участника.

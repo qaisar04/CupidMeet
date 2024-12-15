@@ -1,6 +1,5 @@
 package com.cupidmeet.chatservice.service;
 
-import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatCreateRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatResponse;
 import org.springframework.data.domain.Page;
@@ -44,22 +43,6 @@ public interface ChatService {
      * @param chatId идентификатор чата
      */
     void deleteChat(UUID chatId);
-
-    /**
-     * Добавление участников в чат.
-     *
-     * @param chatId  идентификатор чата
-     * @param request запрос на добавление участников
-     */
-    void addParticipants(UUID chatId, ChatAddParticipantsRequest request);
-
-    /**
-     * Удаление участника из чата.
-     *
-     * @param chatId идентификатор чата
-     * @param userId идентификатор участника
-     */
-    void removeParticipant(UUID chatId, UUID userId);
 
     /**
      * Проверка, входит ли пользователь в чат.

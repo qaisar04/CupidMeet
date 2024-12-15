@@ -1,7 +1,6 @@
 package com.cupidmeet.chatservice.service.impl;
 
 import com.cupidmeet.chatservice.client.UserDetailsClient;
-import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatCreateRequest;
 import com.cupidmeet.chatservice.domain.dto.ChatResponse;
 import com.cupidmeet.chatservice.domain.dto.UserResponse;
@@ -129,42 +128,6 @@ public class ChatServiceImpl implements ChatService {
             throw new CustomRuntimeException(NOT_FOUND, "Чат", "идентификатором", chatId);
         }
         chatRepository.deleteById(chatId);
-    }
-
-    @Override
-    public void addParticipants(UUID chatId, ChatAddParticipantsRequest request) {
-        if (CollectionUtils.isEmpty(request.getUserIds())) {
-            throw new CustomRuntimeException(VALIDATION_ERROR, "userIds", "не может быть пустым");
-        }
-
-        Chat chat = get(chatId);
-
-        request.getUserIds().forEach(userId -> {
-            if (chat.getParticipants().stream().anyMatch(p -> p.getUserId().equals(userId))) {
-                throw new CustomRuntimeException(CHAT_NOT_ALLOWED, "Пользователь уже является участником чата");
-            }
-            ChatParticipant participant = ChatParticipant.builder()
-                    .chat(chat)
-                    .userId(userId)
-                    .role(ParticipantRole.MEMBER)
-                    .status(ParticipantStatus.OFFLINE)
-                    .build();
-            chat.getParticipants().add(participant);
-        });
-
-        chatRepository.save(chat);
-    }
-
-    @Override
-    public void removeParticipant(UUID chatId, UUID userId) {
-        Chat chat = get(chatId);
-        ChatParticipant participant = chat.getParticipants().stream()
-                .filter(p -> p.getUserId().equals(userId))
-                .findFirst()
-                .orElseThrow(() -> new CustomRuntimeException(NOT_FOUND, "Участник", "в чате", userId));
-
-        chat.getParticipants().remove(participant);
-        chatRepository.save(chat);
     }
 
     @Override

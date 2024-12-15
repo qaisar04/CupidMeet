@@ -1,22 +1,54 @@
 package com.cupidmeet.chatservice.service;
 
-import com.cupidmeet.chatservice.domain.entity.ChatParticipant;
+import com.cupidmeet.chatservice.domain.dto.ChatParticipantAddRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatParticipantResponse;
+import com.cupidmeet.chatservice.domain.enumeration.ParticipantRole;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ChatParticipantService {
 
     /**
-     * Сохранить участника чата.
+     * Получить список участников чата.
      *
-     * @param chatParticipant участник чата
+     * @param chatId идентификатор чата
+     * @return список участников чата
      */
-    void save(ChatParticipant chatParticipant);
+    List<ChatParticipantResponse> getParticipants(UUID chatId);
 
     /**
-     * Отключить участника чата.
+     * Добавление участника в чат.
      *
-     * @param participantId идентификатор участника
+     * @param chatId идентификатор чата
+     * @param request данные участника
+     * @return данные добавленного участника
      */
-    void disconnect(UUID participantId);
+    ChatParticipantResponse addParticipant(UUID chatId, ChatParticipantAddRequest request);
+
+    /**
+     * Обновление роли участника.
+     *
+     * @param chatId идентификатор чата
+     * @param userId идентификатор пользователя
+     * @param role роль
+     */
+    void updateParticipantRole(UUID chatId, UUID userId, ParticipantRole role);
+
+    /**
+     * Удаление участника из чата.
+     *
+     * @param chatId идентификатор чата
+     * @param userId идентификатор пользователя
+     */
+    void removeParticipant(UUID chatId, UUID userId);
+
+    /**
+     * Проверка на администратора.
+     *
+     * @param chatId идентификатор чата
+     * @param userId идентификатор пользователя
+     * @return признак администратора
+     */
+    boolean isAdmin(UUID chatId, UUID userId);
 }

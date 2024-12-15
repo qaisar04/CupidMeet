@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,7 +29,7 @@ public class Chat {
     private UUID id;
 
     /**
-     * Тип чата.
+     * Тип чата (например, приватный, групповой).
      */
     @Enumerated(EnumType.STRING)
     private ChatType chatType;
@@ -43,7 +42,7 @@ public class Chat {
     private ZonedDateTime createdAt;
 
     /**
-     * Название чата.
+     * Название чата (опционально для приватных чатов).
      */
     private String name;
 
@@ -52,4 +51,23 @@ public class Chat {
      */
     @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatParticipant> participants;
+
+    /**
+     * Возвращает динамическое имя для личных чатов на основе другого участника.
+     *
+     * @param currentUserId Идентификатор текущего пользователя.
+     * @return Имя другого участника или "Неизвестный пользователь", если участник не найден.
+     */
+    public String getDynamicName(UUID currentUserId) {
+        return participants.stream()
+                .filter(participant -> !participant.getUserId().equals(currentUserId))
+                .findFirst()
+                .map(participant -> fetchUserName(participant.getUserId()))
+                .orElse("Неизвестный пользователь");
+    }
+
+    private String fetchUserName(UUID userId) {
+        // TODO: Заменить на реальный вызов UserService для получения имени.
+        return "Пользователь_" + userId.toString().substring(0, 8);
+    }
 }

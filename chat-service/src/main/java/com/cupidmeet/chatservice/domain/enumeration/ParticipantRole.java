@@ -5,5 +5,6 @@ package com.cupidmeet.chatservice.domain.enumeration;
  */
 public enum ParticipantRole {
     OWNER,
+    ADMIN,
     MEMBER
 }

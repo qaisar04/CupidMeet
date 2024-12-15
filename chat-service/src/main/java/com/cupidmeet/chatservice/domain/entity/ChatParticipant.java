@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ChatParticipant {
 
     /**
-     * Уникальный идентификатор сущности.
+     * Уникальный идентификатор участника.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,19 +36,21 @@ public class ChatParticipant {
     private Chat chat;
 
     /**
-     * Идентификатор пользователя отправителя.
+     * Идентификатор пользователя отправителя. (то что из внешней системы)
      */
     private UUID userId;
 
     /**
      * Статус участника.
      */
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ParticipantStatus status;
 
     /**
      * Роль участника чата.
      */
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ParticipantRole role;
 
@@ -56,5 +58,6 @@ public class ChatParticipant {
      * Дата присоединения к чату.
      */
     @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private ZonedDateTime joinedAt;
 }

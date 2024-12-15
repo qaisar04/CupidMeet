@@ -1,7 +1,9 @@
 package com.cupidmeet.chatservice.service.impl;
 
 import com.cupidmeet.chatservice.client.UserDetailsClient;
-import com.cupidmeet.chatservice.domain.dto.CreateChatRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatCreateRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatResponse;
 import com.cupidmeet.chatservice.domain.dto.UserResponse;
 import com.cupidmeet.chatservice.domain.entity.Chat;
 import com.cupidmeet.chatservice.domain.entity.ChatParticipant;
@@ -14,10 +16,12 @@ import com.cupidmeet.chatservice.service.ChatService;
 import com.cupidmeet.chatservice.service.UserService;
 import com.cupidmeet.runtimecore.exception.CustomRuntimeException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -34,16 +38,17 @@ public class ChatServiceImpl implements ChatService {
     private final ChatMapper converter;
     private final UserDetailsClient userDetailsClient;
     private final UserService userService;
+    private final ChatMapper chatMapper;
 
     @Override
-    public Chat create(CreateChatRequest request) {
+    public ChatResponse createChat(ChatCreateRequest request) {
         Chat chat = converter.toEntity(request);
 
         if (chat == null || chat.getChatType() == null) {
             throw new CustomRuntimeException(CHAT_TYPE_IS_NULL);
         }
 
-        if (chat.getParticipants() == null || chat.getParticipants().isEmpty()) {
+        if (CollectionUtils.isEmpty(request.getParticipants())) {
             throw new CustomRuntimeException(
                     CHAT_NOT_ALLOWED, "необходимо указать хотя бы одного участника"
             );
@@ -98,20 +103,79 @@ public class ChatServiceImpl implements ChatService {
                 }).collect(Collectors.toSet());
 
         chat.setParticipants(chatParticipants);
-        return chatRepository.save(chat);
+        return chatMapper.toResponse(chatRepository.save(chat));
     }
 
     @Override
-    @Cacheable(value = "chat", key = "#participantId")
-    public Set<Chat> getChatsByParticipant(UUID participantId) {
-        return chatRepository.findByParticipantsId(participantId);
+    public ChatResponse getChatById(UUID chatId) {
+        return chatMapper.toResponse(get(chatId));
     }
 
     @Override
-    @Cacheable(value = "chatParticipant", key = "#chatId")
-    public Set<ChatParticipant> getChatParticipants(UUID chatId) {
+    public Page<ChatResponse> getUserChats(UUID userId, Pageable pageable) {
+        if (userId == null) {
+            throw new CustomRuntimeException(VALIDATION_ERROR, "userId", "не может быть null");
+        }
+
+        // TODO: Чат может быть приватным, в таком случае генерируем название на основе другого участника
+
+        return chatRepository.findByParticipants_UserId(userId, pageable)
+                .map(chatMapper::toResponse);
+    }
+
+    @Override
+    public void deleteChat(UUID chatId) {
+        if (!chatRepository.existsById(chatId)) {
+            throw new CustomRuntimeException(NOT_FOUND, "Чат", "идентификатором", chatId);
+        }
+        chatRepository.deleteById(chatId);
+    }
+
+    @Override
+    public void addParticipants(UUID chatId, ChatAddParticipantsRequest request) {
+        if (CollectionUtils.isEmpty(request.getUserIds())) {
+            throw new CustomRuntimeException(VALIDATION_ERROR, "userIds", "не может быть пустым");
+        }
+
         Chat chat = get(chatId);
-        return chat.getParticipants();
+
+        request.getUserIds().forEach(userId -> {
+            if (chat.getParticipants().stream().anyMatch(p -> p.getUserId().equals(userId))) {
+                throw new CustomRuntimeException(CHAT_NOT_ALLOWED, "Пользователь уже является участником чата");
+            }
+            ChatParticipant participant = ChatParticipant.builder()
+                    .chat(chat)
+                    .userId(userId)
+                    .role(ParticipantRole.MEMBER)
+                    .status(ParticipantStatus.OFFLINE)
+                    .build();
+            chat.getParticipants().add(participant);
+        });
+
+        chatRepository.save(chat);
+    }
+
+    @Override
+    public void removeParticipant(UUID chatId, UUID userId) {
+        Chat chat = get(chatId);
+        ChatParticipant participant = chat.getParticipants().stream()
+                .filter(p -> p.getUserId().equals(userId))
+                .findFirst()
+                .orElseThrow(() -> new CustomRuntimeException(NOT_FOUND, "Участник", "в чате", userId));
+
+        chat.getParticipants().remove(participant);
+        chatRepository.save(chat);
+    }
+
+    @Override
+    public boolean isUserInChat(UUID chatId, UUID userId) {
+        if (chatId == null || userId == null) {
+            throw new CustomRuntimeException(VALIDATION_ERROR, "chatId/userId", "не могут быть null");
+        }
+        return chatRepository.existsById(chatId) &&
+               chatRepository.findById(chatId)
+                       .map(chat -> chat.getParticipants().stream().anyMatch(p -> p.getUserId().equals(userId)))
+                       .orElse(false);
     }
 
     private Chat get(UUID chatId) {

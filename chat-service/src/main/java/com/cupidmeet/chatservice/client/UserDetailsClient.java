@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
-@FeignClient(name = "user-details-service", path = "api/v1")
+@FeignClient(name = "user-details-service", path = "/api/user-details-service/v1/user")
 public interface UserDetailsClient {
 
     @PostMapping("/batch")

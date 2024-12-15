@@ -1,10 +1,11 @@
 package com.cupidmeet.chatservice.service;
 
-import com.cupidmeet.chatservice.domain.dto.CreateChatRequest;
-import com.cupidmeet.chatservice.domain.entity.Chat;
-import com.cupidmeet.chatservice.domain.entity.ChatParticipant;
+import com.cupidmeet.chatservice.domain.dto.ChatAddParticipantsRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatCreateRequest;
+import com.cupidmeet.chatservice.domain.dto.ChatResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -16,22 +17,56 @@ public interface ChatService {
      * Создание чата.
      *
      * @param request запрос на создание чата
+     * @return ответ с созданным чатом
      */
-    Chat create(CreateChatRequest request);
+    ChatResponse createChat(ChatCreateRequest request);
 
     /**
-     * Получение чата по идентификатору пользователя.
-     *
-     * @param participantId идентификатор пользователя
-     * @return список чатов
-     */
-    Set<Chat> getChatsByParticipant(UUID participantId);
-
-    /**
-     * Получение участников чата.
+     * Получение чата по идентификатору.
      *
      * @param chatId идентификатор чата
-     * @return участники чата
+     * @return чат
      */
-    Set<ChatParticipant> getChatParticipants(UUID chatId);
+    ChatResponse getChatById(UUID chatId);
+
+    /**
+     * Получение чатов пользователя.
+     *
+     * @param userId   идентификатор пользователя
+     * @param pageable параметры страницы
+     * @return список чатов
+     */
+    Page<ChatResponse> getUserChats(UUID userId, Pageable pageable);
+
+    /**
+     * Удаление чата.
+     *
+     * @param chatId идентификатор чата
+     */
+    void deleteChat(UUID chatId);
+
+    /**
+     * Добавление участников в чат.
+     *
+     * @param chatId  идентификатор чата
+     * @param request запрос на добавление участников
+     */
+    void addParticipants(UUID chatId, ChatAddParticipantsRequest request);
+
+    /**
+     * Удаление участника из чата.
+     *
+     * @param chatId идентификатор чата
+     * @param userId идентификатор участника
+     */
+    void removeParticipant(UUID chatId, UUID userId);
+
+    /**
+     * Проверка, входит ли пользователь в чат.
+     *
+     * @param chatId идентификатор чата
+     * @param userId идентификатор пользователя
+     * @return признак наличия пользователя в чате
+     */
+    boolean isUserInChat(UUID chatId, UUID userId);
 }

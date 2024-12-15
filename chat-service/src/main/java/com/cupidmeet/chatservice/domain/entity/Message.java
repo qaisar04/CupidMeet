@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Message {
 
     /**
-     * Уникальный идентификатор сущности.
+     * Уникальный идентификатор сообщения.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -41,6 +41,8 @@ public class Message {
     /**
      * Текст сообщения.
      */
+    @Lob
+    @Column(nullable = false)
     private String content;
 
     /**
@@ -52,12 +54,14 @@ public class Message {
      * Стаус сообщения.
      */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MessageStatus status;
 
     /**
      * Тип сообщения.
      */
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MessageType type;
 
     @PrePersist

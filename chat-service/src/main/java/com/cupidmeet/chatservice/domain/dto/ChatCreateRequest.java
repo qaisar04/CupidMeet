@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreateChatRequest {
+public class ChatCreateRequest {
 
     @Schema(description = "Тип чата")
     private ChatType chatType;

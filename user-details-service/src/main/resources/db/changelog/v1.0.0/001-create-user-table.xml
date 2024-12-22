@@ -25,6 +25,9 @@
             <column name="updated_at" type="timestamp" remarks="Время последнего обновления записи">
                 <constraints nullable="true"/>
             </column>
+            <column name="sign_deleted" type="boolean" remarks="Удален ли пользователь">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

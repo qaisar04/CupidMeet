@@ -28,7 +28,7 @@ public class AdminUserController {
     @Operation(operationId = "deleteUser", summary = "Удалить пользователя")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> delete(@PathVariable UUID userId) {
-        userService.delete(userId);
+        userService.setSignDeleted(userId);
         return ResponseEntity.ok().build();
     }
 

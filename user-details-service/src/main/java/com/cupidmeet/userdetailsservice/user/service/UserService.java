@@ -3,6 +3,7 @@ package com.cupidmeet.userdetailsservice.user.service;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserCreateRequest;
 import com.cupidmeet.userdetailsservice.user.domain.dto.UserResponse;
 import com.cupidmeet.userdetailsservice.user.domain.types.Role;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Map;
@@ -81,4 +82,11 @@ public interface UserService {
      * @param role    Новая роль, которая будет назначена пользователю.
      */
     void assignRole(UUID adminId, UUID userId, Role role);
+
+    /**
+     * Мягкое удаление пользователя с указанным идентификатором.
+     *
+     * @param id Идентификатор пользователя, которого нужно удалить.
+     */
+    void setSignDeleted(UUID id);
 }

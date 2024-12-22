@@ -26,6 +26,12 @@ public class User extends BaseEntity {
     private String username;
 
     /**
+     * Удален ли пользователь.
+     */
+    @Column(name = "sign_deleted")
+    private boolean signDeleted = false;
+
+    /**
      * Статус пользователя.
      */
     @Enumerated(EnumType.STRING)

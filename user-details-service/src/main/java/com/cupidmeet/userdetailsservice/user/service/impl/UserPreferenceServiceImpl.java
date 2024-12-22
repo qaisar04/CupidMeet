@@ -166,6 +166,8 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
         Join<UserInfo, User> userJoin = root.join("user");
         predicates.add(cb.not(userJoin.get("status").in(Status.INACTIVE, Status.BANNED)));
 
+        predicates.add(cb.notEqual(userJoin.get("signDeleted"), Boolean.TRUE));
+
         return predicates;
     }
 

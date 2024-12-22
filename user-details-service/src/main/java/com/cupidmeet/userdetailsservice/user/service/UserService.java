@@ -81,4 +81,11 @@ public interface UserService {
      * @param role    Новая роль, которая будет назначена пользователю.
      */
     void assignRole(UUID adminId, UUID userId, Role role);
+
+    /**
+     * Мягкое удаление пользователя с указанным идентификатором.
+     *
+     * @param id Идентификатор пользователя, которого нужно удалить.
+     */
+    void setSignDeleted(UUID id);
 }

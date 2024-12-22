@@ -136,4 +136,12 @@ public class UserServiceImpl implements UserService {
                         Messages.NOT_FOUND, "Пользователь", "идентификатором", id)
                 );
     }
+
+    @Override
+    @Transactional
+    public void setSignDeleted(UUID id) {
+        User user = getById(id);
+        user.setSignDeleted(true);
+        userRepository.save(user);
+    }
 }

@@ -25,7 +25,8 @@ public interface UserEvaluationService {
      * @param userId       идентификатор пользователя, который оценивает
      * @param targetUserId идентификатор оцениваемого пользователя
      * @param reactionType тип реакции (лайк или дизлайк)
+     * @param message      сообщение отправленное вместе с лайком
      * @return результат реакции, указывающий на исход взаимодействия
      */
-    ReactionOutcome submitReaction(UUID userId, UUID targetUserId, ReactionType reactionType);
+    ReactionOutcome submitReaction(UUID userId, UUID targetUserId, ReactionType reactionType, String message);
 }

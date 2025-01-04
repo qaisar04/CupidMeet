@@ -9,5 +9,6 @@
     <include file="003-create-user-infos-table.xml" relativeToChangelogFile="true"/>
     <include file="004-create-user-evaluation-table.xml" relativeToChangelogFile="true"/>
     <include file="005-create-file-attechment-table.xml" relativeToChangelogFile="true"/>
+    <include file="006-add-column-message.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

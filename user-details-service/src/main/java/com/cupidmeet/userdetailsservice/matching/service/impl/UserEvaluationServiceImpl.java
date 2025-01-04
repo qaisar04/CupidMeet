@@ -36,8 +36,10 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
 
     @Override
     @Transactional
-    public ReactionOutcome submitReaction(UUID userId, UUID targetUserId, ReactionType reactionType) {
-        Optional<UserEvaluation> existingReaction = userEvaluationRepository.findByUserIdAndRatedUserId(userId, targetUserId);
+    public ReactionOutcome submitReaction(UUID userId, UUID targetUserId, ReactionType reactionType, String message) {
+        Optional<UserEvaluation> existingReaction = userEvaluationRepository
+                .findByUserIdAndRatedUserId(userId, targetUserId);
+        String text = reactionType == ReactionType.LIKE ? message : null;
 
         if (userId.equals(targetUserId)) {
             throw new CustomRuntimeException(Messages.SELF_REACTION_NOT_ALLOWED);
@@ -47,12 +49,14 @@ public class UserEvaluationServiceImpl implements UserEvaluationService {
         if (existingReaction.isPresent()) {
             userEvaluation = existingReaction.get();
             userEvaluation.setReactionType(reactionType);
+            userEvaluation.setMessage(text);
         } else {
             userEvaluation = new UserEvaluation();
             userEvaluation.setUserId(userId);
             userEvaluation.setRatedUserId(targetUserId);
             userEvaluation.setReactionType(reactionType);
             userEvaluation.setStatus(EvaluationStatus.ACTIVE);
+            userEvaluation.setMessage(text);
         }
 
         userEvaluationRepository.save(userEvaluation);

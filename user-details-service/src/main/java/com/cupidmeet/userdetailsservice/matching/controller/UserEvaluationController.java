@@ -37,6 +37,7 @@ public class UserEvaluationController {
      * @param fromUserId   Идентификатор пользователя, который оценивает.
      * @param toUserId     Идентификатор пользователя, которого оценивают.
      * @param reactionType Тип реакции (лайк, дизлайк и т.д.).
+     * @param message  Сообщение отправленное вместе с лайком.
      * @return Результат реакции (например, совпадение).
      */
     @Operation(operationId = "submitReaction", summary = "Оценить пользователя")
@@ -44,9 +45,10 @@ public class UserEvaluationController {
     public ResponseEntity<ReactionOutcome> submitReaction(
             @RequestParam("from") UUID fromUserId,
             @RequestParam("to") UUID toUserId,
-            @RequestParam ReactionType reactionType
+            @RequestParam ReactionType reactionType,
+            @RequestBody(required = false) String message
     ) {
-        ReactionOutcome outcome = userEvaluationService.submitReaction(fromUserId, toUserId, reactionType);
+        ReactionOutcome outcome = userEvaluationService.submitReaction(fromUserId, toUserId, reactionType, message);
         return ResponseEntity.ok(outcome);
     }
 }

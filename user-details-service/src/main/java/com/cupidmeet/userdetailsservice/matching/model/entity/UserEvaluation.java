@@ -60,4 +60,10 @@ public class UserEvaluation {
     @Enumerated(EnumType.STRING)
     @Column(name = "evaluation_status")
     private EvaluationStatus status;
+
+    /**
+     * Сообщение для лайка.
+     */
+    @Column(name = "message")
+    private String message;
 }
